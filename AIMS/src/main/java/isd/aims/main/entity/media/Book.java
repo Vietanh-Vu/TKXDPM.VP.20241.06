@@ -1,6 +1,6 @@
 package isd.aims.main.entity.media;
 
-import isd.aims.main.entity.db.DBConnection;
+import isd.aims.main.entity.db.SQLiteConnection;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -110,7 +110,7 @@ public class Book extends Media {
                      "INNER JOIN aims.Media " +
                      "ON Media.id = Book.id " +
                      "where Media.id = " + id + ";";
-        Statement stm = DBConnection.getConnection().createStatement();
+        Statement stm = SQLiteConnection.getConnection().createStatement();
         ResultSet res = stm.executeQuery(sql);
 		if(res.next()) {
 
