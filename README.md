@@ -8,9 +8,7 @@
 
 ### Lê Hoàng Long - Product Management
 
-- Sort products
-- View Products
-- Search Products
+- Sort, view, search products
 - CRUD Product in Cart
 
 ### Trần Thành Nam - Cart & Order Management
