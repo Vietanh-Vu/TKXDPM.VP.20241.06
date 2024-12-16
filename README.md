@@ -11,10 +11,10 @@
 - Sort products
 - View Products
 - Search Products
+- CRUD Product in Cart
 
 ### Trần Thành Nam - Cart & Order Management
 
-- CRUD Product in Cart
 - Place Order
 - Place Rush Order
 
