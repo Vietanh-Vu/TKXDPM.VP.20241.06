@@ -43,10 +43,25 @@ public class Media {
         //stm = DBConnection.getConnection().createStatement();
     }
 
+    public Media( String title, String category, int value, int price, int quantity, String type, String imageURL) {
+        this.title = title;
+        this.category = category;
+        this.value = value;
+        this.price = price;
+        this.quantity = quantity;
+        this.type = type;
+        this.imageURL = imageURL;
+    }
+
     public int getQuantity() throws SQLException{
-        int updated_quantity = getMediaById(id).quantity;
-        this.quantity = updated_quantity;
-        return updated_quantity;
+//        int updated_quantity = getMediaById(id).quantity;
+//        this.quantity = updated_quantity;
+//        return updated_quantity;
+        return quantity;
+    }
+
+    public int getValue() throws SQLException {
+        return value;
     }
 
     public Media getMediaById(int id) throws SQLException{
@@ -100,7 +115,7 @@ public class Media {
         return this.id;
     }
 
-    private Media setId(int id){
+    public Media setId(int id){
         this.id = id;
         return this;
     }
@@ -153,6 +168,14 @@ public class Media {
     public Media setType(String type) {
         this.type = type;
         return this;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override
