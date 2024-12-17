@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import isd.aims.main.entity.order.OrderMedia;
+import isd.aims.main.entity.OrderMedia;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.utils.Utils;
 import isd.aims.main.views.FXMLForm;

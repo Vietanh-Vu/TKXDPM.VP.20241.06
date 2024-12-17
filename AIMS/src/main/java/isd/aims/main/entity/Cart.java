@@ -1,8 +1,7 @@
-package isd.aims.main.entity.cart;
+package isd.aims.main.entity;
 
 import isd.aims.main.exception.MediaNotAvailableException;
 import isd.aims.main.entity.media.Media;
-import lombok.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

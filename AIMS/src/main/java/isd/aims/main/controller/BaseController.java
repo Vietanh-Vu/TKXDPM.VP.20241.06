@@ -1,7 +1,7 @@
 package isd.aims.main.controller;
 
-import isd.aims.main.entity.cart.Cart;
-import isd.aims.main.entity.cart.CartMedia;
+import isd.aims.main.entity.Cart;
+import isd.aims.main.entity.CartMedia;
 import isd.aims.main.entity.media.Media;
 
 import java.util.List;

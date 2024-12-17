@@ -3,7 +3,7 @@ package isd.aims.main.views.home;
 import isd.aims.main.exception.ViewCartException;
 import isd.aims.main.controller.HomeController;
 import isd.aims.main.controller.ViewCartController;
-import isd.aims.main.entity.cart.Cart;
+import isd.aims.main.entity.Cart;
 import isd.aims.main.entity.media.Media;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.utils.Utils;

@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 import isd.aims.main.exception.MediaUpdateException;
 import isd.aims.main.exception.ViewCartException;
-import isd.aims.main.entity.cart.Cart;
-import isd.aims.main.entity.cart.CartMedia;
+import isd.aims.main.entity.Cart;
+import isd.aims.main.entity.CartMedia;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.utils.Utils;
 import isd.aims.main.views.FXMLForm;

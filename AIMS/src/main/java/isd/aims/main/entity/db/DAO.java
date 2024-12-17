@@ -37,7 +37,7 @@ public abstract class DAO<T> {
      * @return Đối tượng được ánh xạ, hoặc null nếu không tìm thấy
      * @throws SQLException Lỗi khi thực thi câu lệnh
      */
-    protected T findOne(String query, RowMapper<T> mapper, Object... params) throws SQLException {
+    protected T findOne(String query, MapDbToClass<T> mapper, Object... params) throws SQLException {
         try (PreparedStatement preparedStatement = prepareStatement(query, params);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             return resultSet.next() ? mapper.mapRow(resultSet) : null;
@@ -53,7 +53,7 @@ public abstract class DAO<T> {
      * @return Danh sách các đối tượng được ánh xạ
      * @throws SQLException Lỗi khi thực thi câu lệnh
      */
-    protected List<T> findAll(String query, RowMapper<T> mapper, Object... params) throws SQLException {
+    protected List<T> findAll(String query, MapDbToClass<T> mapper, Object... params) throws SQLException {
         List<T> results = new ArrayList<>();
         try (PreparedStatement preparedStatement = prepareStatement(query, params);
              ResultSet resultSet = preparedStatement.executeQuery()) {

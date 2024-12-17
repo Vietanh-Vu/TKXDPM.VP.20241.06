@@ -2,8 +2,8 @@ package isd.aims.main.controller;
 
 import isd.aims.main.InterbankSubsystem.IPayment;
 import isd.aims.main.InterbankSubsystem.vnPay.VnPaySubsystemController;
-import isd.aims.main.entity.payment.PaymentTransaction;
-import isd.aims.main.entity.cart.Cart;
+import isd.aims.main.entity.PaymentTransaction;
+import isd.aims.main.entity.Cart;
 import isd.aims.main.listener.TransactionResultListener;
 
 import java.io.IOException;

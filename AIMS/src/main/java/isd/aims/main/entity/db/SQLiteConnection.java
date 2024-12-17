@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.sql.Connection;
 
-import isd.aims.main.entity.db.dao.MediaDAO;
+import isd.aims.main.entity.db.dao.media.MediaDAO;
 import isd.aims.main.entity.media.Media;
 import isd.aims.main.utils.Utils;
 // Functional Cohesion: các thuộc tính và phương thức quản lý kết nối cơ sở dữ liệu

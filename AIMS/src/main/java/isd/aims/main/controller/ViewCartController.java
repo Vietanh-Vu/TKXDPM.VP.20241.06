@@ -1,6 +1,6 @@
 package isd.aims.main.controller;
 
-import isd.aims.main.entity.cart.Cart;
+import isd.aims.main.entity.Cart;
 
 import java.sql.SQLException;
 

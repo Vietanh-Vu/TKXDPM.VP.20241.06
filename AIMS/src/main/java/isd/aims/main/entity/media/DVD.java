@@ -11,9 +11,20 @@ public class DVD extends Media {
     String director;
     int runtime;
     String studio;
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
     String subtitles;
     Date releasedDate;
     String filmType;
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    String subtitle;
 
     public DVD() throws SQLException{
 
@@ -138,4 +149,6 @@ public class DVD extends Media {
     public List getAllMedia() {
         return null;
     }
+
+
 }

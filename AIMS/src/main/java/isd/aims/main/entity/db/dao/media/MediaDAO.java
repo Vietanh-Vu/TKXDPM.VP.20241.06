@@ -1,10 +1,8 @@
-package isd.aims.main.entity.db.dao;
+package isd.aims.main.entity.db.dao.media;
 
 import isd.aims.main.entity.db.DAO;
-import isd.aims.main.entity.db.RowMapper;
 import isd.aims.main.entity.media.Media;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +13,7 @@ public class MediaDAO extends DAO<Media> {
     public List<Media> getAll() {
         String query = "SELECT * FROM media";
         try {
-            return findAll(query, new MediaRowMapper());
+            return findAll(query, new MediaMapDbToClass());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -26,7 +24,7 @@ public class MediaDAO extends DAO<Media> {
     public Media getById(int id) {
         String query = "SELECT * FROM media WHERE id = ?";
         try {
-            return findOne(query, new MediaRowMapper(), id);
+            return findOne(query, new MediaMapDbToClass(), id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,18 +75,3 @@ public class MediaDAO extends DAO<Media> {
     }
 }
 
-class MediaRowMapper implements RowMapper<Media> {
-    @Override
-    public Media mapRow(ResultSet resultSet) throws SQLException {
-        Media media = new Media();
-        media.setId(resultSet.getInt("id"));
-        media.setTitle(resultSet.getString("title"));
-        media.setCategory(resultSet.getString("category"));
-        media.setValue(resultSet.getInt("value"));
-        media.setPrice(resultSet.getInt("price"));
-        media.setQuantity(resultSet.getInt("quantity"));
-        media.setType(resultSet.getString("type"));
-        media.setImageURL(resultSet.getString("imageURL"));
-        return media;
-    }
-}

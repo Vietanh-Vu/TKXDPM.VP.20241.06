@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 
 import isd.aims.main.exception.InvalidDeliveryInfoException;
 import isd.aims.main.controller.PlaceOrderController;
-import isd.aims.main.entity.invoice.Invoice;
-import isd.aims.main.entity.order.Order;
+import isd.aims.main.entity.Invoice;
+import isd.aims.main.entity.Order;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.invoice.InvoiceForm;

@@ -6,8 +6,8 @@ import java.text.ParseException;
 
 import isd.aims.main.InterbankSubsystem.vnPay.VnPaySubsystemController;
 import isd.aims.main.listener.TransactionResultListener;
-import isd.aims.main.entity.invoice.Invoice;
-import isd.aims.main.entity.payment.PaymentTransaction;
+import isd.aims.main.entity.Invoice;
+import isd.aims.main.entity.PaymentTransaction;
 import isd.aims.main.InterbankSubsystem.vnPay.VnPayConfig;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;

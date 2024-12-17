@@ -85,7 +85,7 @@ CREATE TABLE OrderMedia
 );
 
 -- Transaction table - Records order transactions
-CREATE TABLE Transaction
+CREATE TABLE PaymentTransaction
 (
     id       INT AUTO_INCREMENT PRIMARY KEY,
     orderID  INT         NOT NULL,

@@ -1,4 +1,4 @@
-package isd.aims.main.entity.cart;
+package isd.aims.main.entity;
 
 
 import isd.aims.main.entity.media.Media;

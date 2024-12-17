@@ -1,6 +1,6 @@
 package isd.aims.main.entity.db.dao;
 
-import isd.aims.main.entity.cart.Cart;
+import isd.aims.main.entity.Cart;
 import isd.aims.main.entity.db.DAO;
 
 import java.sql.SQLException;
