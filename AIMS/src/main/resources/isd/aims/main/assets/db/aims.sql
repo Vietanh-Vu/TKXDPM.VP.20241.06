@@ -14,7 +14,9 @@ CREATE TABLE Media
     quantity INT         NOT NULL,
     title    VARCHAR(45) NOT NULL,
     value    INT         NOT NULL,
-    imageUrl VARCHAR(45) NOT NULL
+    imageUrl VARCHAR(45) NOT NULL,
+    is_rush  BOOLEAN        DEFAULT FALSE,
+    weight   DECIMAL(10, 2) DEFAULT 0.00
 );
 
 -- CD table - Inherits from Media
@@ -59,7 +61,7 @@ CREATE TABLE DVD
 -- Order table - Contains delivery info and order details
 CREATE TABLE `Order`
 (
-    id            INT AUTO_INCREMENT PRIMARY KEY,
+    id            INT PRIMARY KEY,
     -- DeliveryInfo fields
     name          VARCHAR(45) NOT NULL,
     email         VARCHAR(45) NOT NULL,
@@ -70,7 +72,8 @@ CREATE TABLE `Order`
     shipping_fee  INT         NOT NULL,
     totalAmount DOUBLE NOT NULL,
     paymentStatus VARCHAR(45) NOT NULL,
-    paymentType   VARCHAR(45) NOT NULL
+    paymentType   VARCHAR(45) NOT NULL,
+    is_rush       BOOLEAN DEFAULT FALSE
 );
 
 -- OrderMedia table - Junction table for Order and Media
@@ -85,7 +88,7 @@ CREATE TABLE OrderMedia
 );
 
 -- Transaction table - Records order transactions
-CREATE TABLE Transaction
+CREATE TABLE PaymentTransaction
 (
     id       INT AUTO_INCREMENT PRIMARY KEY,
     orderID  INT         NOT NULL,
@@ -96,4 +99,4 @@ CREATE TABLE Transaction
 
 -- Indexes for performance optimization
 CREATE INDEX idx_ordermedia_orderid ON OrderMedia (orderID);
-CREATE INDEX idx_transaction_orderid ON Transaction (orderID);
+CREATE INDEX idx_transaction_orderid ON PaymentTransaction (orderID);
