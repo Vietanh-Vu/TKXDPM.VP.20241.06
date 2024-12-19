@@ -6,8 +6,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
 import isd.aims.main.exception.InvalidDeliveryInfoException;
-import isd.aims.main.controller.PlaceOrderController;
+import isd.aims.main.controller.placeorder.PlaceOrderController;
 import isd.aims.main.entity.invoice.Invoice;
 import isd.aims.main.entity.order.Order;
 import isd.aims.main.utils.Configs;
@@ -66,15 +67,16 @@ public class DeliveryForm extends BaseForm implements Initializable {
 	void submitDeliveryInfo(MouseEvent event) throws IOException, InterruptedException, SQLException {
 
 		// add info to messages
-		HashMap<String, String> messages = new HashMap<>();
-		messages.put("name", name.getText());
-		messages.put("phone", phone.getText());
-		messages.put("address", address.getText());
-		messages.put("instructions", instructions.getText());
-		messages.put("province", province.getValue());
+//		HashMap<String, String> messages = new HashMap<>();
+//		messages.put("name", name.getText());
+//		messages.put("phone", phone.getText());
+//		messages.put("address", address.getText());
+//		messages.put("instructions", instructions.getText());
+//		messages.put("province", province.getValue());
+		DeliveryInfo deliveryInfo = new DeliveryInfo(name.getText(),phone.getText(),"email is currently null",province.getValue(),address.getText());
 		try {
 			// process and validate delivery info
-			getBController().processDeliveryInfo(messages);
+			getBController().processDeliveryInfo(deliveryInfo);
 		} catch (InvalidDeliveryInfoException e) {
 			throw new InvalidDeliveryInfoException(e.getMessage());
 		}
@@ -82,7 +84,7 @@ public class DeliveryForm extends BaseForm implements Initializable {
 		// calculate shipping fees
 		int shippingFees = getBController().calculateShippingFee(order);
 		order.setShippingFees(shippingFees);
-		order.setDeliveryInfo(messages);
+		order.setDeliveryInfo(deliveryInfo);
 
 		// create invoice screen
 		Invoice invoice = getBController().createInvoice(order);

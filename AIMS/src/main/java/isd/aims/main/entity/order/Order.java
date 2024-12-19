@@ -1,5 +1,6 @@
 package isd.aims.main.entity.order;
 
+import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
 import isd.aims.main.utils.Configs;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +13,10 @@ public class Order {
 
     private int shippingFees;
     private List lstOrderMedia;
-    private HashMap<String, String> deliveryInfo;
+//    private HashMap<String, String> deliveryInfo;
     private Integer id;
+    private DeliveryInfo deliveryInfo;
+    private boolean isRush = false;
 
     public Order(){
         this.lstOrderMedia = new ArrayList<>();
@@ -56,13 +59,13 @@ public class Order {
 
     // Content Coupling: Có thể bị sửa đổi thông tin giao hàng do là dạng HashMap sẽ trả về địa chỉ ô nhớ.
     // => Chỉ nên trả về cặp key-value và tạo phương thức riêng để cập nhật
-    public HashMap getDeliveryInfo() {
+    public DeliveryInfo getDeliveryInfo() {
         return deliveryInfo;
     }
 
     // Content Coupling: cho phép thay đổi thuộc tính trực tiếp từ bên ngoài
     // => Nên loại bỏ
-    public void setDeliveryInfo(HashMap deliveryInfo) {
+    public void setDeliveryInfo(DeliveryInfo deliveryInfo) {
         this.deliveryInfo = deliveryInfo;
     }
 

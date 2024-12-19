@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 import isd.aims.main.exception.MediaNotAvailableException;
 import isd.aims.main.exception.PlaceOrderException;
-import isd.aims.main.controller.PlaceOrderController;
+import isd.aims.main.controller.placeorder.PlaceOrderController;
 import isd.aims.main.controller.ViewCartController;
 import isd.aims.main.entity.cart.CartMedia;
 import isd.aims.main.entity.order.Order;
