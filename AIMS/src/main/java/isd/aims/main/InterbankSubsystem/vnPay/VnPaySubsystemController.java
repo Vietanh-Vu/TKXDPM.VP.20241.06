@@ -113,11 +113,13 @@ public class VnPaySubsystemController {
     }
 
     public static PaymentTransaction processResponse(String vnpReturnURL) throws URISyntaxException, ParseException {
+        System.out.println(vnpReturnURL);
         URI uri = new URI(vnpReturnURL);
         String query = uri.getQuery();
         Response response = new Response(query);
 
         if (response == null) return null;
+
 
         // Create Payment transaction
         String errorCode = response.getVnp_TransactionStatus();
@@ -128,6 +130,11 @@ public class VnPaySubsystemController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
         Date date = dateFormat.parse(createdAt);
+
+        System.out.println(errorCode);
+        System.out.println(transactionId);
+        System.out.println(transactionContent);
+
 
         return new PaymentTransaction(errorCode, transactionId, transactionContent, amount, date);
     }
