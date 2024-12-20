@@ -4,6 +4,7 @@ import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
 import isd.aims.main.utils.Configs;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Setter
 @Getter
+@ToString
 public class Order {
 
     private int shippingFees;

@@ -2,7 +2,9 @@ package isd.aims.main.controller.placeorder;
 
 import isd.aims.main.controller.BaseController;
 import isd.aims.main.controller.placeorder.ordervalidator.DeliveryInfoValidator;
+import isd.aims.main.controller.placeorder.ordervalidator.RushInfoValidator;
 import isd.aims.main.controller.placeorder.ordervalidator.StandardInfoValidator;
+import isd.aims.main.controller.placeorder.shippingfee.RushShippingFee;
 import isd.aims.main.controller.placeorder.shippingfee.ShippingFeeStrategy;
 import isd.aims.main.controller.placeorder.shippingfee.StandardShippingFee;
 import isd.aims.main.entity.cart.Cart;
@@ -11,7 +13,9 @@ import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
 import isd.aims.main.entity.invoice.Invoice;
 import isd.aims.main.entity.order.Order;
 import isd.aims.main.entity.order.OrderMedia;
+import isd.aims.main.exception.InvalidDeliveryInfoException;
 import isd.aims.main.utils.Utils;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -92,8 +96,13 @@ public class PlaceOrderController extends BaseController {
     public void processDeliveryInfo(DeliveryInfo info) throws InterruptedException, IOException {
         LOGGER.info("Process Delivery Info");
         LOGGER.info(info.toString());
-        validateDeliveryInfo(info);
-    }
+        // Kiểm tra kết quả validate
+        if (!validateDeliveryInfo(info)) {
+            throw new InvalidDeliveryInfoException("Invalid delivery information provided: " + info.toString());
+        }
+
+        // Nếu validate thành công, tiếp tục xử lý
+        LOGGER.info("Delivery info validated successfully.");    }
 
     /**
      * The method validates the info
@@ -114,5 +123,15 @@ public class PlaceOrderController extends BaseController {
      */
      public int calculateShippingFee(Order order) {
         return shippingFeeStrategy.calculateShippingFee(order);
+    }
+
+    public void setRushController(){
+         this.shippingFeeStrategy = new RushShippingFee();
+         this.deliveryInfoValidator = new RushInfoValidator();
+    }
+
+    public void setStandardController(){
+        this.shippingFeeStrategy = new StandardShippingFee();
+        this.deliveryInfoValidator = new StandardInfoValidator();
     }
 }

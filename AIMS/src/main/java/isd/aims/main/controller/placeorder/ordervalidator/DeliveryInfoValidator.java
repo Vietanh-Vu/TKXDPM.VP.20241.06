@@ -61,6 +61,7 @@ public abstract class DeliveryInfoValidator {
             }
         }
 
+        System.out.println("Phone number true");
         return true;
     };
     protected boolean validateAddress(String address) {
@@ -76,6 +77,8 @@ public abstract class DeliveryInfoValidator {
 
         // Check valid characters (only letters, numbers and forward slash)
         String regex = "^[a-zA-Z0-9/]+$";
+
+        System.out.println("Address : " + address.matches(regex));
         return address.matches(regex);
     };
     protected boolean validateName(String name) {
@@ -94,14 +97,16 @@ public abstract class DeliveryInfoValidator {
             return false;
         }
 
-        // Check if contains only letters
+        System.out.println("Name : " + name.matches("[a-zA-Z]+"));
+                // Check if contains only letters
         return name.matches("[a-zA-Z]+");
-    };
+    }
     protected boolean validateEmail(String email) {
         String EMAIL_REGEX = "^[\\w.%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
         if (email == null || email.isEmpty()) {
             return false; // Email can't be null or empty
         }
+        System.out.println("Email : " + Pattern.matches(EMAIL_REGEX, email));
         return Pattern.matches(EMAIL_REGEX, email);
     };
     protected boolean validateProvince(String province) {

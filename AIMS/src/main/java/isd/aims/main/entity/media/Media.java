@@ -29,8 +29,7 @@ public class Media {
     @Getter
     protected double weight = 1.0;
     @Getter
-    @Setter
-    protected boolean isRush = false;
+    protected boolean rush = false;
     protected int quantity;
     protected String type;
     protected String imageURL;
@@ -48,6 +47,10 @@ public class Media {
         this.type = type;
 
         //stm = DBConnection.getConnection().createStatement();
+    }
+
+    public boolean isRush() {
+        return rush;
     }
 
     public void setWeight(double weight) {
