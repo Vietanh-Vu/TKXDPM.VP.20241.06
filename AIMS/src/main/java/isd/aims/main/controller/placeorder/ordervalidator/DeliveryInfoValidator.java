@@ -108,9 +108,9 @@ public abstract class DeliveryInfoValidator {
         }
         System.out.println("Email : " + Pattern.matches(EMAIL_REGEX, email));
         return Pattern.matches(EMAIL_REGEX, email);
-    };
+    }
     protected boolean validateProvince(String province) {
         return true;
-    };
+    }
 
 }

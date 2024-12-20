@@ -12,6 +12,7 @@ import isd.aims.main.exception.PlaceOrderException;
 import isd.aims.main.controller.placeorder.PlaceOrderController;
 import isd.aims.main.controller.ViewCartController;
 import isd.aims.main.entity.cart.CartMedia;
+import isd.aims.main.entity.cart.Cart;
 import isd.aims.main.entity.order.Order;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.utils.Utils;
@@ -110,13 +111,13 @@ public class CartForm extends BaseForm {
 				return;
 			}
 
-			placeOrderController.placeOrder();
+			Cart.getCart().checkAvailabilityOfProduct();
 
 			// display available media
 			displayCartWithMediaAvailability();
 
 			// create order
-			Order order = placeOrderController.createOrder();
+			Order order = Order.createOrder();
 
 			// display shipping form
 			DeliveryForm DeliveryFormHandler = new DeliveryForm(this.stage, Configs.SHIPPING_SCREEN_PATH, order);

@@ -103,7 +103,7 @@ public class DeliveryForm extends BaseForm implements Initializable {
 		order.setShippingFees(shippingFees);
 
 		// create invoice screen
-		Invoice invoice = placeOrderController.createInvoice(order);
+		Invoice invoice = new Invoice(order);
 		System.out.print(invoice.toString());
 		BaseForm InvoiceScreenHandler = new InvoiceForm(this.stage, Configs.INVOICE_SCREEN_PATH, invoice);
 		InvoiceScreenHandler.setPreviousScreen(this);

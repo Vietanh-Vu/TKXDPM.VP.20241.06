@@ -2,6 +2,8 @@ package isd.aims.main.entity.order;
 
 import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
 import isd.aims.main.utils.Configs;
+import isd.aims.main.entity.cart.CartMedia;
+import isd.aims.main.entity.cart.Cart;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,7 +19,6 @@ public class Order {
 
     private int shippingFees;
     private List lstOrderMedia;
-//    private HashMap<String, String> deliveryInfo;
     private Integer id;
     private DeliveryInfo deliveryInfo;
     private boolean isRush = false;
@@ -30,7 +31,6 @@ public class Order {
         this.lstOrderMedia = lstOrderMedia;
     }
 
-    // Communicational Cohension: Đều quản lý OrderMedia, cùng input là OrderMedia với removeOrderMedia
     public void addOrderMedia(OrderMedia om){
         this.lstOrderMedia.add(om);
     }
@@ -39,14 +39,10 @@ public class Order {
         this.lstOrderMedia.remove(om);
     }
 
-    // Content Coupling: trả về danh sách có thể bị sửa đổi trực tiếp
-    // => Cần trả về phiên bản không thể thay đổi và tạo phương thức riêng để chỉnh sửa
     public List getlstOrderMedia() {
         return this.lstOrderMedia;
     }
 
-    // Content Coupling: cho phép thay đổi thuộc tính trực tiếp từ bên ngoài
-    // => loại bỏ
     public void setlstOrderMedia(List lstOrderMedia) {
         this.lstOrderMedia = lstOrderMedia;
     }
@@ -55,20 +51,14 @@ public class Order {
         this.shippingFees = shippingFees;
     }
 
-    // Content Coupling: cho phép thay đổi thuộc tính trực tiếp từ bên ngoài
-    // => Nên loại bỏ
     public int getShippingFees() {
         return shippingFees;
     }
 
-    // Content Coupling: Có thể bị sửa đổi thông tin giao hàng do là dạng HashMap sẽ trả về địa chỉ ô nhớ.
-    // => Chỉ nên trả về cặp key-value và tạo phương thức riêng để cập nhật
     public DeliveryInfo getDeliveryInfo() {
         return deliveryInfo;
     }
 
-    // Content Coupling: cho phép thay đổi thuộc tính trực tiếp từ bên ngoài
-    // => Nên loại bỏ
     public void setDeliveryInfo(DeliveryInfo deliveryInfo) {
         this.deliveryInfo = deliveryInfo;
     }
@@ -88,6 +78,23 @@ public class Order {
             amount += om.getPrice();
         }
         return (int) (amount + (Configs.PERCENT_VAT/100)*amount);
+    }
+
+     /**
+     * This method creates the new Order based on the Cart
+     *
+     * @return Order
+     */
+    public static  Order createOrder() {
+        Order order = new Order();
+        for (Object object : Cart.getCart().getListMedia()) {
+            CartMedia cartMedia = (CartMedia) object;
+            OrderMedia orderMedia = new OrderMedia(cartMedia.getMedia(),
+                    cartMedia.getQuantity(),
+                    cartMedia.getPrice());
+            order.getlstOrderMedia().add(orderMedia);
+        }
+        return order;
     }
 
 }

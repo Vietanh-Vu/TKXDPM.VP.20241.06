@@ -36,8 +36,7 @@ import java.util.logging.Logger;
 public class PlaceOrderController extends BaseController {
 
     private ShippingFeeStrategy shippingFeeStrategy = new StandardShippingFee();
-    private DeliveryInfoValidator deliveryInfoValidator = new StandardInfoValidator() {
-    };
+    private DeliveryInfoValidator deliveryInfoValidator = new StandardInfoValidator();
 
     public PlaceOrderController(ShippingFeeStrategy shippingFeeStrategy, DeliveryInfoValidator deliveryInfoValidator) {
         this.shippingFeeStrategy = shippingFeeStrategy;
@@ -50,57 +49,19 @@ public class PlaceOrderController extends BaseController {
     private static Logger LOGGER = Utils.getLogger(PlaceOrderController.class.getName());
 
     /**
-     * This method checks the avalibility of product when user click PlaceOrder button
-     *
-     * @throws SQLException
-     */
-    public void placeOrder() throws SQLException {
-        Cart.getCart().checkAvailabilityOfProduct();
-    }
-
-    /**
-     * This method creates the new Order based on the Cart
-     *
-     * @return Order
-     * @throws SQLException
-     */
-    public Order createOrder() throws SQLException {
-        Order order = new Order();
-        for (Object object : Cart.getCart().getListMedia()) {
-            CartMedia cartMedia = (CartMedia) object;
-            OrderMedia orderMedia = new OrderMedia(cartMedia.getMedia(),
-                    cartMedia.getQuantity(),
-                    cartMedia.getPrice());
-            order.getlstOrderMedia().add(orderMedia);
-        }
-        return order;
-    }
-
-    /**
-     * This method creates the new Invoice based on order
-     *
-     * @param order
-     * @return Invoice
-     */
-    public Invoice createInvoice(Order order) {
-        return new Invoice(order);
-    }
-
-    /**
      * This method takes responsibility for processing the shipping info from user
      *
      * @param info
      * @throws InterruptedException
      * @throws IOException
      */
-    public void processDeliveryInfo(DeliveryInfo info) throws InterruptedException, IOException {
+    public void processDeliveryInfo(DeliveryInfo info) {
         LOGGER.info("Process Delivery Info");
         LOGGER.info(info.toString());
         // Kiểm tra kết quả validate
         if (!validateDeliveryInfo(info)) {
             throw new InvalidDeliveryInfoException("Invalid delivery information provided: " + info.toString());
         }
-
         // Nếu validate thành công, tiếp tục xử lý
         LOGGER.info("Delivery info validated successfully.");    }
 
@@ -108,10 +69,8 @@ public class PlaceOrderController extends BaseController {
      * The method validates the info
      *
      * @param info
-     * @throws InterruptedException
-     * @throws IOException
      */
-    public boolean validateDeliveryInfo(DeliveryInfo info) throws InterruptedException, IOException {
+    public boolean validateDeliveryInfo(DeliveryInfo info) {
         return deliveryInfoValidator.validateDeliveyInfo(info);
     }
 
