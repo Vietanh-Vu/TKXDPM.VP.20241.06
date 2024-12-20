@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Setter
+@Getter
 public class Order {
 
     private int shippingFees;

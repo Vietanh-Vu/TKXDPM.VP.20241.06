@@ -1,14 +1,12 @@
 package isd.aims.main.entity.deliveryinfo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class DeliveryInfo {
     private String name;
     private String phoneNumber;

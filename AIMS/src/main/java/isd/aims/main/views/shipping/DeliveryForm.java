@@ -44,6 +44,9 @@ public class DeliveryForm extends BaseForm implements Initializable {
 	@FXML
 	private ComboBox<String> province;
 
+	@FXML
+	private ComboBox<String> isRush;
+
 	private Order order;
 
 	public DeliveryForm(Stage stage, String screenPath, Order order) throws IOException {
@@ -74,17 +77,18 @@ public class DeliveryForm extends BaseForm implements Initializable {
 //		messages.put("instructions", instructions.getText());
 //		messages.put("province", province.getValue());
 		DeliveryInfo deliveryInfo = new DeliveryInfo(name.getText(),phone.getText(),"email is currently null",province.getValue(),address.getText());
+		System.out.println(deliveryInfo.toString());
 		try {
 			// process and validate delivery info
 			getBController().processDeliveryInfo(deliveryInfo);
 		} catch (InvalidDeliveryInfoException e) {
 			throw new InvalidDeliveryInfoException(e.getMessage());
 		}
-
+		order.setDeliveryInfo(deliveryInfo);
 		// calculate shipping fees
 		int shippingFees = getBController().calculateShippingFee(order);
+		System.out.println(shippingFees);
 		order.setShippingFees(shippingFees);
-		order.setDeliveryInfo(deliveryInfo);
 
 		// create invoice screen
 		Invoice invoice = getBController().createInvoice(order);

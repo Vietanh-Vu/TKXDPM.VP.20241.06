@@ -2,6 +2,8 @@ package isd.aims.main.entity.media;
 
 import isd.aims.main.entity.db.SQLiteConnection;
 import isd.aims.main.utils.Utils;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +26,11 @@ public class Media {
     protected String category;
     protected int value; // the real price of product (eg: 450)
     protected int price; // the price which will be displayed on browser (eg: 500)
+    @Getter
+    protected double weight = 1.0;
+    @Getter
+    @Setter
+    protected boolean isRush = false;
     protected int quantity;
     protected String type;
     protected String imageURL;
@@ -41,6 +48,10 @@ public class Media {
         this.type = type;
 
         //stm = DBConnection.getConnection().createStatement();
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
     public int getQuantity() throws SQLException{

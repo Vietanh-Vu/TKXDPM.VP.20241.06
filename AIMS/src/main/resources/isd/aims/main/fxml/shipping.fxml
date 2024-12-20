@@ -48,6 +48,8 @@
                prefHeight="119.1999450683594" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="311.8000549316406" minHeight="10.0"
                prefHeight="215.8000549316406" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="313.59999389648436" minHeight="10.0"
+                            prefHeight="67.19997558593752" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0">
@@ -158,6 +160,14 @@
                   </Label>
                </children>
             </Pane>
+<!--     for rush        -->
+            <ComboBox fx:id="rush" prefHeight="50.0" prefWidth="150.0" GridPane.columnIndex="1"
+                      GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </ComboBox>
+<!--            -->
          </children>
       </GridPane>
       <Button fx:id="btnConfirmDelivery" alignment="CENTER" contentDisplay="CENTER" layoutX="526.0"

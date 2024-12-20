@@ -1,0 +1,13 @@
+
+m	java:S117["QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î£Ð…8’„‰ü½2
+J
+java:S5411:"(Use a primitive boolean expression here.(²¡ŒÜÿÿÿÿÿ8“„‰ü½2
+Š
+java:S1130C"nRemove the declaration of thrown exception 'java.sql.SQLException', as it cannot be thrown from method's body.(™¸¡q8³¨Øý½2
+X	java:S125F"<This block of commented-out lines of code should be removed.(„³Ûê8›üŒü½2
+W
+java:S1161c":Add the "@Override" annotation above this method signature(±Ý‚ï8¬„‰ü½2
+O
+java:S1135h"2Complete the task associated to this TODO comment.(ê‰â†8­„‰ü½2
+P
+java:S1128".Remove this unused import 'java.util.HashMap'.(™˜”€ùÿÿÿÿ8Ä¨Øý½2

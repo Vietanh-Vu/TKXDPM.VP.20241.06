@@ -27,8 +27,8 @@ import java.util.logging.Logger;
  */
 
 // Procedural Cohesion: các phương thức đều liên quan đến việc xử lý đặt hàng
-    @Setter
-    @NoArgsConstructor
+@Setter
+@NoArgsConstructor
 public class PlaceOrderController extends BaseController {
 
     private ShippingFeeStrategy shippingFeeStrategy = new StandardShippingFee();
@@ -60,8 +60,6 @@ public class PlaceOrderController extends BaseController {
      * @return Order
      * @throws SQLException
      */
-    // Sequential Cohesion: createOrder() và createInvoice() có kết quả của phương thức trước là đầu vào của phương thức sau
-    @SuppressWarnings("unchecked")
     public Order createOrder() throws SQLException {
         Order order = new Order();
         for (Object object : Cart.getCart().getListMedia()) {
@@ -80,7 +78,6 @@ public class PlaceOrderController extends BaseController {
      * @param order
      * @return Invoice
      */
-    // Communicational Cohesion: Chia sẻ cùng input với calculateShippingFree
     public Invoice createInvoice(Order order) {
         return new Invoice(order);
     }
@@ -92,7 +89,6 @@ public class PlaceOrderController extends BaseController {
      * @throws InterruptedException
      * @throws IOException
      */
-    @SuppressWarnings("rawtypes")
     public void processDeliveryInfo(DeliveryInfo info) throws InterruptedException, IOException {
         LOGGER.info("Process Delivery Info");
         LOGGER.info(info.toString());
