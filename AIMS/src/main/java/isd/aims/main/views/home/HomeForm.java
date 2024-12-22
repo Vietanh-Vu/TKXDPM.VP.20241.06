@@ -11,10 +11,7 @@ import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.cart.CartForm;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -26,10 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class HomeForm extends BaseForm implements Initializable {
@@ -45,14 +39,8 @@ public class HomeForm extends BaseForm implements Initializable {
     @FXML
     private ImageView cartImage;
 
-    // @FXML
-    // private VBox vboxMedia1;
-
-    // @FXML
-    // private VBox vboxMedia2;
-
-    // @FXML
-    // private VBox vboxMedia3;
+     @FXML
+     private TextField txtSearch;
 
     @FXML
     private HBox hboxMedia;
@@ -60,8 +48,14 @@ public class HomeForm extends BaseForm implements Initializable {
     @FXML
     private SplitMenuButton splitMenuBtnSearch;
 
+    @FXML
+    private SplitMenuButton splitMenuBtnSort;
+
     @SuppressWarnings("rawtypes")
     private List homeItems;
+
+    //Store the selected menu item
+    private String selectedMenuItem = null;
 
     public HomeForm(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
@@ -91,6 +85,19 @@ public class HomeForm extends BaseForm implements Initializable {
             for (Object object : medium) {
                 Media media = (Media) object;
                 MediaForm m1 = new MediaForm(Configs.HOME_MEDIA_PATH, media, this);
+                //Handle view detail media
+                m1.mediaImage.setOnMouseClicked(event -> {
+                    try {
+                        MediaDetailForm mediaDetailForm = new MediaDetailForm(this.stage, Configs.MEDIA_DETAIL_PATH, this, media);
+                        mediaDetailForm.setHomeScreenHandler(this);
+                        mediaDetailForm.requetsToViewDetail(this);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
                 this.homeItems.add(m1);
             }
         }catch (SQLException | IOException e){
@@ -115,10 +122,29 @@ public class HomeForm extends BaseForm implements Initializable {
             }
         });
 
+
+        //Search by name + menu item
+        txtSearch.setOnKeyReleased(event ->
+            searchMedia(txtSearch.getText())
+        );
+        splitMenuBtnSearch.setOnAction(event ->
+            searchMedia(txtSearch.getText())
+        );
+
+        //Sort media by price
+        splitMenuBtnSort.setOnAction(event ->
+            sortMediaByPrice(splitMenuBtnSort.getText())
+        );
+
         addMediaHome(this.homeItems);
         addMenuItem(0, "Book", splitMenuBtnSearch);
         addMenuItem(1, "DVD", splitMenuBtnSearch);
         addMenuItem(2, "CD", splitMenuBtnSearch);
+        addMenuItem(3, "Category", splitMenuBtnSearch);
+
+        addMenuItem(0, "Ascending", splitMenuBtnSort);
+        addMenuItem(1, "Descending", splitMenuBtnSort);
+        addMenuItem(2, "None", splitMenuBtnSort);
     }
 
     public void setImage() {
@@ -162,6 +188,9 @@ public class HomeForm extends BaseForm implements Initializable {
         label.setTextAlignment(TextAlignment.RIGHT);
         menuItem.setGraphic(label);
         menuItem.setOnAction(e -> {
+            selectedMenuItem = text;
+            menuButton.setText(text);
+
             // empty home media
             hboxMedia.getChildren().forEach(node -> {
                 VBox vBox = (VBox) node;
@@ -176,10 +205,70 @@ public class HomeForm extends BaseForm implements Initializable {
                     filteredItems.add(media);
                 }
             });
-
-            // fill out the home with filted media as category
-            addMediaHome(filteredItems);
+            //If category is chosen
+            if(filteredItems.isEmpty()) {
+                addMediaHome(homeItems);
+            } else {
+                // fill out the home with filted media as category
+                addMediaHome(filteredItems);
+            }
         });
         menuButton.getItems().add(position, menuItem);
+    }
+    //Search media
+    private void searchMedia(String keyword) {
+        if(keyword == null || keyword.trim().isEmpty()) {
+            addMediaHome(this.homeItems);
+            return;
+        }
+        String lowerCaseKeyword = keyword.toLowerCase();
+        List<MediaForm> filteredItems = new ArrayList<>();
+
+        for(Object item : this.homeItems) {
+            MediaForm media = (MediaForm) item;
+            boolean matchingKeyword = media.getMedia().getTitle().toLowerCase().contains(lowerCaseKeyword);
+            //If the selected menu item is null
+            if(selectedMenuItem == null) {
+                //Search by name
+                if(matchingKeyword) {
+                    filteredItems.add(media);
+                }
+            } else {
+                //Search by category
+                if(selectedMenuItem.equals("Category")) {
+                    boolean matchingCategory = media.getMedia().getCategory().contains(lowerCaseKeyword);
+                    if(matchingCategory) {
+                        filteredItems.add(media);
+                    }
+                } else {
+                    //Search by menu item
+                    String lowerCaseSelectedMenuItem = selectedMenuItem.toLowerCase();
+                    boolean matchingMenuItem =  media.getMedia().getTitle().toLowerCase().contains(lowerCaseSelectedMenuItem);
+                    if (matchingKeyword && matchingMenuItem) {
+                        filteredItems.add(media);
+                    }
+                }
+
+            }
+        }
+        LOGGER.info("Search query: " + keyword + " - Found: " + filteredItems.size() + " items");
+        addMediaHome(filteredItems);
+    }
+    //Sort media
+    private void sortMediaByPrice(String order) {
+        List<MediaForm> mediaForms = new ArrayList<>();
+        for(Object item : this.homeItems) {
+            mediaForms.add((MediaForm) item);
+        }
+        //Sort by price
+        if(order.equals("Ascending")) {
+            mediaForms.sort(Comparator.comparingDouble(mediaForm -> mediaForm.getMedia().getPrice()));
+        } else if (order.equals("Descending")) {
+            mediaForms.sort((mediaForm1, mediaForm2) -> Double.compare(mediaForm2.getMedia().getPrice(), mediaForm1.getMedia().getPrice()));
+        } else {
+            addMediaHome(this.homeItems);
+        }
+        // Update the UI
+        addMediaHome(mediaForms);
     }
 }

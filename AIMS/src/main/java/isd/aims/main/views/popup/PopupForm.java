@@ -36,11 +36,11 @@ public class PopupForm extends BaseForm {
     }
 
     public static void success(String message) throws IOException{
-        popup(message, Configs.IMAGE_PATH_ICON + "/" + "tickgreen.png", true).show(true);
+        popup(message, "/isd/aims/main/fxml/images/tickgreen.png", true).show(true);
     }
 
     public static void error(String message) throws IOException{
-        popup(message, Configs.IMAGE_PATH_ICON + "/" + "tickerror.png", false).show(false);
+        popup(message, "/isd/aims/main/fxml/images/tickerror.png", false).show(false);
     }
 
     public static PopupForm loading(String message) throws IOException{

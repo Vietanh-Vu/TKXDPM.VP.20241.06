@@ -33,8 +33,13 @@ public class FXMLForm {
 
 	@SuppressWarnings("exports")
 	public void setImage(ImageView imv, String path){
-		File file = new File(path);
-		Image img = new Image(file.toURI().toString());
+//		File file = new File(path)
+		Image img = new Image(getClass().getResource(path).toExternalForm());
+		if(img.isError()) {
+			System.out.println("Error loading images");
+		} else {
+			System.out.println("Successfully loaded image");
+		}
 		imv.setImage(img);
 	}
 }
