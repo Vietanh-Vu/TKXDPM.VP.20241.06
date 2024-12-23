@@ -3,8 +3,11 @@ package isd.aims.main.views.payment;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
+import java.util.Objects;
 
-import isd.aims.main.InterbankSubsystem.vnPay.VnPaySubsystemController;
+import isd.aims.main.InterbankSubsystem.vn_pay.PayRequestVnPay;
+import isd.aims.main.InterbankSubsystem.vn_pay.PayResponseVnPay;
+import isd.aims.main.controller.payment.IPaymentMethod;
 import isd.aims.main.listener.TransactionResultListener;
 import isd.aims.main.entity.invoice.Invoice;
 import isd.aims.main.entity.payment.PaymentTransaction;
@@ -18,7 +21,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-public class VNPay extends BaseForm {
+public class VNPayScreen extends BaseForm {
 
 	// @FXML
 	// private Button btnConfirmPayment;
@@ -32,11 +35,14 @@ public class VNPay extends BaseForm {
     private VBox vBox;
     private PaymentTransaction transactionResult;
     private TransactionResultListener listener;
+    private IPaymentMethod paymentMethod;
 
-    public VNPay(Stage stage, String screenPath, String paymentURL, TransactionResultListener listener) throws IOException {
+    public VNPayScreen(Stage stage, String screenPath, String paymentURL, IPaymentMethod paymentMethod, Invoice invoice) throws IOException {
         super(stage, screenPath);
         this.paymentURL = paymentURL;
-        this.listener = listener;
+//        this.listener = listener;
+        this.paymentMethod = paymentMethod;
+        this.invoice = invoice;
         WebView paymentView = new WebView();
         WebEngine webEngine = paymentView.getEngine();
         webEngine.load(paymentURL);
@@ -55,10 +61,10 @@ public class VNPay extends BaseForm {
         if (newValue.contains(VnPayConfig.vnp_ReturnUrl)) {
             try {
                 // Xử lý giao dịch và lưu kết quả
-                transactionResult = VnPaySubsystemController.processResponse(newValue);
+                transactionResult = paymentMethod.handlePaymentResponse(newValue);
 
                 if (listener != null) {
-                    listener.onTransactionCompleted(transactionResult);
+                    listener.onTransactionCompleted(transactionResult, invoice);
                 } else System.out.println("NULL");
 
                 if (transactionResult != null) {
@@ -75,7 +81,7 @@ public class VNPay extends BaseForm {
 
     private void showResultScreen(PaymentTransaction transactionResult) throws IOException {
         // Retrieve the result and message from the transaction result
-        String result = transactionResult.isSuccess() ? "SUCCESS" : "FAILURE";
+        String result = Objects.equals(transactionResult.getMessage(), "00") ? "SUCCESS" : "FAILURE";
         String message = transactionResult.getMessage();
 
         // Create an instance of ResultForm with the result and message

@@ -5,6 +5,7 @@ module isd.aims.main {
     requires javafx.web;
     requires static lombok;
     requires jakarta.mail;
+    requires org.json;
 
     opens isd.aims.main to javafx.fxml;
     opens isd.aims.main.views to javafx.fxml;

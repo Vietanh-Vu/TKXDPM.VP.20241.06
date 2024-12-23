@@ -26,19 +26,19 @@ public class EmailController {
     public void sendOrderConfirmationEmail(Order order) throws MessagingException, IOException {
         String htmlTemplate = readEmailTemplate();
 
-        String htmlContent = htmlTemplate
-                .replace("{{orderId}}", String.valueOf(order.getId()))
-                .replace("{{name}}", order.getName())
-                .replace("{{email}}", order.getEmail())
-                .replace("{{phone}}", order.getPhone())
-                .replace("{{address}}", order.getAddress())
-                .replace("{{province}}", order.getProvince())
-                .replace("{{shipping_fee}}", formatCurrency(order.getShippingFee()))
-                .replace("{{paymentType}}", order.getPaymentType())
-                .replace("{{paymentStatus}}", order.getPaymentStatus())
-                .replace("{{totalAmount}}", formatCurrency(order.getTotalAmount()));
-
-        sendHtmlEmail(order.getEmail(), htmlContent);
+//        String htmlContent = htmlTemplate
+//                .replace("{{orderId}}", String.valueOf(order.getId()))
+//                .replace("{{name}}", order.getName())
+//                .replace("{{email}}", order.getEmail())
+//                .replace("{{phone}}", order.getPhone())
+//                .replace("{{address}}", order.getAddress())
+//                .replace("{{province}}", order.getProvince())
+//                .replace("{{shipping_fee}}", formatCurrency(order.getShippingFee()))
+//                .replace("{{paymentType}}", order.getPaymentType())
+//                .replace("{{paymentStatus}}", order.getPaymentStatus())
+//                .replace("{{totalAmount}}", formatCurrency(order.getTotalAmount()));
+//
+//        sendHtmlEmail(order.getEmail(), htmlContent);
         System.out.println("Email sent successfully");
     }
 

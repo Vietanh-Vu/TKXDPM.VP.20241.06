@@ -2,18 +2,10 @@ package isd.aims.main.InterbankSubsystem.vnPay;
 
 import isd.aims.main.listener.TransactionResultListener;
 import isd.aims.main.entity.payment.PaymentTransaction;
-import isd.aims.main.entity.request.Request;
-import isd.aims.main.entity.response.Response;
-import isd.aims.main.utils.Configs;
-import isd.aims.main.views.payment.VNPay;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -104,32 +96,33 @@ public class VnPaySubsystemController {
         return VnPayConfig.vnp_PayUrl + "?" + queryUrl;
     }
 
-    public void payOrder(int amount, String orderInfo) throws IOException {
-        var req = new Request(amount, orderInfo);
-        String paymentURL = req.buildQueryURL();
-        Stage stage = new Stage();
-        var vnPayScreen = new VNPay(stage, Configs.PAYMENT_SCREEN_PATH, paymentURL, this.listener);
-        vnPayScreen.show();
-    }
+//    public void payOrder(int amount, String orderInfo) throws IOException {
+//        var req = new Request(amount, orderInfo);
+//        String paymentURL = req.buildQueryURL();
+//        Stage stage = new Stage();
+//        IPaymentMethod paymentMethod = new VNPayPaymentMethod();
+////        var vnPayScreen = new VNPayScreen(stage, Configs.PAYMENT_SCREEN_PATH, paymentURL, paymentMethod);
+////        vnPayScreen.show();
+//    }
 
-    public static PaymentTransaction processResponse(String vnpReturnURL) throws URISyntaxException, ParseException {
-        URI uri = new URI(vnpReturnURL);
-        String query = uri.getQuery();
-        Response response = new Response(query);
-
-        if (response == null) return null;
-
-        // Create Payment transaction
-        String errorCode = response.getVnp_TransactionStatus();
-        String transactionId = response.getVnp_TransactionNo();
-        String transactionContent = response.getVnp_OrderInfo();
-        int amount = Integer.parseInt(response.getVnp_Amount()) / 100;
-        String createdAt = response.getVnp_PayDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        Date date = dateFormat.parse(createdAt);
-
-        return new PaymentTransaction(errorCode, transactionId, transactionContent, amount, date);
-    }
+//    public static PaymentTransaction processResponse(String vnpReturnURL) throws URISyntaxException, ParseException {
+//        URI uri = new URI(vnpReturnURL);
+//        String query = uri.getQuery();
+//        VNPayResponse VNPayResponse = new VNPayResponse(query);
+//
+//        if (VNPayResponse == null) return null;
+//
+//        // Create Payment transaction
+//        String errorCode = VNPayResponse.getVnp_TransactionStatus();
+//        String transactionId = VNPayResponse.getVnp_TransactionNo();
+//        String transactionContent = VNPayResponse.getVnp_OrderInfo();
+//        int amount = Integer.parseInt(VNPayResponse.getVnp_Amount()) / 100;
+//        String createdAt = VNPayResponse.getVnp_PayDate();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+//
+//        Date date = dateFormat.parse(createdAt);
+//
+//        return new PaymentTransaction(errorCode, transactionId, transactionContent, amount, date);
+//    }
 
 }
