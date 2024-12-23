@@ -9,6 +9,7 @@ import isd.aims.main.utils.Configs;
 import isd.aims.main.utils.Utils;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.cart.CartForm;
+import isd.aims.main.views.detail.MediaDetailForm;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -127,9 +128,9 @@ public class HomeForm extends BaseForm implements Initializable {
         txtSearch.setOnKeyReleased(event ->
             searchMedia(txtSearch.getText())
         );
-        splitMenuBtnSearch.setOnAction(event ->
-            searchMedia(txtSearch.getText())
-        );
+//        splitMenuBtnSearch.setOnAction(event ->
+//            searchMedia(txtSearch.getText())
+//        );
 
         //Sort media by price
         splitMenuBtnSort.setOnAction(event ->

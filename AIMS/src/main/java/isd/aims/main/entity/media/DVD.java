@@ -1,7 +1,10 @@
 package isd.aims.main.entity.media;
 
+import isd.aims.main.entity.db.SQLiteConnection;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +31,16 @@ public class DVD extends Media {
         this.studio = studio;
         this.subtitles = subtitles;
         this.releasedDate = releasedDate;
+        this.filmType = filmType;
+    }
+    public DVD(int id, String title, String category, int price, int quantity, String type, String discType,
+               String director, int runtime, String studio, String subtitles, String filmType) throws SQLException{
+        super(id, title, category, price, quantity, type);
+        this.discType = discType;
+        this.director = director;
+        this.runtime = runtime;
+        this.studio = studio;
+        this.subtitles = subtitles;
         this.filmType = filmType;
     }
 
@@ -102,12 +115,13 @@ public class DVD extends Media {
     }
 
     @Override
-    public Media getMediaById(int id) throws SQLException {
+    public DVD getMediaById(int id) throws SQLException {
         String sql = "SELECT * FROM "+
-                     "aims.DVD " +
-                     "INNER JOIN aims.Media " +
+                     "DVD " +
+                     "INNER JOIN Media " +
                      "ON Media.id = DVD.id " +
                      "where Media.id = " + id + ";";
+        Statement stm = SQLiteConnection.getConnection().createStatement();
         ResultSet res = stm.executeQuery(sql);
         if(res.next()) {
             
@@ -124,10 +138,9 @@ public class DVD extends Media {
         int runtime = res.getInt("runtime");
         String studio = res.getString("studio");
         String subtitles = res.getString("subtitle");
-        Date releasedDate = res.getDate("releasedDate");
         String filmType = res.getString("filmType");
 
-        return new DVD(id, title, category, price, quantity, type, discType, director, runtime, studio, subtitles, releasedDate, filmType);
+        return new DVD(id, title, category, price, quantity, type, discType, director, runtime, studio, subtitles, filmType);
 
         } else {
             throw new SQLException();

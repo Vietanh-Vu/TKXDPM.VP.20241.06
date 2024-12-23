@@ -34,6 +34,17 @@ public class Book extends Media {
         this.language = language;
         this.bookCategory = bookCategory;
     }
+    public Book(int id, String title, String category, int price, int quantity, String type, String author,
+                String coverType, String publisher,  int numOfPages, String language,
+                String bookCategory) throws SQLException{
+        super(id, title, category, price, quantity, type);
+        this.author = author;
+        this.coverType = coverType;
+        this.publisher = publisher;
+        this.numOfPages = numOfPages;
+        this.language = language;
+        this.bookCategory = bookCategory;
+    }
 
     // getter and setter
     public int getId() {
@@ -104,10 +115,10 @@ public class Book extends Media {
     }
 
     @Override
-    public Media getMediaById(int id) throws SQLException {
+    public Book getMediaById(int id) throws SQLException {
         String sql = "SELECT * FROM "+
-                     "aims.Book " +
-                     "INNER JOIN aims.Media " +
+                     "Book " +
+                     "INNER JOIN Media " +
                      "ON Media.id = Book.id " +
                      "where Media.id = " + id + ";";
         Statement stm = SQLiteConnection.getConnection().createStatement();
@@ -125,14 +136,13 @@ public class Book extends Media {
             String author = res.getString("author");
             String coverType = res.getString("coverType");
             String publisher = res.getString("publisher");
-            Date publishDate = res.getDate("publishDate");
             int numOfPages = res.getInt("numOfPages");
             String language = res.getString("language");
             String bookCategory = res.getString("bookCategory");
-            
-            return new Book(id, title, category, price, quantity, type, 
-                            author, coverType, publisher, publishDate, numOfPages, language, bookCategory);
-            
+
+            return new Book(id, title, category, price, quantity, type,
+                            author, coverType, publisher, numOfPages, language, bookCategory);
+
 		} else {
 			throw new SQLException();
 		}

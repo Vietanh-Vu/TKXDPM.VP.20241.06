@@ -54,7 +54,9 @@ public class Configs {
 	public static final String HOME_PATH  = "fxml/home.fxml";
 	public static final String HOME_MEDIA_PATH = "fxml/media_home.fxml";
 	public static final String DETAIL_PATH = "fxml/detail.fxml";
-	public static final String MEDIA_DETAIL_PATH = "fxml/media_detail.fxml";
+	public static final String BOOK_DETAIL_PATH = "fxml/book_detail.fxml";
+	public static final String DVD_DETAIL_PATH = "fxml/dvd_detail.fxml";
+	public static final String CD_DETAIL_PATH = "fxml/cd_detail.fxml";
 	public static final String POPUP_PATH = "fxml/popup.fxml";
 
 	public static Font REGULAR_FONT = Font.font("Segoe UI", FontWeight.NORMAL, FontPosture.REGULAR, 24);

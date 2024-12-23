@@ -60,9 +60,9 @@
                 </VBox>
             </children>
         </HBox>
-        <HBox fx:id="hboxMediaDetail" layoutX="502.5" layoutY="123.0" prefHeight="429.0" prefWidth="521.0" >
+        <HBox fx:id="hboxMediaDetail" layoutX="352.5" layoutY="123.0" prefHeight="400.0" prefWidth="621.0" >
             <children>
-                <VBox fx:id="vboxMedia1" prefHeight="629.0" prefWidth="321.0"
+                <VBox fx:id="vboxMedia1" prefHeight="500.0" prefWidth="621.0"
                       style="-fx-border-color: #33adff;" />
             </children>
         </HBox>
