@@ -88,9 +88,9 @@ public class HomeForm extends BaseForm implements Initializable {
                 //Handle view detail media
                 m1.mediaImage.setOnMouseClicked(event -> {
                     try {
-                        MediaDetailForm mediaDetailForm = new MediaDetailForm(this.stage, Configs.MEDIA_DETAIL_PATH, this, media);
+                        MediaDetailForm mediaDetailForm = new MediaDetailForm(this.stage, Configs.DETAIL_PATH, this, media);
                         mediaDetailForm.setHomeScreenHandler(this);
-                        mediaDetailForm.requetsToViewDetail(this);
+                        mediaDetailForm.requestToViewDetail(this);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     } catch (SQLException e) {

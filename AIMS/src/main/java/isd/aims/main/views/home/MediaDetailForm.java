@@ -59,7 +59,7 @@ public class MediaDetailForm extends BaseForm {
 
 
         try {
-            MediaForm mediaForm = new MediaForm(Configs.HOME_MEDIA_PATH, media, homeForm);
+            MediaForm mediaForm = new MediaForm(Configs.MEDIA_DETAIL_PATH, media, homeForm);
             addMediaDetail(mediaForm);
         } catch (SQLException | IOException e) {
             LOGGER.info("Errors occured: " + e.getMessage());
@@ -105,7 +105,7 @@ public class MediaDetailForm extends BaseForm {
         });
 
     }
-    public void requetsToViewDetail(BaseForm prevScreen) throws SQLException {
+    public void requestToViewDetail(BaseForm prevScreen) throws SQLException {
         setPreviousScreen(prevScreen);
         setScreenTitle("Detail Media");
         show();
