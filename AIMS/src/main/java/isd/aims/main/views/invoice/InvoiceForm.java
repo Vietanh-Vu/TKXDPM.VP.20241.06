@@ -117,7 +117,7 @@ public class InvoiceForm extends BaseForm {
 			IPayment vnPayService = new VnPaySubsystem();
 			String type = paymentType.toString();
 			PaymentController payOrderController = new PaymentController(vnPayService, type);
-//			payOrderController.payOrder(invoice.getAmount(), "Thanh toán hóa đơn AIMS");
+			payOrderController.payOrder(invoice.getAmount(), "Thanh toán hóa đơn AIMS");
 			this.stage.close();
 		} catch (MediaNotAvailableException e) {
 
