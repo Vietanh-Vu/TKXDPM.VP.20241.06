@@ -8,7 +8,9 @@ import java.util.logging.Logger;
 
 import isd.aims.main.InterbankSubsystem.IPayment;
 import isd.aims.main.InterbankSubsystem.VnPaySubsystem;
+import isd.aims.main.controller.payment.IPaymentMethod;
 import isd.aims.main.controller.payment.PaymentController;
+import isd.aims.main.controller.payment.PaymentMethodFactory;
 import isd.aims.main.entity.payment.PaymentType;
 import isd.aims.main.exception.MediaNotAvailableException;
 import isd.aims.main.exception.PaymentException;
@@ -114,6 +116,8 @@ public class InvoiceForm extends BaseForm {
 //			payOrderController.payOrder(invoice.getAmount(), "Thanh toán hóa đơn AIMS");
 			PaymentType paymentType = PaymentType.VNPay;
 			Invoice invoice = this.invoice;
+//			PaymentMethodFactory paymentMethodFactory = new PaymentMethodFactory();
+//			IPaymentMethod paymentMethod = paymentMethodFactory.createPaymentMethod(paymentType);
 			PaymentController paymentController = new PaymentController(paymentType, invoice);
 			paymentController.payment();
 			this.stage.close();

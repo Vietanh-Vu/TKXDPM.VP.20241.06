@@ -15,6 +15,7 @@ import isd.aims.main.InterbankSubsystem.vnPay.VnPayConfig;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.home.HomeForm;
+import jakarta.mail.MessagingException;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
@@ -63,17 +64,16 @@ public class VNPayScreen extends BaseForm {
                 // Xử lý giao dịch và lưu kết quả
                 transactionResult = paymentMethod.handlePaymentResponse(newValue);
 
-                if (listener != null) {
-                    listener.onTransactionCompleted(transactionResult, invoice);
-                } else System.out.println("NULL");
-
                 if (transactionResult != null) {
+                    paymentMethod.onTransactionCompleted(newValue, invoice);
                     homeScreenHandler = new HomeForm(stage, Configs.HOME_PATH);
                     showResultScreen(transactionResult);
                 }
 
             } catch (URISyntaxException | ParseException | IOException e) {
                 e.printStackTrace();
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -81,8 +81,9 @@ public class VNPayScreen extends BaseForm {
 
     private void showResultScreen(PaymentTransaction transactionResult) throws IOException {
         // Retrieve the result and message from the transaction result
-        String result = Objects.equals(transactionResult.getMessage(), "00") ? "SUCCESS" : "FAILURE";
-        String message = transactionResult.getMessage();
+//        String result = Objects.equals(transactionResult.getMessage(), "00") ? "SUCCESS" : "FAILURE";
+        String message = transactionResult.getStatus();
+        String result = transactionResult.getStatus().equals("SUCCESS") ? "Thanh toán thành công" : "Thanh toán thất bại";
 
         // Create an instance of ResultForm with the result and message
         BaseForm resultScreen = new ResultForm(this.stage, Configs.RESULT_SCREEN_PATH, result, message);

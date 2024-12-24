@@ -116,3 +116,7 @@ VALUES (47, 'Blu-ray', 'Director Twelve', 120, 'Studio A', 'English, French', '2
        (70, 'Blu-ray', 'Director Eight', 140, 'Studio J', 'English, Arabic', '2023-08-15', 'romance'),
        (71, 'Blu-ray', 'Director One', 150, 'Studio K', 'English, Hindi', '2023-01-20', 'science fiction'),
        (72, 'DVD', 'Director Seven', 100, 'Studio L', 'English, Thai', '2023-07-03', 'action');
+
+UPDATE Media
+SET price = price * 1000
+WHERE id BETWEEN 38 AND 73;

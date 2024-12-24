@@ -1,18 +1,24 @@
 package isd.aims.main.InterbankSubsystem.vn_pay;
 
+import isd.aims.main.controller.mail.VNPayInfo;
 import isd.aims.main.entity.payment.PaymentTransaction;
+import isd.aims.main.entity.payment.PaymentType;
 import isd.aims.main.entity.response.Response;
 import isd.aims.main.exception.*;
+import isd.aims.main.utils.Utils;
 import lombok.Getter;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import static isd.aims.main.utils.Utils.parseQueryString;
 
 @Getter
 public class PayResponseVnPay extends Response {
@@ -49,20 +55,6 @@ public class PayResponseVnPay extends Response {
         this.vnp_TransactionDate = parseQuery.get("vnp_TransactionDate");
     }
 
-    private Map<String, String> parseQueryString(String query) {
-        Map<String, String> params = new HashMap<>();
-        if (query != null && !query.isEmpty()) {
-            String[] pairs = query.split("&");
-            for (String pair : pairs) {
-                String[] keyValue = pair.split("=");
-                if (keyValue.length == 2) {
-                    params.put(keyValue[0], keyValue[1]);
-                }
-            }
-        }
-        return params;
-    }
-
     private void handleException() throws TransactionNotDoneException, TransactionFailedException, TransactionReverseException, UnrecognizedException {
         switch (this.vnp_ResponseCode) {
             case "00":
@@ -91,20 +83,33 @@ public class PayResponseVnPay extends Response {
         String query = uri.getQuery();
         PayResponseVnPay VNPayResponse = new PayResponseVnPay(query);
 
-
         // Create Payment transaction
         String errorCode = VNPayResponse.getVnp_TransactionStatus(); // mã lỗi (00 nếu thành công)
+        if (!Objects.equals(errorCode, "00")) {
+            return null;
+        }
+
         String transactionId = VNPayResponse.getVnp_TransactionNo(); // mã transaction trong merchant
         String transactionContent = VNPayResponse.getVnp_OrderInfo(); // thông tin đơn hàng
         int amount = Integer.parseInt(VNPayResponse.getVnp_Amount()) / 100; // giá tiền
         String createdAt = VNPayResponse.getVnp_PayDate(); // ngày
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        Date date = dateFormat.parse(createdAt);
-
+//        Date date = dateFormat.parse(createdAt);
+        String date = Utils.convertTime(createdAt, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String message = Objects.equals(errorCode, "00") ? "SUCCESS" : "FAILED";
+        return new PaymentTransaction(transactionContent, time, message, amount, PaymentType.VNPay.getPaymentType(), transactionId);
 
-        return new PaymentTransaction(transactionId, transactionContent, date, message, amount);
+    }
 
+    public VNPayInfo getInfo(String vnpReturnURL) throws URISyntaxException {
+        URI uri = new URI(vnpReturnURL);
+        String query = uri.getQuery();
+        Map<String, String> parseQuery = parseQueryString(query);
+
+        String txnRef = parseQuery.get("vnp_TxnRef");
+        String transactionNo = parseQuery.get("vnp_TransactionNo");
+        String transactionDate = parseQuery.get("vnp_PayDate");
+        return new VNPayInfo(txnRef, transactionNo, transactionDate);
     }
 }

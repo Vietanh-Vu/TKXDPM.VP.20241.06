@@ -5,17 +5,44 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
  * @author nguyenlm Contains helper functions
  */
-// Coincidental	Cohesion: Chứa nhiều chứ năng không liên quan như: date formatting, currency formatting, md5 encoding, create logger.
-// Tách thành các lớp riêng biệt
 public class Utils {
+	public static String convertTime(String dateTimeString, String inputPattern, String outputPattern) {
+		try {
+			DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(inputPattern);
+			DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(outputPattern);
+			LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, inputFormatter);
+			return dateTime.format(outputFormatter);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Invalid date format: " + e.getMessage());
+		}
+	}
+
+	public static Map<String, String> parseQueryString(String query) {
+		Map<String, String> params = new HashMap<>();
+		if (query != null && !query.isEmpty()) {
+			String[] pairs = query.split("&");
+			for (String pair : pairs) {
+				String[] keyValue = pair.split("=");
+				if (keyValue.length == 2) {
+					params.put(keyValue[0], keyValue[1]);
+				}
+			}
+		}
+		return params;
+	}
 
 	public static DateFormat DATE_FORMATER = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	// private static Logger LOGGER = getLogger(Utils.class.getName());

@@ -51,6 +51,14 @@
         th {
             background-color: #f5f5f5;
         }
+
+        .refund-info {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -72,10 +80,6 @@
     <h2>Thông tin đơn hàng</h2>
     <table>
         <tr>
-            <th>Phí vận chuyển</th>
-            <td>{{shipping_fee}}đ</td>
-        </tr>
-        <tr>
             <th>Phương thức thanh toán</th>
             <td>{{paymentType}}</td>
         </tr>
@@ -83,6 +87,7 @@
             <th>Trạng thái thanh toán</th>
             <td>{{paymentStatus}}</td>
         </tr>
+        {{TRANSACTION_DETAILS}}
     </table>
 
     <div class="total">

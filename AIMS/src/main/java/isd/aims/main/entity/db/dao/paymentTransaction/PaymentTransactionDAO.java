@@ -32,11 +32,18 @@ public class PaymentTransactionDAO extends DAO<PaymentTransaction> {
 
     @Override
     public PaymentTransaction add(PaymentTransaction transaction) {
-        String query = "INSERT INTO PaymentTransaction (orderID, content, createAt, message, amount) " +
-                "VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO PaymentTransaction (orderID, content, createAt, status, amount, paymentType, transactionNum) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
-            executeUpdate(query, transaction.getOrderId(), transaction.getContent(), transaction.getCreatedAt(),
-                    transaction.getMessage(), transaction.getAmount());
+            executeUpdate(query,
+                    transaction.getOrderId(),
+                    transaction.getContent(),
+                    transaction.getCreatedAt(),
+                    transaction.getStatus(),
+                    transaction.getAmount(),
+                    transaction.getPaymentType(),
+                    transaction.getTransactionNumber()
+            );
             return transaction;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,10 +53,19 @@ public class PaymentTransactionDAO extends DAO<PaymentTransaction> {
 
     @Override
     public boolean update(PaymentTransaction transaction) {
-        String query = "UPDATE PaymentTransaction SET orderID = ?, createAt = ?, content = ? WHERE id = ?";
+        String query = "UPDATE PaymentTransaction SET orderID = ?, content = ?, createAt = ?, status = ?, " +
+                "amount = ?, paymentType = ?, transactionNum = ? WHERE id = ?";
         try {
-            return executeUpdate(query, transaction.getOrderId(), transaction.getCreatedAt(),
-                    transaction.getContent(), transaction.getOrderId()) > 0;
+            return executeUpdate(query,
+                    transaction.getOrderId(),
+                    transaction.getContent(),
+                    transaction.getCreatedAt(),
+                    transaction.getStatus(),
+                    transaction.getAmount(),
+                    transaction.getPaymentType(),
+                    transaction.getTransactionNumber(),
+                    transaction.getId()
+            ) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
