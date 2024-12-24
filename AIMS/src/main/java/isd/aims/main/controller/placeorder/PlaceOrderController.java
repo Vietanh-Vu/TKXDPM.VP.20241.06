@@ -80,13 +80,13 @@ public class PlaceOrderController extends BaseController {
      * @param order
      * @return shippingFee
      */
-     public int calculateShippingFee(Order order) {
+    public int calculateShippingFee(Order order) {
         return shippingFeeStrategy.calculateShippingFee(order);
     }
 
     public void setRushController(){
-         this.shippingFeeStrategy = new RushShippingFee();
-         this.deliveryInfoValidator = new RushInfoValidator();
+        this.shippingFeeStrategy = new RushShippingFee();
+        this.deliveryInfoValidator = new RushInfoValidator();
     }
 
     public void setStandardController(){

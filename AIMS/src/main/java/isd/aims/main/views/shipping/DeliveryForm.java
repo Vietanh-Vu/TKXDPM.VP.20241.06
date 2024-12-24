@@ -57,7 +57,7 @@ public class DeliveryForm extends BaseForm implements Initializable {
 	private CheckBox rush;
 
 	private Order order;
-	
+
 	private PlaceOrderController placeOrderController;
 
 	public DeliveryForm(Stage stage, String screenPath, Order order) throws IOException {
@@ -70,11 +70,11 @@ public class DeliveryForm extends BaseForm implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		final BooleanProperty firstTime = new SimpleBooleanProperty(true); // Variable to store the focus on stage load
 		name.focusedProperty().addListener((observable,  oldValue,  newValue) -> {
-            if(newValue && firstTime.get()){
-                content.requestFocus(); // Delegate the focus to container
-                firstTime.setValue(false); // Variable value changed for future references
-            }
-        });
+			if(newValue && firstTime.get()){
+				content.requestFocus(); // Delegate the focus to container
+				firstTime.setValue(false); // Variable value changed for future references
+			}
+		});
 		this.province.getItems().addAll(Configs.PROVINCES);
 	}
 
