@@ -20,6 +20,7 @@ import isd.aims.main.utils.Utils;
 import isd.aims.main.views.BaseForm;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -57,8 +58,12 @@ public class InvoiceForm extends BaseForm {
 
 	@FXML
 	private VBox vboxItems;
+
 	@FXML
 	private Button btnConfirm;
+
+	@FXML
+	private ChoiceBox paymentType;
 
 	private Invoice invoice;
 
@@ -92,7 +97,7 @@ public class InvoiceForm extends BaseForm {
 		int amount = invoice.getOrder().getAmount() + invoice.getOrder().getShippingFees();
 		total.setText(Utils.getCurrencyFormat(amount));
 		invoice.setAmount(amount);
-		invoice.getOrder().getlstOrderMedia().forEach(orderMedia -> {
+		invoice.getOrder().getLstOrderMedia().forEach(orderMedia -> {
 			try {
 				MediaInvoiceForm mis = new MediaInvoiceForm(Configs.INVOICE_MEDIA_SCREEN_PATH);
 				mis.setOrderMedia((OrderMedia) orderMedia);
@@ -110,8 +115,9 @@ public class InvoiceForm extends BaseForm {
 		try {
 			// create placeOrderController and process the order
 			IPayment vnPayService = new VnPaySubsystem();
-			PaymentController payOrderController = new PaymentController(vnPayService);
-			payOrderController.payOrder(invoice.getAmount(), "Thanh toán hóa đơn AIMS");
+			String type = paymentType.toString();
+			PaymentController payOrderController = new PaymentController(vnPayService, type);
+//			payOrderController.payOrder(invoice.getAmount(), "Thanh toán hóa đơn AIMS");
 			this.stage.close();
 		} catch (MediaNotAvailableException e) {
 

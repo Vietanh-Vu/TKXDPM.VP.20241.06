@@ -27,50 +27,6 @@ public class Order {
         this.lstOrderMedia = new ArrayList<>();
     }
 
-    public Order(List lstOrderMedia) {
-        this.lstOrderMedia = lstOrderMedia;
-    }
-
-    public void addOrderMedia(OrderMedia om){
-        this.lstOrderMedia.add(om);
-    }
-
-    public void removeOrderMedia(OrderMedia om){
-        this.lstOrderMedia.remove(om);
-    }
-
-    public List getlstOrderMedia() {
-        return this.lstOrderMedia;
-    }
-
-    public void setlstOrderMedia(List lstOrderMedia) {
-        this.lstOrderMedia = lstOrderMedia;
-    }
-
-    public void setShippingFees(int shippingFees) {
-        this.shippingFees = shippingFees;
-    }
-
-    public int getShippingFees() {
-        return shippingFees;
-    }
-
-    public DeliveryInfo getDeliveryInfo() {
-        return deliveryInfo;
-    }
-
-    public void setDeliveryInfo(DeliveryInfo deliveryInfo) {
-        this.deliveryInfo = deliveryInfo;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public int getAmount(){
         double amount = 0;
         for (Object object : lstOrderMedia) {
@@ -80,19 +36,14 @@ public class Order {
         return (int) (amount + (Configs.PERCENT_VAT/100)*amount);
     }
 
-     /**
-     * This method creates the new Order based on the Cart
-     *
-     * @return Order
-     */
-    public static  Order createOrder() {
+    public static Order createOrder() {
         Order order = new Order();
         for (Object object : Cart.getCart().getListMedia()) {
             CartMedia cartMedia = (CartMedia) object;
             OrderMedia orderMedia = new OrderMedia(cartMedia.getMedia(),
                     cartMedia.getQuantity(),
                     cartMedia.getPrice());
-            order.getlstOrderMedia().add(orderMedia);
+            order.getLstOrderMedia().add(orderMedia);
         }
         return order;
     }

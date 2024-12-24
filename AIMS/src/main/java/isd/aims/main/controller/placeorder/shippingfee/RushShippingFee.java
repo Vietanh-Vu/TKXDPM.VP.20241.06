@@ -13,7 +13,7 @@ public class RushShippingFee implements ShippingFeeStrategy{
 
     private int getNumberOfRushItems(Order order) {
         int numberOfRushItems = 0;
-        for (Object obj: order.getlstOrderMedia()){
+        for (Object obj: order.getLstOrderMedia()){
             OrderMedia om = (OrderMedia) obj;
             if (om.getMedia().isRush()){
                 numberOfRushItems += om.getQuantity();

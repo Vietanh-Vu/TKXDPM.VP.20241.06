@@ -41,7 +41,7 @@ public class StandardShippingFee implements ShippingFeeStrategy{
 
     private double getHeaviestItemWeight(Order order){
         double heaviestItemWeight = 0;
-        for (Object obj: order.getlstOrderMedia()){
+        for (Object obj: order.getLstOrderMedia()){
             // Order Media
             OrderMedia om = (OrderMedia) obj;
             if (om.getMedia().getWeight() >= heaviestItemWeight){

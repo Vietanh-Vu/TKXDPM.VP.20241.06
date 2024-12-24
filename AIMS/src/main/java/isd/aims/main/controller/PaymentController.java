@@ -26,6 +26,10 @@ public class PaymentController extends BaseController implements TransactionResu
 		this.paymentService = vnPayService;
 	}
 
+	public PaymentController(IPayment vnPayService, String type) {
+		super();
+	}
+
 	/**
 	 * Generate VNPay payment URL
 	 */
