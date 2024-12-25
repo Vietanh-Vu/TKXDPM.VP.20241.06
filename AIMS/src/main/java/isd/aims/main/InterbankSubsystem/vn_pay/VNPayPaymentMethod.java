@@ -1,20 +1,25 @@
 package isd.aims.main.InterbankSubsystem.vn_pay;
 
-import isd.aims.main.InterbankSubsystem.vn_pay.VNPayConfig;
+import isd.aims.main.controller.mail.EmailController;
+import isd.aims.main.controller.mail.OrderTest;
+import isd.aims.main.controller.mail.VNPayInfo;
 import isd.aims.main.controller.payment.IPaymentMethod;
-import isd.aims.main.utils.payment.PaymentTransaction;
-import isd.aims.main.utils.payment.RefundTransaction;
+import isd.aims.main.entity.db.dao.paymentTransaction.PaymentTransactionDAO;
+import isd.aims.main.entity.invoice.Invoice;
+import isd.aims.main.entity.payment.PaymentTransaction;
+import isd.aims.main.entity.payment.RefundTransaction;
+import isd.aims.main.listener.TransactionResultListener;
+import isd.aims.main.utils.Configs;
+import isd.aims.main.views.payment.VNPayScreen;
+import jakarta.mail.MessagingException;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class VNPayPaymentMethod implements IPaymentMethod {
-
 
     // Tạo yêu cầu thanh toán với VNPay
     /*
@@ -32,22 +37,21 @@ public class VNPayPaymentMethod implements IPaymentMethod {
     */
     @Override
     public String makePaymentRequest(int amount, String content) throws UnsupportedEncodingException {
-        PayRequestVnPay payRequest = new PayRequestVnPay();
-        payRequest.setAmount(amount);
-        payRequest.setContent(content);
+        PayRequestVnPay payRequest = new PayRequestVnPay(amount, content);
         return payRequest.generateURL();
-
     }
 
-    // Xử lý liên quan đến database hoặc gì đó
     @Override
-    public void handlePaymentProcess() {
-
+    public void handlePaymentProcess(Invoice invoice) throws IOException {
+        String paymentUrl = this.makePaymentRequest(invoice.getAmount(), "Thanh toán đơn hàng");
+        Stage stage = new Stage();
+        var vnPayScreen = new VNPayScreen(stage, Configs.PAYMENT_SCREEN_PATH, paymentUrl, this, invoice);
+        vnPayScreen.show();
     }
 
     @Override
     public PaymentTransaction handlePaymentResponse(String vnpReturnURL) throws ParseException, URISyntaxException {
-        PayResponseVnPay payResponse = new PayResponseVnPay();
+        PayResponseVnPay payResponse = new PayResponseVnPay(vnpReturnURL);
         return payResponse.getTransaction(vnpReturnURL);
     }
 
@@ -60,5 +64,39 @@ public class VNPayPaymentMethod implements IPaymentMethod {
     @Override
     public RefundTransaction handleRefund() {
         return null;
+    }
+
+    @Override
+    public void onTransactionCompleted(String responseUrl, Invoice invoice) throws ParseException, URISyntaxException, MessagingException, IOException {
+        // thực hiện xong thì nhận kết quả và nếu nó thành công
+        PaymentTransaction transactionResult = this.handlePaymentResponse(responseUrl);
+        PayResponseVnPay payResponse = new PayResponseVnPay(responseUrl);
+        VNPayInfo vnPayInfo = payResponse.getInfo(responseUrl);
+
+        OrderTest orderTest = new OrderTest(
+                1,                             // id
+                "John Doe",                    // name
+                "anh.vv993@gmail.com",         // email
+                "123 Main Street",             // address
+                "1234567890",                  // phone
+                "Hanoi",                       // province
+                50000,                         // shippingFee
+                1000000.0,                     // totalAmount
+                "Paid",                        // paymentStatus
+                "Credit Card"                  // paymentType
+        );
+
+        if (transactionResult.getStatus().equals("SUCCESS")) {
+            // lưu order vào db
+
+            // lưu paymentTransaction vào db, trước đó cần đẩy thông tin order id vào
+            transactionResult.setOrderId(String.valueOf(orderTest.getId()));
+            new PaymentTransactionDAO().add(transactionResult);
+
+            // gửi email
+            EmailController emailController = new EmailController();
+            emailController.sendOrderConfirmationEmail(orderTest, vnPayInfo);
+            // clear cart
+        }
     }
 }

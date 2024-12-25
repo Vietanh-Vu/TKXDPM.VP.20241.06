@@ -1,7 +1,7 @@
 package isd.aims.main.controller.payment;
 
 import isd.aims.main.InterbankSubsystem.vn_pay.VNPayPaymentMethod;
-import isd.aims.main.utils.payment.PaymentType;
+import isd.aims.main.entity.payment.PaymentType;
 
 import java.util.Objects;
 

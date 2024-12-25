@@ -1,39 +1,93 @@
 package isd.aims.main.entity.db;
 
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
-public interface DAO<T> {
-    /**
-     * Lấy tất cả các đối tượng
-     * @return Danh sách các đối tượng T
-     */
-    List<T> getAll();
+public abstract class DAO<T> {
+
+    protected Connection connection = SQLiteConnection.getConnection();
+
+    public DAO() {
+        // Kết nối đã được thực hiện thông qua SQLiteConnection.getConnection()
+    }
 
     /**
-     * Lấy đối tượng theo ID
-     * @param id ID của đối tượng cần lấy
-     * @return Đối tượng T tìm được
+     * Chuẩn bị một PreparedStatement với tham số động
+     *
+     * @param query  Câu lệnh SQL
+     * @param params Các tham số
+     * @return PreparedStatement đã được gán tham số
+     * @throws SQLException Lỗi nếu câu lệnh không hợp lệ
      */
-    T getById(int id);
+    protected PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        for (int i = 0; i < params.length; i++) {
+            preparedStatement.setObject(i + 1, params[i]);
+        }
+        return preparedStatement;
+    }
 
     /**
-     * Thêm mới một đối tượng
-     * @param t Đối tượng cần thêm
-     * @return Đối tượng đã được thêm
+     * Lấy một đối tượng từ ResultSet
+     *
+     * @param query  Câu lệnh SQL
+     * @param mapper Bộ ánh xạ (RowMapper)
+     * @param params Các tham số
+     * @return Đối tượng được ánh xạ, hoặc null nếu không tìm thấy
+     * @throws SQLException Lỗi khi thực thi câu lệnh
      */
-    T add(T t);
+    protected T findOne(String query, MapDbToClass<T> mapper, Object... params) throws SQLException {
+        try (PreparedStatement preparedStatement = prepareStatement(query, params);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            return resultSet.next() ? mapper.mapRow(resultSet) : null;
+        }
+    }
 
     /**
-     * Cập nhật một đối tượng
-     * @param t Đối tượng cần cập nhật
-     * @return true nếu cập nhật thành công, false nếu thất bại
+     * Lấy danh sách đối tượng từ ResultSet
+     *
+     * @param query  Câu lệnh SQL
+     * @param mapper Bộ ánh xạ (RowMapper)
+     * @param params Các tham số
+     * @return Danh sách các đối tượng được ánh xạ
+     * @throws SQLException Lỗi khi thực thi câu lệnh
      */
-    boolean update(T t);
+    protected List<T> findAll(String query, MapDbToClass<T> mapper, Object... params) throws SQLException {
+        List<T> results = new ArrayList<>();
+        try (PreparedStatement preparedStatement = prepareStatement(query, params);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                results.add(mapper.mapRow(resultSet));
+            }
+        }
+        return results;
+    }
 
     /**
-     * Xóa một đối tượng theo ID
-     * @param id ID của đối tượng cần xóa
-     * @return true nếu xóa thành công, false nếu thất bại
+     * Thực hiện câu lệnh INSERT, UPDATE, DELETE
+     *
+     * @param query  Câu lệnh SQL
+     * @param params Các tham số
+     * @return Số hàng bị ảnh hưởng
+     * @throws SQLException Lỗi khi thực thi câu lệnh
      */
-    boolean delete(int id);
+    protected int executeUpdate(String query, Object... params) throws SQLException {
+        try (PreparedStatement preparedStatement = prepareStatement(query, params)) {
+            return preparedStatement.executeUpdate();
+        }
+    }
+
+    /**
+     * Các phương thức trừu tượng cho các lớp con
+     */
+    public abstract List<T> getAll();
+
+    public abstract T getById(int id);
+
+    public abstract T add(T t);
+
+    public abstract boolean update(T t);
+
+    public abstract boolean delete(int id);
 }

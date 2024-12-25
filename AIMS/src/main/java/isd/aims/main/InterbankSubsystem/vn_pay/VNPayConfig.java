@@ -2,13 +2,11 @@ package isd.aims.main.InterbankSubsystem.vn_pay;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.regex.Pattern;
 
 // Cấu hình cổng thanh toán VNPay
 public class VNPayConfig {

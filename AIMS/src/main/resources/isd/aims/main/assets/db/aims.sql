@@ -85,15 +85,19 @@ CREATE TABLE OrderMedia
 );
 
 -- Transaction table - Records order transactions
-CREATE TABLE Transaction
+CREATE TABLE PaymentTransaction
 (
     id       INT AUTO_INCREMENT PRIMARY KEY,
-    orderID  INT         NOT NULL,
-    createAt DATETIME    NOT NULL,
-    content  VARCHAR(45) NOT NULL,
+    orderID  VARCHAR(255) NOT NULL,
+    content  VARCHAR(255) NOT NULL,
+    createAt DATETIME     NOT NULL,
+    status  VARCHAR(45)  NOT NULL,
+    amount   INT          NOT NULL,
+    paymentType   VARCHAR(45) NOT NULL,
+    transactionNum VARCHAR(45) NOT NULL,
     FOREIGN KEY (orderID) REFERENCES `Order` (id)
 );
 
 -- Indexes for performance optimization
 CREATE INDEX idx_ordermedia_orderid ON OrderMedia (orderID);
-CREATE INDEX idx_transaction_orderid ON Transaction (orderID);
+CREATE INDEX idx_transaction_orderid ON PaymentTransaction (orderID);

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="788.0" prefWidth="1326.0"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Logo and title area -->
+    <VBox prefHeight="102.0" prefWidth="231.0" alignment="CENTER">
+        <children>
+            <Pane prefHeight="102.0" prefWidth="237.0">
+                <children>
+                    <ImageView fx:id="aimsImage" fitHeight="94.0" fitWidth="115.0" layoutY="1.0"
+                               pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                        <image>
+                            <Image url="@../fxml/images/Logo.png" />
+                        </image>
+                    </ImageView>
+                    <Label layoutX="6.0" layoutY="68.0" prefHeight="41.0" prefWidth="100.0"
+                           text="    AIMS" textAlignment="CENTER" textFill="#5091e6">
+                        <font>
+                            <Font size="24.0" />
+                        </font>
+                    </Label>
+                </children>
+            </Pane>
+        </children>
+    </VBox>
+
+    <!-- Form area for transaction details -->
+    <VBox alignment="CENTER" spacing="10.0"
+          AnchorPane.topAnchor="100.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0">
+        <!-- Transaction reference code -->
+        <Label text="Mã giao dịch tham chiếu:"/>
+        <TextField fx:id="TxnRef" promptText="Nhập mã giao dịch tham chiếu"/>
+
+        <!-- Transaction code -->
+        <Label text="Mã giao dịch:"/>
+        <TextField fx:id="TransactionNo" promptText="Nhập mã giao dịch"/>
+
+        <!-- Transaction date -->
+        <Label text="Ngày giao dịch (YYYY/MM/DD HH-MM-SS):"/>
+        <TextField fx:id="TransactionDate" promptText="Nhập ngày giao dịch"/>
+
+        <!-- Total amount -->
+        <Label text="Tổng số tiền:"/>
+        <TextField fx:id="Amount" promptText="Nhập tổng số tiền"/>
+
+
+         <Button text="Xác nhận" fx:id="confirmButton" onAction="#handleConfirmButtonClick" />
+
+        <Label text="Mã phản hồi:"/>
+        <Label fx:id="responseCodeLabel" text=""/>
+        <Label text="Thông báo:"/>
+        <Label fx:id="responseMessageLabel" text=""/>
+    </VBox>
+</AnchorPane>

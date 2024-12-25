@@ -7,45 +7,57 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.TimeZone;
 import org.json.JSONObject; // Thư viện JSON
 
 public class RefundRequest {
     private int amount; // amount in VND
-    private String content; // content for order info
     private String txnRef; // Mã giao dịch VNPay
     private String transactionNo; // Mã giao dịch tham chiếu VNPay
-    private String orderInfo; // Nội dung thanh toán
+    private String transactionDate; // Ngày thực hiện thanh toán
 
     // Constructor
-    public RefundRequest(int amount, String content, String txnRef, String transactionNo, String orderInfo) {
+    public RefundRequest(int amount, String txnRef, String transactionNo, String transactionDate) {
         this.amount = amount;
-        this.content = content;
         this.txnRef = txnRef;
         this.transactionNo = transactionNo;
-        this.orderInfo = orderInfo;
+
+        // Định nghĩa định dạng của chuỗi đầu vào
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH-mm-ss");
+
+        // Phân tích chuỗi đầu vào thành LocalDateTime
+        LocalDateTime dateTime = LocalDateTime.parse(transactionDate, inputFormatter);
+
+        // Định nghĩa định dạng đầu ra
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+        // Chuyển đổi và gán giá trị cho transactionDate
+        this.transactionDate = dateTime.format(outputFormatter);
     }
 
+
     // Method to generate the refund request
-    public String generateURL() {
+    public StringBuilder generateURL() {
         try {
             // Tạo các tham số
-            String vnp_RequestId = VNPayConfig.getRandomNumber(8);
+            String vnp_RequestId = VNPayConfig.getRandomNumber(8); // Mã yêu cầu (không trùng lặp trong ngày)
             String vnp_Version = "2.1.0";
-            String vnp_Command = "refund";
+            String vnp_Command = "refund"; // Yêu cầu hoàn tiền
             String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
-            String vnp_TransactionType = "02"; // Hoàn tiền
-            String vnp_TxnRef = this.txnRef; // Mã giao dịch tham chiếu
+            String vnp_TransactionType = "02"; // Hoàn tiền toàn phần (03: hoàn tiền 1 phần)
+            String vnp_TxnRef = this.txnRef; // Mã giao dịch tham chiếu trả về sau thanh toán
             long amountInCents = this.amount * 100L; // Quy đổi ra xu (VND x 100)
             String vnp_Amount = String.valueOf(amountInCents);
-            String vnp_OrderInfo = this.orderInfo; // Nội dung thanh toán
-            String vnp_TransactionNo = this.transactionNo; // Mã giao dịch VNPay
-            String vnp_TransactionDate = "20241219200235";
-            String vnp_CreateBy = "user"; // Người thực hiện
-            String vnp_CreateDate = new SimpleDateFormat("yyyyMMddHHmmss")
+            String vnp_OrderInfo = "refund order"; // Nội dung hoàn tiền
+            String vnp_TransactionNo = this.transactionNo; // Mã giao dịch VNPay trả về sau thanh toán
+            String vnp_TransactionDate = this.transactionDate; // Ngày thực hiện thanh toán
+            String vnp_CreateBy = "user"; // Người thực hiện hoàn trả
+            String vnp_CreateDate = new SimpleDateFormat("yyyyMMddHHmmss") // Ngày thực hiện hoàn trả (thường là ngày hôm nay)
                     .format(Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7")).getTime());
-            String vnp_IpAddr = "127.0.0.1"; // Địa chỉ IP
+            String vnp_IpAddr = "127.0.0.1"; // Địa chỉ IP máy tính thực hiện
 
             // Tạo hash data theo quy tắc mới
             String hash_Data = vnp_RequestId + "|" + vnp_Version + "|" + vnp_Command + "|" + vnp_TmnCode + "|"
@@ -99,14 +111,14 @@ public class RefundRequest {
             }
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
-                return "Request was successful: " + response;
+                return response;
             } else {
-                return "Request failed with response code: " + responseCode + " and message: " + response;
+                return new StringBuilder("Request failed with response code: " + responseCode + " and message: " + response);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "An error occurred: " + e.getMessage();
+            return new StringBuilder("An error occurred: " + e.getMessage());
         }
     }
 }
