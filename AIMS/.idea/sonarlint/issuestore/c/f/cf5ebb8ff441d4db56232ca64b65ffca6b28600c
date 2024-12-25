@@ -1,0 +1,14 @@
+
+K
+java:S3740"/Provide the parametrized type for this generic.(ÀÛİıÿÿÿÿ
+k	java:S117z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ô‘×øÿÿÿÿ
+S
+java:S2629‘"7Use the built-in formatting to construct this argument.(¼ŞäÉÿÿÿÿÿ
+f
+java:S3008"QRename this field "LOGGER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ù‘±{
+B
+java:S1602B",Remove useless curly braces around statement(©É×æ
+c
+java:S5361N"HReplace this call to "replaceAll()" by a call to the "replace()" method.(Á¢É°şÿÿÿÿ
+U
+java:S1161\":Add the "@Override" annotation above this method signature(ÔÁ¯‚ıÿÿÿÿ

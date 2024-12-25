@@ -27,6 +27,10 @@ public class PaymentController extends BaseController {
 		this.paymentService = vnPayService;
 	}
 
+	public PaymentController(IPayment vnPayService, String type) {
+		super();
+	}
+
 	/**
 	 * Generate VNPay payment URL
 	 */

@@ -1,4 +1,4 @@
-#  An Internet Media Store
+﻿#  An Internet Media Store
 <p align="center">
   <img src="./aims_cover_image.png" />
 </p>
