@@ -1,6 +1,7 @@
 package isd.aims.main.views.order;
 
 import isd.aims.main.controller.mail.OrderTest;
+import isd.aims.main.entity.db.dao.order.OrderDAO;
 import isd.aims.main.entity.order.Order;
 
 import isd.aims.main.utils.Configs;
@@ -41,10 +42,7 @@ public class ListOrderForm extends BaseForm {
 
     public ListOrderForm(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
-        // fix relative image path caused by fxml
-        File file = new File("isd/aims/main/fxml/images/Logo.png");
-        Image im = new Image(file.toURI().toString());
-        aimsImage.setImage(im);
+
 
         // on mouse clicked, we back to home
         aimsImage.setOnMouseClicked(e -> {
@@ -57,8 +55,9 @@ public class ListOrderForm extends BaseForm {
     @FXML
     private void handleSearchClick() {
         String email = emailField.getText();
+        List<Order> orders = new OrderDAO().getByEmail(email);
 
-        displayOrders(List.of(new Order()));
+        displayOrders(orders);
 
 //        if (email != null && !email.isEmpty()) {
 //            OrderDAO orderDao = new OrderDAO();
@@ -92,7 +91,7 @@ public class ListOrderForm extends BaseForm {
                 createText("Province", 100),
                 createText("Shipping Fee", 100),
                 createText("Total Amount", 100),
-                createText("Payment Status", 100),
+                createText("Order Status", 100),
                 new Text("Refund")
         );
 
@@ -104,29 +103,18 @@ public class ListOrderForm extends BaseForm {
             orderRow.setAlignment(Pos.CENTER_LEFT); // Căn trái
             orderRow.setStyle("-fx-padding: 5; -fx-border-color: #ddd; -fx-border-width: 0 0 1 0;"); // Thêm viền dưới
 
-            OrderTest orderTest = new OrderTest(
-                    1,                             // id
-                    "John Doe",                    // name
-                    "anh.vv993@gmail.com",         // email
-                    "123 Main Street",             // address
-                    "1234567890",                  // phone
-                    "Hanoi",                       // province
-                    50000,                         // shippingFee
-                    1000000.0,                     // totalAmount
-                    "Paid",                        // paymentStatus
-                    "Credit Card"                  // paymentType
-            );
+
 
 
             // Tạo các thành phần cho từng dòng
-            Text nameText = createText(orderTest.getName(), 120);
-            Text emailText = createText(orderTest.getEmail(), 150);
-            Text addressText = createText(orderTest.getAddress(), 150);
-            Text phoneText = createText(orderTest.getPhone(), 100);
-            Text provinceText = createText(orderTest.getProvince(), 100);
-            Text shippingFeeText = createText(String.valueOf(orderTest.getShippingFee()), 100);
-            Text totalAmountText = createText(String.valueOf(orderTest.getTotalAmount()), 100);
-            Text paymentStatusText = createText(orderTest.getPaymentStatus(), 100);
+            Text nameText = createText(order.getDeliveryInfo().getName(), 120);
+            Text emailText = createText(order.getDeliveryInfo().getEmail(), 150);
+            Text addressText = createText(order.getDeliveryInfo().getAddress(), 150);
+            Text phoneText = createText(order.getDeliveryInfo().getPhoneNumber(), 100);
+            Text provinceText = createText(order.getDeliveryInfo().getProvince(), 100);
+            Text shippingFeeText = createText(String.valueOf(order.getShippingFees()), 100);
+            Text totalAmountText = createText(String.valueOf(order.getTotalAmount() + order.getShippingFees()), 100);
+            Text paymentStatusText = createText(order.getOrderStatus(), 100);
 
 
             // Tạo nút Refund

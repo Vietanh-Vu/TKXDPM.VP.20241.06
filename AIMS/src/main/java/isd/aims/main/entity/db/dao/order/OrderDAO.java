@@ -30,15 +30,26 @@ public class OrderDAO extends DAO<Order> {
         return null;
     }
 
+    public List<Order> getByEmail(String email) {
+        String query = "SELECT * FROM `Order` WHERE email = ?";
+        try {
+            return findAll(query, new OrderMapDbToClass(), email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public Order add(Order order) {
+        order.setOrderStatus("PENDING");
         String query = "INSERT INTO `Order` (name, email, address, phone, province, " +
-                "shipping_fee, totalAmount, paymentStatus, paymentType) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "shipping_fee, totalAmount, orderStatus, paymentType, is_rush) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             executeUpdate(query, order.getDeliveryInfo().getName(), order.getDeliveryInfo().getEmail(), order.getDeliveryInfo().getAddress(),
                     order.getDeliveryInfo().getPhoneNumber(), order.getDeliveryInfo().getProvince(), order.getShippingFees(),
-                    order.getAmount(), order.getPaymentStatus(), order.getPaymentType());
+                    order.getAmount(), order.getOrderStatus(), order.getPaymentType());
             return order;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,11 +61,11 @@ public class OrderDAO extends DAO<Order> {
     public boolean update(Order order) {
         String query = "UPDATE `Order` SET name = ?, email = ?, address = ?, phone = ?, " +
                 "province = ?, shipping_fee = ?, totalAmount = ?, " +
-                "paymentStatus = ?, paymentType = ? WHERE id = ?";
+                "orderStatus = ?, paymentType = ? WHERE id = ?";
         try {
             return executeUpdate(query, order.getDeliveryInfo().getName(), order.getDeliveryInfo().getEmail(), order.getDeliveryInfo().getAddress(),
                     order.getDeliveryInfo().getPhoneNumber(), order.getDeliveryInfo().getProvince(), order.getShippingFees(),
-                    order.getAmount(), order.getPaymentStatus(), order.getPaymentType(),
+                    order.getAmount(), order.getOrderStatus(), order.getPaymentType(),
                     order.getId()) > 0;
         } catch (SQLException e) {
             e.printStackTrace();

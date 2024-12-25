@@ -11,7 +11,7 @@ class OrderMapDbToClass implements MapDbToClass<Order> {
     @Override
     public Order mapRow(ResultSet resultSet) throws SQLException {
         Order order = new Order();
-        DeliveryInfo tempDI = order.getDeliveryInfo();
+        DeliveryInfo tempDI = new DeliveryInfo();
         tempDI.setName(resultSet.getString("name"));
         tempDI.setEmail(resultSet.getString("email"));
         tempDI.setAddress(resultSet.getString("address"));
@@ -20,8 +20,9 @@ class OrderMapDbToClass implements MapDbToClass<Order> {
         order.setId(resultSet.getInt("id"));
         order.setDeliveryInfo(tempDI);
         order.setShippingFees(resultSet.getInt("shipping_fee"));
-        order.setPaymentStatus(resultSet.getString("paymentStatus"));
+        order.setOrderStatus(resultSet.getString("orderStatus"));
         order.setPaymentType(resultSet.getString("paymentType"));
+        order.setTotalAmount(resultSet.getInt("totalAmount"));
         return order;
     }
 }

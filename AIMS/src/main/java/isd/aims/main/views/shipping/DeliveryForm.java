@@ -1,23 +1,14 @@
 package isd.aims.main.views.shipping;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
-import isd.aims.main.controller.placeorder.ordervalidator.RushInfoValidator;
+import isd.aims.main.controller.placeorder.PlaceOrderController;
 import isd.aims.main.controller.placeorder.ordervalidator.StandardInfoValidator;
-import isd.aims.main.controller.placeorder.shippingfee.RushShippingFee;
 import isd.aims.main.controller.placeorder.shippingfee.StandardShippingFee;
 import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
-import isd.aims.main.exception.InvalidDeliveryInfoException;
-import isd.aims.main.controller.placeorder.PlaceOrderController;
 import isd.aims.main.entity.invoice.Invoice;
 import isd.aims.main.entity.order.Order;
+import isd.aims.main.exception.InvalidDeliveryInfoException;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
-import isd.aims.main.views.cart.CartForm;
 import isd.aims.main.views.invoice.InvoiceForm;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -29,6 +20,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class DeliveryForm extends BaseForm implements Initializable {
 

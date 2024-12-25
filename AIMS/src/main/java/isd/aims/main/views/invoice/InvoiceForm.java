@@ -1,20 +1,16 @@
 package isd.aims.main.views.invoice;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.logging.Logger;
-
 import isd.aims.main.InterbankSubsystem.IPayment;
 import isd.aims.main.InterbankSubsystem.VnPaySubsystem;
+import isd.aims.main.controller.payment.PaymentController;
 import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
+import isd.aims.main.entity.invoice.Invoice;
+import isd.aims.main.entity.order.Order;
+import isd.aims.main.entity.order.OrderMedia;
+import isd.aims.main.entity.payment.PaymentType;
 import isd.aims.main.exception.MediaNotAvailableException;
 import isd.aims.main.exception.PaymentException;
 import isd.aims.main.exception.ProcessInvoiceException;
-import isd.aims.main.controller.PaymentController;
-import isd.aims.main.entity.invoice.Invoice;
-import isd.aims.main.entity.order.OrderMedia;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.utils.Utils;
 import isd.aims.main.views.BaseForm;
@@ -24,6 +20,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class InvoiceForm extends BaseForm {
 
@@ -71,6 +72,7 @@ public class InvoiceForm extends BaseForm {
         super(stage, screenPath);
         this.invoice = invoice;
         setInvoiceInfo();
+        paymentType.getItems().addAll(PaymentType.VNPay);
         btnConfirm.setOnMouseClicked(e -> {
             LOGGER.info("Pay Order button clicked");
             try {
@@ -112,11 +114,13 @@ public class InvoiceForm extends BaseForm {
 
     public void requestToPayOrder() throws SQLException, IOException {
         try {
-            // create placeOrderController and process the order
-            IPayment vnPayService = new VnPaySubsystem();
-            String type = paymentType.toString();
-            PaymentController payOrderController = new PaymentController(vnPayService, type);
-            payOrderController.payOrder(invoice.getAmount(), "Thanh toán hóa đơn AIMS");
+            String type = paymentType.getValue().toString();
+            Order order = invoice.getOrder();
+            order.setPaymentType(type);
+            invoice.setOrder(order);
+
+            PaymentController paymentController = new PaymentController(PaymentType.valueOf(type), invoice);
+            paymentController.payment();
             this.stage.close();
         } catch (MediaNotAvailableException e) {
 

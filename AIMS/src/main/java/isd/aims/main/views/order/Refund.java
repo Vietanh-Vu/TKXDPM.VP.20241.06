@@ -40,10 +40,7 @@ public class Refund extends BaseForm {
 
     public Refund(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
-        // Fix relative image path caused by fxml
-        File file = new File("isd/aims/main/fxml/images/Logo.png");
-        Image im = new Image(file.toURI().toString());
-        aimsImage.setImage(im);
+
 
         // On mouse clicked, go back to home
         aimsImage.setOnMouseClicked(e -> {

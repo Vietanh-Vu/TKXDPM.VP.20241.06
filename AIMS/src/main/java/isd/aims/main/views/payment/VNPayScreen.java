@@ -15,6 +15,7 @@ import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.home.HomeForm;
 import jakarta.mail.MessagingException;
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -27,6 +28,8 @@ public class VNPayScreen extends BaseForm {
 
 	// @FXML
 	// private ImageView loadingImage;
+    @FXML
+    private ImageView aimsImage;
 
 	private Invoice invoice;
     private String paymentURL;
@@ -38,6 +41,10 @@ public class VNPayScreen extends BaseForm {
 
     public VNPayScreen(Stage stage, String screenPath, String paymentURL, IPaymentMethod paymentMethod, Invoice invoice) throws IOException {
         super(stage, screenPath);
+
+        aimsImage.setOnMouseClicked(e -> {
+            homeScreenHandler.show();
+        });
         this.paymentURL = paymentURL;
 //        this.listener = listener;
         this.paymentMethod = paymentMethod;

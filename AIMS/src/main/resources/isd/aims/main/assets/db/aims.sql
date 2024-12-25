@@ -61,7 +61,7 @@ CREATE TABLE DVD
 -- Order table - Contains delivery info and order details
 CREATE TABLE `Order`
 (
-    id            INT PRIMARY KEY,
+    id            INT AUTO_INCREMENT PRIMARY KEY,
     -- DeliveryInfo fields
     name          VARCHAR(45) NOT NULL,
     email         VARCHAR(45) NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE `Order`
     -- Order specific fields
     shipping_fee  INT         NOT NULL,
     totalAmount DOUBLE NOT NULL,
-    paymentStatus VARCHAR(45) NOT NULL,
+    orderStatus VARCHAR(45) DEFAULT 'PENDING',
     paymentType   VARCHAR(45) NOT NULL,
     is_rush       BOOLEAN DEFAULT FALSE
 );
@@ -90,14 +90,14 @@ CREATE TABLE OrderMedia
 -- Transaction table - Records order transactions
 CREATE TABLE PaymentTransaction
 (
-    id       INT AUTO_INCREMENT PRIMARY KEY,
-    orderID  VARCHAR(255) NOT NULL,
-    content  VARCHAR(255) NOT NULL,
-    createAt DATETIME     NOT NULL,
-    status  VARCHAR(45)  NOT NULL,
-    amount   INT          NOT NULL,
-    paymentType   VARCHAR(45) NOT NULL,
-    transactionNum VARCHAR(45) NOT NULL,
+    id             INT AUTO_INCREMENT PRIMARY KEY,
+    orderID        VARCHAR(255) NOT NULL,
+    content        VARCHAR(255) NOT NULL,
+    createAt       DATETIME     NOT NULL,
+    status         VARCHAR(45)  NOT NULL,
+    amount         INT          NOT NULL,
+    paymentType    VARCHAR(45)  NOT NULL,
+    transactionNum VARCHAR(45)  NOT NULL,
     FOREIGN KEY (orderID) REFERENCES `Order` (id)
 );
 

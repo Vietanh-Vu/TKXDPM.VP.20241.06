@@ -1,16 +1,14 @@
 package isd.aims.main.entity.order;
 
+import isd.aims.main.entity.cart.Cart;
+import isd.aims.main.entity.cart.CartMedia;
 import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
 import isd.aims.main.utils.Configs;
-import isd.aims.main.entity.cart.CartMedia;
-import isd.aims.main.entity.cart.Cart;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Setter
@@ -24,19 +22,22 @@ public class Order {
     private DeliveryInfo deliveryInfo;
     private boolean isRush = false;
     private String paymentType;
-    private String paymentStatus;
+    private String orderStatus;
+    private int totalAmount;
 
     public Order(){
         this.lstOrderMedia = new ArrayList<>();
     }
 
     public int getAmount(){
-        double amount = 0;
+        int amountTmp = 0;
         for (Object object : lstOrderMedia) {
             OrderMedia om = (OrderMedia) object;
-            amount += om.getPrice();
+            amountTmp += om.getPrice();
         }
-        return (int) (amount + (Configs.PERCENT_VAT/100)*amount);
+        this.setTotalAmount(amountTmp);
+
+        return (int) (totalAmount + (Configs.PERCENT_VAT/100)*totalAmount);
     }
 
     public static Order createOrder() {
