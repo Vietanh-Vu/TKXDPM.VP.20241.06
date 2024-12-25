@@ -1,13 +1,12 @@
 package isd.aims.main.entity.media;
 
 import isd.aims.main.entity.db.SQLiteConnection;
-import isd.aims.main.entity.db.dao.MediaDao;
+import isd.aims.main.entity.db.dao.Media.MediaDao;
+import isd.aims.main.entity.db.dao.Media.MediaMapDbToClass;
 import isd.aims.main.utils.Utils;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 

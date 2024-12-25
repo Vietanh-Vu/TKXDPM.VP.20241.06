@@ -1,11 +1,8 @@
 package isd.aims.main.entity.media;
 
-import isd.aims.main.entity.db.SQLiteConnection;
-import isd.aims.main.entity.db.dao.DVDDao;
+import isd.aims.main.entity.db.dao.DVD.DVDDao;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
