@@ -10,62 +10,86 @@ import java.util.List;
 public abstract class DAO<T> {
     protected Connection connection = SQLiteConnection.getConnection();
 
-//    protected PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
-//        PreparedStatement preparedStatement = connection.prepareStatement(query);
-//        for (int i = 0; i < params.length; i++) {
-//            preparedStatement.setObject(i + 1, params[i]);
-//        }
-//        return preparedStatement;
-//    }
+    public DAO() {
 
-    protected T findById(String query, MapDbToClass<T> map, Object... params) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet res = preparedStatement.executeQuery()) {
-                 return res.next() ? map.mapResult(res) : null;
+    }
+
+    /**
+     * Chuẩn bị một PreparedStatement với tham số động
+     *
+     * @param query  Câu lệnh SQL
+     * @param params Các tham số
+     * @return PreparedStatement đã được gán tham số
+     * @throws SQLException Lỗi nếu câu lệnh không hợp lệ
+     */
+    protected PreparedStatement prepareStatement(String query, Object... params) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        for (int i = 0; i < params.length; i++) {
+            preparedStatement.setObject(i + 1, params[i]);
+        }
+        return preparedStatement;
+    }
+
+    /**
+     * Lấy một đối tượng từ ResultSet
+     *
+     * @param query  Câu lệnh SQL
+     * @param mapper Bộ ánh xạ (RowMapper)
+     * @param params Các tham số
+     * @return Đối tượng được ánh xạ, hoặc null nếu không tìm thấy
+     * @throws SQLException Lỗi khi thực thi câu lệnh
+     */
+    protected T findOne(String query, MapDbToClass<T> mapper, Object... params) throws SQLException {
+        try (PreparedStatement preparedStatement = prepareStatement(query, params);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            return resultSet.next() ? mapper.mapRow(resultSet) : null;
         }
     }
-    protected List<T> findAll(String query, MapDbToClass<T> map) throws SQLException {
+
+    /**
+     * Lấy danh sách đối tượng từ ResultSet
+     *
+     * @param query  Câu lệnh SQL
+     * @param mapper Bộ ánh xạ (RowMapper)
+     * @param params Các tham số
+     * @return Danh sách các đối tượng được ánh xạ
+     * @throws SQLException Lỗi khi thực thi câu lệnh
+     */
+    protected List<T> findAll(String query, MapDbToClass<T> mapper, Object... params) throws SQLException {
         List<T> results = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = prepareStatement(query, params);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
-                results.add(map.mapResult(resultSet));
+                results.add(mapper.mapRow(resultSet));
             }
         }
         return results;
     }
 
     /**
-     * Lấy tất cả các đối tượng
-     * @return Danh sách các đối tượng T
+     * Thực hiện câu lệnh INSERT, UPDATE, DELETE
+     *
+     * @param query  Câu lệnh SQL
+     * @param params Các tham số
+     * @return Số hàng bị ảnh hưởng
+     * @throws SQLException Lỗi khi thực thi câu lệnh
+     */
+    protected int executeUpdate(String query, Object... params) throws SQLException {
+        try (PreparedStatement preparedStatement = prepareStatement(query, params)) {
+            return preparedStatement.executeUpdate();
+        }
+    }
+
+    /**
+     * Các phương thức trừu tượng cho các lớp con
      */
     public abstract List<T> getAll();
 
-    /**
-     * Lấy đối tượng theo ID
-     * @param id ID của đối tượng cần lấy
-     * @return Đối tượng T tìm được
-     */
     public abstract T getById(int id);
 
-    /**
-     * Thêm mới một đối tượng
-     * @param t Đối tượng cần thêm
-     * @return Đối tượng đã được thêm
-     */
     public abstract T add(T t);
 
-    /**
-     * Cập nhật một đối tượng
-     * @param t Đối tượng cần cập nhật
-     * @return true nếu cập nhật thành công, false nếu thất bại
-     */
     public abstract boolean update(T t);
 
-    /**
-     * Xóa một đối tượng theo ID
-     * @param id ID của đối tượng cần xóa
-     * @return true nếu xóa thành công, false nếu thất bại
-     */
     public abstract boolean delete(int id);
 }

@@ -1,11 +1,10 @@
 package isd.aims.main.entity.media;
 
-import isd.aims.main.entity.db.dao.Book.BookDao;
+import isd.aims.main.entity.db.dao.book.BookDAO;
 
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-
 public class Book extends Media {
 
     String author;
@@ -114,12 +113,12 @@ public class Book extends Media {
 
     @Override
     public Book getMediaById(int id) throws SQLException {
-        return new BookDao().getById(id);
+        return new BookDAO().getById(id);
     }
 
     @Override
     public List getAllMedia() {
-        return null;
+        return new BookDAO().getAll();
     }
 
 

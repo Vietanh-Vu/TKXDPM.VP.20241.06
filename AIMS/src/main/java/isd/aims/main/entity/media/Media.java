@@ -1,12 +1,13 @@
 package isd.aims.main.entity.media;
 
 import isd.aims.main.entity.db.SQLiteConnection;
-import isd.aims.main.entity.db.dao.Media.MediaDao;
-import isd.aims.main.entity.db.dao.Media.MediaMapDbToClass;
+import isd.aims.main.entity.db.dao.Media.MediaDAO;
 import isd.aims.main.utils.Utils;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -27,6 +28,8 @@ public class Media {
     protected int quantity;
     protected String type;
     protected String imageURL;
+    protected boolean isRush;
+    protected float weight;
 
     public Media() throws SQLException{
         stm = SQLiteConnection.getConnection().createStatement();
@@ -50,22 +53,13 @@ public class Media {
     }
 
     public Media getMediaById(int id) throws SQLException{
-        return new MediaDao().getById(id);
+        return new MediaDAO().getById(id);
     }
 
     public List getAllMedia() throws SQLException{
-        return new MediaDao().getAll();
+        return new MediaDAO().getAll();
     }
 
-//    public void updateMediaFieldById(String tbname, int id, String field, Object value) throws SQLException {
-//        Statement stm = SQLiteConnection.getConnection().createStatement();
-//        if (value instanceof String){
-//            value = "\"" + value + "\"";
-//        }
-//        stm.executeUpdate(" update " + tbname + " set" + " "
-//                          + field + "=" + value + " "
-//                          + "where id=" + id + ";");
-//    }
 
     // getter and setter 
     public int getId() {
@@ -95,6 +89,15 @@ public class Media {
         return this;
     }
 
+    public int getValue() {
+        return this.value;
+    }
+
+    public Media setValue(int value) {
+        this.value = value;
+        return this;
+    }
+
     public int getPrice() {
         return this.price;
     }
@@ -108,7 +111,7 @@ public class Media {
         return this.imageURL;
     }
 
-    public Media setMediaURL(String url){
+    public Media setImageURL(String url){
         this.imageURL = url;
         return this;
     }
@@ -124,6 +127,24 @@ public class Media {
 
     public Media setType(String type) {
         this.type = type;
+        return this;
+    }
+
+    public boolean isRush() {
+        return isRush;
+    }
+
+    public Media setIsRush(boolean isRush) {
+        this.isRush = isRush;
+        return this;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public Media setWeight(float weight) {
+        this.weight = weight;
         return this;
     }
 

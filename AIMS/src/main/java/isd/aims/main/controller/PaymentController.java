@@ -40,7 +40,7 @@ public class PaymentController extends BaseController implements TransactionResu
 		if (transactionResult != null && transactionResult.isSuccess()) {
 			try {
 				transactionResult.save(1); // Lưu giao dịch vào cơ sở dữ liệu nếu thành công
-				emptyCart(); // Làm trống giỏ hàng
+//				emptyCart(); // Làm trống giỏ hàng
 				System.out.println("Lưu thành công");
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -50,7 +50,7 @@ public class PaymentController extends BaseController implements TransactionResu
 		}
 	}
 
-	public void emptyCart(){
-        Cart.getCart().emptyCart();
-    }
+//	public void emptyCart(){
+//        Cart.getCart().emptyCart();
+//    }
 }

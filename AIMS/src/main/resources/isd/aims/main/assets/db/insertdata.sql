@@ -1,75 +1,40 @@
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (38, 'book', 'story', 32, 12, 'book2', 29, 'images/book/book2.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (39, 'book', 'adventure', 21, 2, 'book9', 20, 'images/book/book9.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (40, 'book', 'adventure', 73, 11, 'book10', 69, 'images/book/book10.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (41, 'book', 'story', 66, 2, 'book6', 62, 'images/book/book6.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (42, 'cd', 'pop', 24, 6, 'cd7', 20, 'images/cd/cd7.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (43, 'book', 'story', 50, 7, 'book12', 44, 'images/book/book12.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (44, 'book', 'story', 57, 10, 'book4', 53, 'images/book/book4.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (45, 'cd', 'pop', 66, 8, 'cd3', 60, 'images/cd/cd3.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (46, 'book', 'bussiness', 79, 17, 'book1', 72, 'images/book/book1.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (47, 'dvd', 'cartoon', 82, 1, 'dvd12', 78, 'images/dvd/dvd12.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (48, 'book', 'science', 25, 10, 'book3', 22, 'images/book/book3.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (49, 'dvd', 'science fiction', 75, 3, 'dvd10', 74, 'images/dvd/dvd10.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (50, 'book', 'bussiness', 26, 4, 'book11', 19, 'images/book/book11.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (51, 'dvd', 'action', 61, 18, 'dvd11', 52, 'images/dvd/dvd11.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (52, 'cd', 'rock', 40, 4, 'cd4', 35, 'images/cd/cd4.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (53, 'dvd', 'action', 70, 16, 'dvd9', 60, 'images/dvd/dvd9.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (54, 'dvd', 'romance', 47, 19, 'dvd2', 39, 'images/dvd/dvd2.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (55, 'cd', 'pop', 74, 6, 'cd2', 71, 'images/cd/cd2.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (56, 'cd', 'rock', 70, 20, 'cd1', 60, 'images/cd/cd1.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (57, 'book', 'adventure', 38, 2, 'book8', 36, 'images/book/book8.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (58, 'dvd', 'cartoon', 55, 13, 'dvd3', 51, 'images/dvd/dvd3.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (59, 'dvd', 'action', 28, 1, 'dvd6', 26, 'images/dvd/dvd6.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (60, 'dvd', 'romance', 38, 17, 'dvd4', 33, 'images/dvd/dvd4.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (61, 'cd', 'pop', 42, 15, 'cd12', 38, 'images/cd/cd12.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (62, 'book', 'bussiness', 34, 15, 'book5', 29, 'images/book/book5.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (63, 'cd', 'ballad', 99, 4, 'cd5', 92, 'images/cd/cd5.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (64, 'cd', 'pop', 38, 10, 'cd8', 32, 'images/cd/cd8.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (65, 'cd', 'classic', 37, 10, 'cd6', 31, 'images/cd/cd6.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (66, 'book', 'bussiness', 93, 15, 'book7', 88, 'images/book/book7.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (67, 'cd', 'classic', 25, 5, 'cd9', 23, 'images/cd/cd9.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (68, 'dvd', 'romance', 71, 4, 'dvd5', 64, 'images/dvd/dvd5.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (69, 'cd', 'pop', 97, 17, 'cd10', 89, 'images/cd/cd10.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (70, 'dvd', 'romance', 47, 19, 'dvd8', 37, 'images/dvd/dvd8.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (71, 'dvd', 'science fiction', 95, 11, 'dvd1', 92, 'images/dvd/dvd1.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (72, 'dvd', 'action', 23, 9, 'dvd7', 16, 'images/dvd/dvd7.jpg');
-INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl)
-VALUES (73, 'cd', 'classic', 28, 3, 'cd11', 20, 'images/cd/cd11.jpg');
+INSERT INTO Media (id, type, category, price, quantity, title, value, imageUrl, is_rush, weight)
+VALUES (38, 'book', 'story', 32, 12, 'book2', 29, 'images/book/book2.jpg', FALSE, 0.5),
+       (39, 'book', 'adventure', 21, 2, 'book9', 20, 'images/book/book9.jpg', TRUE, 0.4),
+       (40, 'book', 'adventure', 73, 11, 'book10', 69, 'images/book/book10.jpg', FALSE, 0.6),
+       (41, 'book', 'story', 66, 2, 'book6', 62, 'images/book/book6.jpg', TRUE, 0.3),
+       (42, 'cd', 'pop', 24, 6, 'cd7', 20, 'images/cd/cd7.jpg', FALSE, 0.2),
+       (43, 'book', 'story', 50, 7, 'book12', 44, 'images/book/book12.jpg', FALSE, 0.5),
+       (44, 'book', 'story', 57, 10, 'book4', 53, 'images/book/book4.jpg', TRUE, 0.4),
+       (45, 'cd', 'pop', 66, 8, 'cd3', 60, 'images/cd/cd3.jpg', FALSE, 0.2),
+       (46, 'book', 'bussiness', 79, 17, 'book1', 72, 'images/book/book1.jpg', TRUE, 0.7),
+       (47, 'dvd', 'cartoon', 82, 1, 'dvd12', 78, 'images/dvd/dvd12.jpg', FALSE, 0.1),
+       (48, 'book', 'science', 25, 10, 'book3', 22, 'images/book/book3.jpg', FALSE, 0.5),
+       (49, 'dvd', 'science fiction', 75, 3, 'dvd10', 74, 'images/dvd/dvd10.jpg', TRUE, 0.1),
+       (50, 'book', 'bussiness', 26, 4, 'book11', 19, 'images/book/book11.jpg', FALSE, 0.4),
+       (51, 'dvd', 'action', 61, 18, 'dvd11', 52, 'images/dvd/dvd11.jpg', FALSE, 0.1),
+       (52, 'cd', 'rock', 40, 4, 'cd4', 35, 'images/cd/cd4.jpg', TRUE, 0.2),
+       (53, 'dvd', 'action', 70, 16, 'dvd9', 60, 'images/dvd/dvd9.jpg', FALSE, 0.1),
+       (54, 'dvd', 'romance', 47, 19, 'dvd2', 39, 'images/dvd/dvd2.jpg', FALSE, 0.1),
+       (55, 'cd', 'pop', 74, 6, 'cd2', 71, 'images/cd/cd2.jpg', TRUE, 0.2),
+       (56, 'cd', 'rock', 70, 20, 'cd1', 60, 'images/cd/cd1.jpg', FALSE, 0.2),
+       (57, 'book', 'adventure', 38, 2, 'book8', 36, 'images/book/book8.jpg', FALSE, 0.5),
+       (58, 'dvd', 'cartoon', 55, 13, 'dvd3', 51, 'images/dvd/dvd3.jpg', TRUE, 0.1),
+       (59, 'dvd', 'action', 28, 1, 'dvd6', 26, 'images/dvd/dvd6.jpg', FALSE, 0.1),
+       (60, 'dvd', 'romance', 38, 17, 'dvd4', 33, 'images/dvd/dvd4.jpg', FALSE, 0.1),
+       (61, 'cd', 'pop', 42, 15, 'cd12', 38, 'images/cd/cd12.jpg', TRUE, 0.2),
+       (62, 'book', 'bussiness', 34, 15, 'book5', 29, 'images/book/book5.jpg', FALSE, 0.5),
+       (63, 'cd', 'ballad', 99, 4, 'cd5', 92, 'images/cd/cd5.jpg', FALSE, 0.2),
+       (64, 'cd', 'pop', 38, 10, 'cd8', 32, 'images/cd/cd8.jpg', TRUE, 0.2),
+       (65, 'cd', 'classic', 37, 10, 'cd6', 31, 'images/cd/cd6.jpg', FALSE, 0.2),
+       (66, 'book', 'bussiness', 93, 15, 'book7', 88, 'images/book/book7.jpg', TRUE, 0.6),
+       (67, 'cd', 'classic', 25, 5, 'cd9', 23, 'images/cd/cd9.jpg', FALSE, 0.2),
+       (68, 'dvd', 'romance', 71, 4, 'dvd5', 64, 'images/dvd/dvd5.jpg', TRUE, 0.1),
+       (69, 'cd', 'pop', 97, 17, 'cd10', 89, 'images/cd/cd10.jpg', FALSE, 0.2),
+       (70, 'dvd', 'romance', 47, 19, 'dvd8', 37, 'images/dvd/dvd8.jpg', FALSE, 0.1),
+       (71, 'dvd', 'science fiction', 95, 11, 'dvd1', 92, 'images/dvd/dvd1.jpg', TRUE, 0.1),
+       (72, 'dvd', 'action', 23, 9, 'dvd7', 16, 'images/dvd/dvd7.jpg', FALSE, 0.1),
+       (73, 'cd', 'classic', 28, 3, 'cd11', 20, 'images/cd/cd11.jpg', FALSE, 0.2);
 
 
 -- CD Inserts

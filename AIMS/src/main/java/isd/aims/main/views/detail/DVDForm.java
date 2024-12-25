@@ -119,7 +119,7 @@ public class DVDForm extends FXMLForm {
         mediaDirector.setText(dvd.getDirector());
         mediaRuntime.setText(Integer.toString(dvd.getRuntime()));
         mediaStudio.setText(dvd.getStudio());
-        mediaSubtitles.setText(dvd.getSubtitles());
+        mediaSubtitles.setText(dvd.getSubtitle());
         mediaFilmType.setText(dvd.getFilmType());
 
         mediaTitle.setText(media.getTitle());

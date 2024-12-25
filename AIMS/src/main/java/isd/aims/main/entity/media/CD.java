@@ -1,6 +1,6 @@
 package isd.aims.main.entity.media;
 
-import isd.aims.main.entity.db.dao.CD.CDDao;
+import isd.aims.main.entity.db.dao.cd.CdDAO;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -78,12 +78,12 @@ public class CD extends Media {
 
     @Override
     public CD getMediaById(int id) throws SQLException {
-        return new CDDao().getById(id);
+        return new CdDAO().getById(id);
     }
 
     @Override
     public List getAllMedia() {
-        return null;
+        return new CdDAO().getAll();
     }
 
 }

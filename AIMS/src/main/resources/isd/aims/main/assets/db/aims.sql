@@ -15,6 +15,8 @@ CREATE TABLE Media
     title    VARCHAR(45) NOT NULL,
     value    INT         NOT NULL,
     imageUrl VARCHAR(45) NOT NULL
+    is_rush  BOOLEAN        DEFAULT FALSE,
+    weight   DECIMAL(10, 2) DEFAULT 0.00
 );
 
 -- CD table - Inherits from Media

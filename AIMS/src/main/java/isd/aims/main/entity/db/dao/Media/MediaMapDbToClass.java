@@ -9,17 +9,16 @@ import java.sql.SQLException;
 public class MediaMapDbToClass implements MapDbToClass<Media> {
 
     @Override
-    public Media mapResult(ResultSet res) throws SQLException {
+    public Media mapRow(ResultSet resultSet) throws SQLException {
         Media media = new Media();
-        media.setId(res.getInt("id"));
-        media.setId(res.getInt("id"));
-        media.setTitle(res.getString("title"));
-        media.setQuantity(res.getInt("quantity"));
-        media.setCategory(res.getString("category"));
-        media.setMediaURL(res.getString("imageUrl"));
-        media.setPrice(res.getInt("price"));
-        media.setType(res.getString("type"));
-
+        media.setId(resultSet.getInt("id"));
+        media.setTitle(resultSet.getString("title"));
+        media.setCategory(resultSet.getString("category"));
+        media.setValue(resultSet.getInt("value"));
+        media.setPrice(resultSet.getInt("price"));
+        media.setQuantity(resultSet.getInt("quantity"));
+        media.setType(resultSet.getString("type"));
+        media.setImageURL(resultSet.getString("imageURL"));
         return media;
     }
 }
