@@ -49,7 +49,7 @@ public class OrderDAO extends DAO<Order> {
         try {
             executeUpdate(query, order.getDeliveryInfo().getName(), order.getDeliveryInfo().getEmail(), order.getDeliveryInfo().getAddress(),
                     order.getDeliveryInfo().getPhoneNumber(), order.getDeliveryInfo().getProvince(), order.getShippingFees(),
-                    order.getAmount(), order.getOrderStatus(), order.getPaymentType());
+                    order.getAmount(), order.getOrderStatus(), order.getPaymentType(), order.isRush());
             return order;
         } catch (SQLException e) {
             e.printStackTrace();

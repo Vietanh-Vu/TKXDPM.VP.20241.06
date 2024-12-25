@@ -1,7 +1,6 @@
 package isd.aims.main.InterbankSubsystem.vn_pay;
 
 import isd.aims.main.controller.mail.EmailController;
-import isd.aims.main.controller.mail.OrderTest;
 import isd.aims.main.controller.mail.VNPayInfo;
 import isd.aims.main.controller.payment.IPaymentMethod;
 import isd.aims.main.entity.db.dao.order.OrderDAO;
