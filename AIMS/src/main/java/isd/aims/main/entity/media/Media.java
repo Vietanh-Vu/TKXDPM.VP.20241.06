@@ -3,8 +3,6 @@ package isd.aims.main.entity.media;
 import isd.aims.main.entity.db.SQLiteConnection;
 import isd.aims.main.entity.db.dao.Media.MediaDAO;
 import isd.aims.main.utils.Utils;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,11 +23,8 @@ public class Media {
     protected int id;
     protected String title;
     protected String category;
+    protected int value; // the real price of product (eg: 450)
     protected int price; // the price which will be displayed on browser (eg: 500)
-    @Getter
-    protected double weight = 1.0;
-    @Getter
-    protected boolean rush = false;
     protected int quantity;
     protected String type;
     protected String imageURL;
@@ -49,14 +44,6 @@ public class Media {
         this.type = type;
 
         //stm = DBConnection.getConnection().createStatement();
-    }
-
-    public boolean isRush() {
-        return rush;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
     }
 
     public int getQuantity() throws SQLException{
@@ -164,14 +151,14 @@ public class Media {
     @Override
     public String toString() {
         return "{" +
-            " id='" + id + "'" +
-            ", title='" + title + "'" +
-            ", category='" + category + "'" +
-            ", price='" + price + "'" +
-            ", quantity='" + quantity + "'" +
-            ", type='" + type + "'" +
-            ", imageURL='" + imageURL + "'" +
-            "}";
-    }    
+                " id='" + id + "'" +
+                ", title='" + title + "'" +
+                ", category='" + category + "'" +
+                ", price='" + price + "'" +
+                ", quantity='" + quantity + "'" +
+                ", type='" + type + "'" +
+                ", imageURL='" + imageURL + "'" +
+                "}";
+    }
 
 }

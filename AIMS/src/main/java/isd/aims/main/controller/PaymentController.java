@@ -40,20 +40,20 @@ public class PaymentController extends BaseController {
 //		new VnPaySubsystemController(this).payOrder(amount, orderInfo);
 	}
 
-	@Override
-	public void onTransactionCompleted(PaymentTransaction transactionResult) {
-		if (transactionResult != null && transactionResult.isSuccess()) {
-			try {
-				transactionResult.save(1); // Lưu giao dịch vào cơ sở dữ liệu nếu thành công
-				emptyCart(); // Làm trống giỏ hàng
-				System.out.println("Lưu thành công");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} else {
-			System.out.println("Giao dịch thất bại: " + (transactionResult != null ? transactionResult.getMessage() : "Lỗi không xác định"));
-		}
-	}
+//	@Override
+//	public void onTransactionCompleted(PaymentTransaction transactionResult) {
+//		if (transactionResult != null && transactionResult.isSuccess()) {
+//			try {
+//				transactionResult.save(1); // Lưu giao dịch vào cơ sở dữ liệu nếu thành công
+//				emptyCart(); // Làm trống giỏ hàng
+//				System.out.println("Lưu thành công");
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		} else {
+//			System.out.println("Giao dịch thất bại: " + (transactionResult != null ? transactionResult.getMessage() : "Lỗi không xác định"));
+//		}
+//	}
 
 //	public void emptyCart(){
 //        Cart.getCart().emptyCart();

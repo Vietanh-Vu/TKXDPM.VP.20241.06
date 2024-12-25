@@ -7,7 +7,7 @@ aims;
 -- Media table - Base table for all media types
 CREATE TABLE Media
 (
-    id       INT AUTO_INCREMENT PRIMARY KEY,
+    id       INTEGER PRIMARY KEY,
     type     VARCHAR(45) NOT NULL,
     category VARCHAR(45) NOT NULL,
     price    INT         NOT NULL,
@@ -61,19 +61,19 @@ CREATE TABLE DVD
 -- Order table - Contains delivery info and order details
 CREATE TABLE `Order`
 (
-    id            INT AUTO_INCREMENT PRIMARY KEY,
+    id           INTEGER PRIMARY KEY,
     -- DeliveryInfo fields
-    name          VARCHAR(45) NOT NULL,
-    email         VARCHAR(45) NOT NULL,
-    address       VARCHAR(45) NOT NULL,
-    phone         VARCHAR(45) NOT NULL,
-    province      VARCHAR(45) NOT NULL,
+    name         VARCHAR(45) NOT NULL,
+    email        VARCHAR(45) NOT NULL,
+    address      VARCHAR(45) NOT NULL,
+    phone        VARCHAR(45) NOT NULL,
+    province     VARCHAR(45) NOT NULL,
     -- Order specific fields
-    shipping_fee  INT         NOT NULL,
+    shipping_fee INT         NOT NULL,
     totalAmount DOUBLE NOT NULL,
-    orderStatus VARCHAR(45) DEFAULT 'PENDING',
-    paymentType   VARCHAR(45) NOT NULL,
-    is_rush       BOOLEAN DEFAULT FALSE
+    orderStatus  VARCHAR(45) DEFAULT 'PENDING',
+    paymentType  VARCHAR(45) NOT NULL,
+    is_rush      BOOLEAN     DEFAULT FALSE
 );
 
 -- OrderMedia table - Junction table for Order and Media
@@ -90,7 +90,7 @@ CREATE TABLE OrderMedia
 -- Transaction table - Records order transactions
 CREATE TABLE PaymentTransaction
 (
-    id             INT AUTO_INCREMENT PRIMARY KEY,
+    id             INTEGER PRIMARY KEY,
     orderID        VARCHAR(255) NOT NULL,
     content        VARCHAR(255) NOT NULL,
     createAt       DATETIME     NOT NULL,
