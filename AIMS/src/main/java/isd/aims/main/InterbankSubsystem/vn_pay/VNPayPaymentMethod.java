@@ -3,6 +3,7 @@ package isd.aims.main.InterbankSubsystem.vn_pay;
 import isd.aims.main.controller.mail.EmailController;
 import isd.aims.main.controller.mail.VNPayInfo;
 import isd.aims.main.controller.payment.IPaymentMethod;
+import isd.aims.main.entity.cart.Cart;
 import isd.aims.main.entity.db.dao.order.OrderDAO;
 import isd.aims.main.entity.db.dao.paymentTransaction.PaymentTransactionDAO;
 import isd.aims.main.entity.invoice.Invoice;
@@ -88,6 +89,7 @@ public class VNPayPaymentMethod implements IPaymentMethod {
             EmailController emailController = new EmailController();
             emailController.sendOrderConfirmationEmail(order, vnPayInfo);
             // clear cart
+            Cart.getCart().emptyCart();
         }
     }
 }
