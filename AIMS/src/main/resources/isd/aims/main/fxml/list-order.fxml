@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="788.0" prefWidth="1326.0"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <HBox prefHeight="104.0" prefWidth="1326.0"
+              style="-fx-background-color: #ccebff; -fx-border-color: #33adff;">
+            <children>
+                <VBox prefHeight="102.0" prefWidth="231.0">
+                    <children>
+                        <Pane prefHeight="102.0" prefWidth="237.0">
+                            <children>
+                                <ImageView fx:id="aimsImage" fitHeight="94.0" fitWidth="115.0" layoutY="1.0"
+                                           pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                                    <image>
+                                        <Image url="@../fxml/images/Logo.png" />
+                                    </image>
+                                </ImageView>
+                                <Label layoutX="6.0" layoutY="68.0" prefHeight="41.0" prefWidth="100.0"
+                                       text="    AIMS" textAlignment="CENTER" textFill="#5091e6">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </Pane>
+                    </children>
+                </VBox>
+                <HBox prefHeight="102.0" prefWidth="882.0">
+                    <children>
+                        <Pane prefHeight="102.0" prefWidth="562.0">
+                            <children>
+                                <Label text="Nhập địa chỉ email" layoutX="17.0" layoutY="5.0">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="emailField" layoutX="17.0" layoutY="27.0" prefHeight="48.0" prefWidth="528.0">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </TextField>
+                            </children>
+                        </Pane>
+                        <Pane prefHeight="102.0" prefWidth="158.0">
+                            <children>
+                                <Button fx:id="btnSearch" layoutY="27.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="124.0" text="Search" onAction="#handleSearchClick">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                        </Pane>
+                    </children>
+                </HBox>
+            </children>
+        </HBox>
+
+        <VBox fx:id="ordersBox" layoutX="17.0" layoutY="150.0" prefHeight="400.0" prefWidth="1300.0" spacing="5" style="-fx-padding: 5; -fx-background-color: #f9f9f9;">
+            <!-- Nội dung của các đơn hàng sẽ được thêm động vào đây -->
+
+        </VBox>
+
+
+    </children>
+</AnchorPane>
+
