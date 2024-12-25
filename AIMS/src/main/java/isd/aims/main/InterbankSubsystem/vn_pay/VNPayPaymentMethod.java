@@ -10,7 +10,6 @@ import isd.aims.main.entity.invoice.Invoice;
 import isd.aims.main.entity.order.Order;
 import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.entity.payment.RefundTransaction;
-import isd.aims.main.listener.TransactionResultListener;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.payment.VNPayScreen;
 import jakarta.mail.MessagingException;

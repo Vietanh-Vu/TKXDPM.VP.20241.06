@@ -5,11 +5,11 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Objects;
 
+import isd.aims.main.InterbankSubsystem.vn_pay.VNPayConfig;
 import isd.aims.main.controller.payment.IPaymentMethod;
 import isd.aims.main.listener.TransactionResultListener;
 import isd.aims.main.entity.invoice.Invoice;
 import isd.aims.main.entity.payment.PaymentTransaction;
-import isd.aims.main.InterbankSubsystem.vnPay.VnPayConfig;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.home.HomeForm;
@@ -36,7 +36,6 @@ public class VNPayScreen extends BaseForm {
     @FXML
     private VBox vBox;
     private PaymentTransaction transactionResult;
-    private TransactionResultListener listener;
     private IPaymentMethod paymentMethod;
 
     public VNPayScreen(Stage stage, String screenPath, String paymentURL, IPaymentMethod paymentMethod, Invoice invoice) throws IOException {
@@ -55,7 +54,7 @@ public class VNPayScreen extends BaseForm {
 
         webEngine.locationProperty().addListener((observable, oldValue, newValue) -> {
             // Xử lý khi URL thay đổi
-            if (newValue.contains(VnPayConfig.vnp_ReturnUrl)) {
+            if (newValue.contains(VNPayConfig.vnp_ReturnUrl)) {
                 handleUrlChanged(newValue);
             }
         });
@@ -64,7 +63,7 @@ public class VNPayScreen extends BaseForm {
     }
 
     private void handleUrlChanged(String newValue) {
-        if (newValue.contains(VnPayConfig.vnp_ReturnUrl)) {
+        if (newValue.contains(VNPayConfig.vnp_ReturnUrl)) {
             try {
                 // Xử lý giao dịch và lưu kết quả
                 transactionResult = paymentMethod.handlePaymentResponse(newValue);

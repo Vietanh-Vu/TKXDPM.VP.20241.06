@@ -1,6 +1,5 @@
 package isd.aims.main.InterbankSubsystem.vn_pay;
 
-import isd.aims.main.entity.request.Request;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +13,7 @@ import java.util.*;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PayRequestVnPay extends Request {
+public class PayRequestVnPay{
     private int amount;
     private String content;
 

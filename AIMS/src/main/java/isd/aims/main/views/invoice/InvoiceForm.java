@@ -1,7 +1,5 @@
 package isd.aims.main.views.invoice;
 
-import isd.aims.main.InterbankSubsystem.IPayment;
-import isd.aims.main.InterbankSubsystem.VnPaySubsystem;
 import isd.aims.main.controller.payment.PaymentController;
 import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
 import isd.aims.main.entity.invoice.Invoice;

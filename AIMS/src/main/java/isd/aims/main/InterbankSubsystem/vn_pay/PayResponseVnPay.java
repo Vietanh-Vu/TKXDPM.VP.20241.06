@@ -3,7 +3,6 @@ package isd.aims.main.InterbankSubsystem.vn_pay;
 import isd.aims.main.controller.mail.VNPayInfo;
 import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.entity.payment.PaymentType;
-import isd.aims.main.entity.response.Response;
 import isd.aims.main.exception.*;
 import isd.aims.main.utils.Utils;
 import lombok.Getter;
@@ -21,7 +20,7 @@ import java.util.Objects;
 import static isd.aims.main.utils.Utils.parseQueryString;
 
 @Getter
-public class PayResponseVnPay extends Response {
+public class PayResponseVnPay {
     private String vnp_BankCode;
     private String vnp_PayDate;
     private String vnp_TransactionNo;
