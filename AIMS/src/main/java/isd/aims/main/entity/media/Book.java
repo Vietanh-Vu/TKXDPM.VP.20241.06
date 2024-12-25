@@ -1,6 +1,7 @@
 package isd.aims.main.entity.media;
 
 import isd.aims.main.entity.db.SQLiteConnection;
+import isd.aims.main.entity.db.dao.BookDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -116,36 +117,7 @@ public class Book extends Media {
 
     @Override
     public Book getMediaById(int id) throws SQLException {
-        String sql = "SELECT * FROM "+
-                     "Book " +
-                     "INNER JOIN Media " +
-                     "ON Media.id = Book.id " +
-                     "where Media.id = " + id + ";";
-        Statement stm = SQLiteConnection.getConnection().createStatement();
-        ResultSet res = stm.executeQuery(sql);
-		if(res.next()) {
-
-            // from Media table
-            String title = "";
-            String type = res.getString("type");
-            int price = res.getInt("price");
-            String category = res.getString("category");
-            int quantity = res.getInt("quantity");
-
-            // from Book table
-            String author = res.getString("author");
-            String coverType = res.getString("coverType");
-            String publisher = res.getString("publisher");
-            int numOfPages = res.getInt("numOfPages");
-            String language = res.getString("language");
-            String bookCategory = res.getString("bookCategory");
-
-            return new Book(id, title, category, price, quantity, type,
-                            author, coverType, publisher, numOfPages, language, bookCategory);
-
-		} else {
-			throw new SQLException();
-		}
+        return new BookDao().getById(id);
     }
 
     @Override

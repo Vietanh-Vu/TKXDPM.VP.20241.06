@@ -62,7 +62,6 @@ public class MediaDetailForm extends BaseForm {
     public MediaDetailForm(Stage stage, String screenPath, HomeForm homeForm, Media media) throws IOException, SQLException {
         super(stage, screenPath);
         this.media = media;
-        System.out.println(media.getId());
 
         if(media.getTitle().toLowerCase().contains("book")) {
             //View detail books

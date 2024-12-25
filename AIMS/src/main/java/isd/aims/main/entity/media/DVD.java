@@ -1,6 +1,7 @@
 package isd.aims.main.entity.media;
 
 import isd.aims.main.entity.db.SQLiteConnection;
+import isd.aims.main.entity.db.dao.DVDDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -116,35 +117,7 @@ public class DVD extends Media {
 
     @Override
     public DVD getMediaById(int id) throws SQLException {
-        String sql = "SELECT * FROM "+
-                     "DVD " +
-                     "INNER JOIN Media " +
-                     "ON Media.id = DVD.id " +
-                     "where Media.id = " + id + ";";
-        Statement stm = SQLiteConnection.getConnection().createStatement();
-        ResultSet res = stm.executeQuery(sql);
-        if(res.next()) {
-            
-        // from media table
-        String title = "";
-        String type = res.getString("type");
-        int price = res.getInt("price");
-        String category = res.getString("category");
-        int quantity = res.getInt("quantity");
-
-        // from DVD table
-        String discType = res.getString("discType");
-        String director = res.getString("director");
-        int runtime = res.getInt("runtime");
-        String studio = res.getString("studio");
-        String subtitles = res.getString("subtitle");
-        String filmType = res.getString("filmType");
-
-        return new DVD(id, title, category, price, quantity, type, discType, director, runtime, studio, subtitles, filmType);
-
-        } else {
-            throw new SQLException();
-        }
+        return new DVDDao().getById(id);
     }
 
     @Override

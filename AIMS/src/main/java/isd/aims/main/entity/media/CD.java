@@ -1,6 +1,7 @@
 package isd.aims.main.entity.media;
 
 import isd.aims.main.entity.db.SQLiteConnection;
+import isd.aims.main.entity.db.dao.CDDao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,33 +81,7 @@ public class CD extends Media {
 
     @Override
     public CD getMediaById(int id) throws SQLException {
-        String sql = "SELECT * FROM "+
-                     "CD " +
-                     "INNER JOIN Media " +
-                     "ON Media.id = CD.id " +
-                     "where Media.id = " + id + ";";
-        Statement stm = SQLiteConnection.getConnection().createStatement();
-        ResultSet res = stm.executeQuery(sql);
-		if(res.next()) {
-            
-            // from media table
-            String title = "";
-            String type = res.getString("type");
-            int price = res.getInt("price");
-            String category = res.getString("category");
-            int quantity = res.getInt("quantity");
-
-            // from CD table
-            String artist = res.getString("artist");
-            String recordLabel = res.getString("recordLabel");
-            String musicType = res.getString("musicType");
-
-            return new CD(id, title, category, price, quantity, type, 
-                          artist, recordLabel, musicType);
-            
-		} else {
-			throw new SQLException();
-		}
+        return new CDDao().getById(id);
     }
 
     @Override

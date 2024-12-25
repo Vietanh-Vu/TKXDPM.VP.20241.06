@@ -1,6 +1,7 @@
 package isd.aims.main.entity.media;
 
 import isd.aims.main.entity.db.SQLiteConnection;
+import isd.aims.main.entity.db.dao.MediaDao;
 import isd.aims.main.utils.Utils;
 
 import java.sql.ResultSet;
@@ -50,57 +51,29 @@ public class Media {
     }
 
     public Media getMediaById(int id) throws SQLException{
-        String sql = "SELECT * FROM Media ;";
-        Statement stm = SQLiteConnection.getConnection().createStatement();
-        ResultSet res = stm.executeQuery(sql);
-		if(res.next()) {
-
-            return new Media()
-                .setId(res.getInt("id"))
-                .setTitle(res.getString("title"))
-                .setQuantity(res.getInt("quantity"))
-                .setCategory(res.getString("category"))
-                .setMediaURL(res.getString("imageUrl"))
-                .setPrice(res.getInt("price"))
-                .setType(res.getString("type"));
-        }
-        return null;
+        return new MediaDao().getById(id);
     }
 
     public List getAllMedia() throws SQLException{
-        Statement stm = SQLiteConnection.getConnection().createStatement();
-        ResultSet res = stm.executeQuery("select * from Media");
-        ArrayList medium = new ArrayList<>();
-        while (res.next()) {
-            Media media = new Media()
-                .setId(res.getInt("id"))
-                .setTitle(res.getString("title"))
-                .setQuantity(res.getInt("quantity"))
-                .setCategory(res.getString("category"))
-                .setMediaURL(res.getString("imageUrl"))
-                .setPrice(res.getInt("price"))
-                .setType(res.getString("type"));
-            medium.add(media);
-        }
-        return medium;
+        return new MediaDao().getAll();
     }
 
-    public void updateMediaFieldById(String tbname, int id, String field, Object value) throws SQLException {
-        Statement stm = SQLiteConnection.getConnection().createStatement();
-        if (value instanceof String){
-            value = "\"" + value + "\"";
-        }
-        stm.executeUpdate(" update " + tbname + " set" + " " 
-                          + field + "=" + value + " " 
-                          + "where id=" + id + ";");
-    }
+//    public void updateMediaFieldById(String tbname, int id, String field, Object value) throws SQLException {
+//        Statement stm = SQLiteConnection.getConnection().createStatement();
+//        if (value instanceof String){
+//            value = "\"" + value + "\"";
+//        }
+//        stm.executeUpdate(" update " + tbname + " set" + " "
+//                          + field + "=" + value + " "
+//                          + "where id=" + id + ";");
+//    }
 
     // getter and setter 
     public int getId() {
         return this.id;
     }
 
-    private Media setId(int id){
+    public Media setId(int id){
         this.id = id;
         return this;
     }
