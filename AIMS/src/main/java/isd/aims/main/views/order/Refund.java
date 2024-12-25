@@ -38,7 +38,7 @@ public class Refund extends BaseForm {
     @FXML
     private Button confirmButton; // Nút xác nhận
 
-    public Refund(Stage stage, String screenPath, int orderId) throws IOException {
+    public Refund(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
         // Fix relative image path caused by fxml
         File file = new File("isd/aims/main/fxml/images/Logo.png");

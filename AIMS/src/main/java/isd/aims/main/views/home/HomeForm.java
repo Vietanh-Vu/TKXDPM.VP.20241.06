@@ -9,6 +9,7 @@ import isd.aims.main.utils.Configs;
 import isd.aims.main.utils.Utils;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.cart.CartForm;
+import isd.aims.main.views.order.ListOrderForm;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -59,6 +60,9 @@ public class HomeForm extends BaseForm implements Initializable {
 
     @FXML
     private SplitMenuButton splitMenuBtnSearch;
+
+    @FXML
+    private ImageView orderImage;
 
     @SuppressWarnings("rawtypes")
     private List homeItems;
@@ -112,6 +116,18 @@ public class HomeForm extends BaseForm implements Initializable {
                 cartScreen.requestToViewCart(this);
             } catch (IOException | SQLException e1) {
                 throw new ViewCartException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
+            }
+        });
+
+        orderImage.setOnMouseClicked(e -> {
+            try {
+                LOGGER.info("User clicked to view orders");
+                ListOrderForm listOrderForm = new ListOrderForm(this.stage, Configs.LIST_ORDER_PATH);
+                listOrderForm.setHomeScreenHandler(this);
+                listOrderForm.show();
+
+            } catch (IOException e1) {
+//                throw new ViewOrderException(Arrays.toString(e1.getStackTrace()).replaceAll(", ", "\n"));
             }
         });
 

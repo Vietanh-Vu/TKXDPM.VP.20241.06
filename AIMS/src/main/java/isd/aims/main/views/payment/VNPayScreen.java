@@ -5,14 +5,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Objects;
 
-<<<<<<<< HEAD:AIMS/src/main/java/isd/aims/main/views/payment/VNPayScreen.java
-import isd.aims.main.InterbankSubsystem.vn_pay.PayRequestVnPay;
-import isd.aims.main.InterbankSubsystem.vn_pay.PayResponseVnPay;
 import isd.aims.main.controller.payment.IPaymentMethod;
-========
-
-import isd.aims.main.InterbankSubsystem.vnPay.VnPaySubsystemController;
->>>>>>>> origin/nhatminh/refund:AIMS/src/main/java/isd/aims/main/views/payment/VNPay.java
 import isd.aims.main.listener.TransactionResultListener;
 import isd.aims.main.entity.invoice.Invoice;
 import isd.aims.main.entity.payment.PaymentTransaction;

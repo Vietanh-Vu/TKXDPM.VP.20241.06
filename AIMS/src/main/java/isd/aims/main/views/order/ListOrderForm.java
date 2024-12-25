@@ -1,5 +1,6 @@
 package isd.aims.main.views.order;
 
+import isd.aims.main.controller.mail.OrderTest;
 import isd.aims.main.entity.order.Order;
 
 import isd.aims.main.utils.Configs;
@@ -57,6 +58,8 @@ public class ListOrderForm extends BaseForm {
     private void handleSearchClick() {
         String email = emailField.getText();
 
+        displayOrders(List.of(new Order()));
+
 //        if (email != null && !email.isEmpty()) {
 //            OrderDAO orderDao = new OrderDAO();
 //            List<Order> orders = orderDao.getAllByEmail(email);
@@ -101,15 +104,29 @@ public class ListOrderForm extends BaseForm {
             orderRow.setAlignment(Pos.CENTER_LEFT); // Căn trái
             orderRow.setStyle("-fx-padding: 5; -fx-border-color: #ddd; -fx-border-width: 0 0 1 0;"); // Thêm viền dưới
 
+            OrderTest orderTest = new OrderTest(
+                    1,                             // id
+                    "John Doe",                    // name
+                    "anh.vv993@gmail.com",         // email
+                    "123 Main Street",             // address
+                    "1234567890",                  // phone
+                    "Hanoi",                       // province
+                    50000,                         // shippingFee
+                    1000000.0,                     // totalAmount
+                    "Paid",                        // paymentStatus
+                    "Credit Card"                  // paymentType
+            );
+
+
             // Tạo các thành phần cho từng dòng
-            Text nameText = createText(order.getName(), 120);
-            Text emailText = createText(order.getEmail(), 150);
-            Text addressText = createText(order.getAddress(), 150);
-            Text phoneText = createText(order.getPhone(), 100);
-            Text provinceText = createText(order.getProvince(), 100);
-            Text shippingFeeText = createText(String.valueOf(order.getShippingFee()), 100);
-            Text totalAmountText = createText(String.valueOf(order.getTotalAmount()), 100);
-            Text paymentStatusText = createText(order.getPaymentStatus(), 100);
+            Text nameText = createText(orderTest.getName(), 120);
+            Text emailText = createText(orderTest.getEmail(), 150);
+            Text addressText = createText(orderTest.getAddress(), 150);
+            Text phoneText = createText(orderTest.getPhone(), 100);
+            Text provinceText = createText(orderTest.getProvince(), 100);
+            Text shippingFeeText = createText(String.valueOf(orderTest.getShippingFee()), 100);
+            Text totalAmountText = createText(String.valueOf(orderTest.getTotalAmount()), 100);
+            Text paymentStatusText = createText(orderTest.getPaymentStatus(), 100);
 
 
             // Tạo nút Refund
@@ -143,7 +160,7 @@ public class ListOrderForm extends BaseForm {
 
 
     private void handleRefundClick(Order order) throws IOException {
-        Refund refund = new Refund(stage, Configs.REFUND_REQUEST_PATH, order.getId());
+        Refund refund = new Refund(stage, Configs.REFUND_REQUEST_PATH);
         refund.setHomeScreenHandler(this.homeScreenHandler);
         refund.show();
     }
