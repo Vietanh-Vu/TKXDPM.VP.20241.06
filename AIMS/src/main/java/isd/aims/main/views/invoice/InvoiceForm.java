@@ -106,7 +106,6 @@ public class InvoiceForm extends BaseForm {
 				System.err.println("errors: " + e.getMessage());
 				throw new ProcessInvoiceException(e.getMessage());
 			}
-
 		});
 
 	}

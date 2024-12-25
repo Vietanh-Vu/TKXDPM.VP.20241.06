@@ -5,6 +5,7 @@ import isd.aims.main.utils.Configs;
 import isd.aims.main.entity.cart.CartMedia;
 import isd.aims.main.entity.cart.Cart;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -22,6 +23,8 @@ public class Order {
     private Integer id;
     private DeliveryInfo deliveryInfo;
     private boolean isRush = false;
+    private String paymentType;
+    private String paymentStatus;
 
     public Order(){
         this.lstOrderMedia = new ArrayList<>();

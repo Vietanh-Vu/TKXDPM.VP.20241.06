@@ -112,5 +112,4 @@ public abstract class DeliveryInfoValidator {
     protected boolean validateProvince(String province) {
         return true;
     }
-
 }

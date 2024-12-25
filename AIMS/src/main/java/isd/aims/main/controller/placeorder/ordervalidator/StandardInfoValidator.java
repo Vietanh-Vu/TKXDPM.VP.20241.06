@@ -16,4 +16,5 @@ public class StandardInfoValidator extends DeliveryInfoValidator{
 
         return true;
     }
+
 }
