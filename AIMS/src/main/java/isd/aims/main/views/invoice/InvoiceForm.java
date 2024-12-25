@@ -8,10 +8,13 @@ import java.util.logging.Logger;
 
 import isd.aims.main.InterbankSubsystem.IPayment;
 import isd.aims.main.InterbankSubsystem.VnPaySubsystem;
+import isd.aims.main.controller.payment.IPaymentMethod;
+import isd.aims.main.controller.payment.PaymentController;
+import isd.aims.main.controller.payment.PaymentMethodFactory;
+import isd.aims.main.entity.payment.PaymentType;
 import isd.aims.main.exception.MediaNotAvailableException;
 import isd.aims.main.exception.PaymentException;
 import isd.aims.main.exception.ProcessInvoiceException;
-import isd.aims.main.controller.PaymentController;
 import isd.aims.main.entity.invoice.Invoice;
 import isd.aims.main.entity.order.OrderMedia;
 import isd.aims.main.utils.Configs;
@@ -108,9 +111,15 @@ public class InvoiceForm extends BaseForm {
 	public void requestToPayOrder() throws SQLException, IOException {
 		try {
 			// create placeOrderController and process the order
-			IPayment vnPayService = new VnPaySubsystem();
-			PaymentController payOrderController = new PaymentController(vnPayService);
-			payOrderController.payOrder(invoice.getAmount(), "Thanh toán hóa đơn AIMS");
+//			IPayment vnPayService = new VnPaySubsystem();
+//			PaymentController payOrderController = new PaymentController(vnPayService);
+//			payOrderController.payOrder(invoice.getAmount(), "Thanh toán hóa đơn AIMS");
+			PaymentType paymentType = PaymentType.VNPay;
+			Invoice invoice = this.invoice;
+//			PaymentMethodFactory paymentMethodFactory = new PaymentMethodFactory();
+//			IPaymentMethod paymentMethod = paymentMethodFactory.createPaymentMethod(paymentType);
+			PaymentController paymentController = new PaymentController(paymentType, invoice);
+			paymentController.payment();
 			this.stage.close();
 		} catch (MediaNotAvailableException e) {
 

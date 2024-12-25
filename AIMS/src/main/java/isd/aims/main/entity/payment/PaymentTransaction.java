@@ -1,78 +1,30 @@
 package isd.aims.main.entity.payment;
 
-import isd.aims.main.entity.db.SQLiteConnection;
+import lombok.*;
 
-import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
-// Functional Cohesion: Các thuộc tính và phương thức tập trung vào xử lý giao dịch thanh toán
+@Getter
+@Setter
+@NoArgsConstructor
 public class PaymentTransaction {
-	private String errorCode;
-	private String transactionId;
-	private String transactionContent;
+	private String id;
+	private String orderId;
+	private String content;
+	private LocalDateTime createdAt;
+	private String status;
 	private int amount;
-	private Integer orderID;
-	private Date createdAt;
+	private String paymentType;
+	private String transactionNumber;
 
-	public PaymentTransaction(String errorCode, String transactionId, String transactionContent,
-							  int amount, Date createdAt) {
-		super();
-		this.errorCode = errorCode;
-
-
-		this.transactionId = transactionId;
-		this.transactionContent = transactionContent;
-		this.amount = amount;
+	public PaymentTransaction(String content, LocalDateTime createdAt, String status, int amount, String paymentType, String transactionNumber) {
+		this.content = content;
 		this.createdAt = createdAt;
+		this.status = status;
+		this.amount = amount;
+		this.paymentType = paymentType;
+		this.transactionNumber = transactionNumber;
+
 	}
-
-	public void save(int orderId) throws SQLException {
-		this.orderID = orderId;
-		Statement stm = SQLiteConnection.getConnection().createStatement();
-		String query = "INSERT INTO \"Transaction\" ( orderID, createAt, content) " +
-				"VALUES ( ?, ?, ?)";
-		try (PreparedStatement preparedStatement = SQLiteConnection.getConnection().prepareStatement(query)) {
-			preparedStatement.setInt(1, 1);
-			preparedStatement.setDate(2, new java.sql.Date(createdAt.getTime()));
-			preparedStatement.setString(3,transactionContent );
-
-			preparedStatement.executeUpdate();
-		} catch (Exception exception) {
-			exception.printStackTrace();
-		}
-	}
-
-	public int checkPaymentByOrderId(int orderId) throws SQLException {
-		int count = 0;
-
-		String query = "SELECT COUNT(*) FROM Transaction WHERE orderID = ?";
-
-		try (PreparedStatement preparedStatement = SQLiteConnection.getConnection().prepareStatement(query)) {
-			preparedStatement.setInt(1, orderId);
-
-			try (ResultSet resultSet = preparedStatement.executeQuery()) {
-				if (resultSet.next()) {
-					count = resultSet.getInt(1);
-				}
-			}
-		}
-
-		return count;
-	}
-
-	public boolean isSuccess() {
-		// Assuming a null errorCode or an errorCode "00" means success
-		return errorCode == null || "00".equals(errorCode);
-	}
-
-	// Get a message based on the success or failure of the transaction
-	public String getMessage() {
-		if (isSuccess()) {
-			return "Payment was successful.";
-		} else {
-			return "Payment failed with error code: " + errorCode;
-		}
-	}
-
 }
-
