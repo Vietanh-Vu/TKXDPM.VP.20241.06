@@ -73,8 +73,10 @@ public class MediaForm extends FXMLForm {
 	private void setMediaInfo() {
 		title.setText(cartMedia.getMedia().getTitle());
 		price.setText(Utils.getCurrencyFormat(cartMedia.getPrice()));
-		File file = new File(Configs.IMAGE_PATH + cartMedia.getMedia().getImageURL());
-		Image im = new Image(file.toURI().toString());
+//		File file = new File(Configs.IMAGE_PATH + cartMedia.getMedia().getImageURL());
+		String path = "/isd/aims/main/fxml/" + cartMedia.getMedia().getImageURL();
+		System.out.println("path: " + path);
+		Image im = new Image(getClass().getResource(path).toExternalForm());
 		image.setImage(im);
 		image.setPreserveRatio(false);
 		image.setFitHeight(110);

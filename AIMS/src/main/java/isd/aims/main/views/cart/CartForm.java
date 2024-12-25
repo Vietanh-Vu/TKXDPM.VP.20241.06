@@ -59,8 +59,8 @@ public class CartForm extends BaseForm {
 		super(stage, screenPath);
 
 		// fix relative image path caused by fxml
-		File file = new File("isd/aims/main/fxml/images/Logo.png");
-		Image im = new Image(file.toURI().toString());
+		String path = "/isd/aims/main/fxml/images/Logo.png";
+		Image im = new Image(getClass().getResource(path).toExternalForm());
 		aimsImage.setImage(im);
 
 		// on mouse clicked, we back to home
@@ -157,7 +157,7 @@ public class CartForm extends BaseForm {
 
 		// get list media of cart after check availability
 		List lstMedia = getBController().getListCartMedia();
-
+		System.out.println(lstMedia);
 		try {
 			for (Object cm : lstMedia) {
 
@@ -165,7 +165,6 @@ public class CartForm extends BaseForm {
 				CartMedia cartMedia = (CartMedia) cm;
 				MediaForm mediaCartScreen = new MediaForm(Configs.CART_MEDIA_PATH, this);
 				mediaCartScreen.setCartMedia(cartMedia);
-
 				// add spinner
 				vboxCart.getChildren().add(mediaCartScreen.getContent());
 			}

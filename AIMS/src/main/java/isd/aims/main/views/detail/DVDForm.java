@@ -1,10 +1,11 @@
-package isd.aims.main.views.home;
+package isd.aims.main.views.detail;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import isd.aims.main.entity.media.DVD;
 import isd.aims.main.exception.MediaNotAvailableException;
 import isd.aims.main.entity.cart.Cart;
 import isd.aims.main.entity.cart.CartMedia;
@@ -12,6 +13,7 @@ import isd.aims.main.entity.media.Media;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.utils.Utils;
 import isd.aims.main.views.FXMLForm;
+import isd.aims.main.views.home.HomeForm;
 import isd.aims.main.views.popup.PopupForm;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,8 +22,24 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+public class DVDForm extends FXMLForm {
+    @FXML
+    protected Label mediaDiscType;
 
-public class MediaForm extends FXMLForm {
+    @FXML
+    protected Label mediaDirector;
+
+    @FXML
+    protected Label mediaRuntime;
+
+    @FXML
+    protected Label mediaStudio;
+
+    @FXML
+    protected Label mediaSubtitles;
+
+    @FXML
+    protected Label mediaFilmType;
 
     @FXML
     protected ImageView mediaImage;
@@ -41,13 +59,15 @@ public class MediaForm extends FXMLForm {
     @FXML
     protected Button addToCartBtn;
 
-    private static Logger LOGGER = Utils.getLogger(MediaForm.class.getName());
+    private static Logger LOGGER = Utils.getLogger(DVDForm.class.getName());
     private Media media;
+    private DVD dvd;
     private HomeForm home;
 
-    public MediaForm(String screenPath, Media media, HomeForm home) throws SQLException, IOException{
+    public DVDForm(String screenPath, Media media, DVD dvd, HomeForm home) throws SQLException, IOException{
         super(screenPath);
         this.media = media;
+        this.dvd = dvd;
         this.home = home;
         addToCartBtn.setOnMouseClicked(event -> {
             try {
@@ -84,29 +104,30 @@ public class MediaForm extends FXMLForm {
                 exp.printStackTrace();
             }
         });
-        setMediaInfo();
+        setDVDInfo(media.getId());
 
     }
 
-    public Media getMedia(){
-        return media;
-    }
-
-    private void setMediaInfo() throws SQLException {
+    private void setDVDInfo(int id) throws SQLException {
         // set the cover image of media
         File file = new File(Configs.IMAGE_PATH + media.getImageURL());
         Image image = new Image(file.toURI().toString());
-//        mediaImage.setFitHeight(160);
-//        mediaImage.setFitWidth(152);
         mediaImage.setImage(image);
+
+        DVD dvd = this.dvd.getMediaById(id);
+        mediaDiscType.setText(dvd.getDiscType());
+        mediaDirector.setText(dvd.getDirector());
+        mediaRuntime.setText(Integer.toString(dvd.getRuntime()));
+        mediaStudio.setText(dvd.getStudio());
+        mediaSubtitles.setText(dvd.getSubtitle());
+        mediaFilmType.setText(dvd.getFilmType());
 
         mediaTitle.setText(media.getTitle());
         mediaPrice.setText(Utils.getCurrencyFormat(media.getPrice()));
         mediaAvail.setText(Integer.toString(media.getQuantity()));
         spinnerChangeNumber.setValueFactory(
-            new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 1)
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 1)
         );
 
     }
-
 }
