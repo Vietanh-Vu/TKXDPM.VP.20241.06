@@ -1,6 +1,7 @@
 package isd.aims.main.entity.media;
 
 import isd.aims.main.entity.db.SQLiteConnection;
+import isd.aims.main.entity.db.dao.Media.MediaDAO;
 import isd.aims.main.utils.Utils;
 
 import java.sql.ResultSet;
@@ -27,6 +28,8 @@ public class Media {
     protected int quantity;
     protected String type;
     protected String imageURL;
+    protected boolean isRush;
+    protected float weight;
 
     public Media() throws SQLException{
         stm = SQLiteConnection.getConnection().createStatement();
@@ -50,57 +53,20 @@ public class Media {
     }
 
     public Media getMediaById(int id) throws SQLException{
-        String sql = "SELECT * FROM Media ;";
-        Statement stm = SQLiteConnection.getConnection().createStatement();
-        ResultSet res = stm.executeQuery(sql);
-		if(res.next()) {
-
-            return new Media()
-                .setId(res.getInt("id"))
-                .setTitle(res.getString("title"))
-                .setQuantity(res.getInt("quantity"))
-                .setCategory(res.getString("category"))
-                .setMediaURL(res.getString("imageUrl"))
-                .setPrice(res.getInt("price"))
-                .setType(res.getString("type"));
-        }
-        return null;
+        return new MediaDAO().getById(id);
     }
 
     public List getAllMedia() throws SQLException{
-        Statement stm = SQLiteConnection.getConnection().createStatement();
-        ResultSet res = stm.executeQuery("select * from Media");
-        ArrayList medium = new ArrayList<>();
-        while (res.next()) {
-            Media media = new Media()
-                .setId(res.getInt("id"))
-                .setTitle(res.getString("title"))
-                .setQuantity(res.getInt("quantity"))
-                .setCategory(res.getString("category"))
-                .setMediaURL(res.getString("imageUrl"))
-                .setPrice(res.getInt("price"))
-                .setType(res.getString("type"));
-            medium.add(media);
-        }
-        return medium;
+        return new MediaDAO().getAll();
     }
 
-    public void updateMediaFieldById(String tbname, int id, String field, Object value) throws SQLException {
-        Statement stm = SQLiteConnection.getConnection().createStatement();
-        if (value instanceof String){
-            value = "\"" + value + "\"";
-        }
-        stm.executeUpdate(" update " + tbname + " set" + " " 
-                          + field + "=" + value + " " 
-                          + "where id=" + id + ";");
-    }
 
     // getter and setter 
     public int getId() {
         return this.id;
     }
 
-    private Media setId(int id){
+    public Media setId(int id){
         this.id = id;
         return this;
     }
@@ -123,6 +89,15 @@ public class Media {
         return this;
     }
 
+    public int getValue() {
+        return this.value;
+    }
+
+    public Media setValue(int value) {
+        this.value = value;
+        return this;
+    }
+
     public int getPrice() {
         return this.price;
     }
@@ -136,7 +111,7 @@ public class Media {
         return this.imageURL;
     }
 
-    public Media setMediaURL(String url){
+    public Media setImageURL(String url){
         this.imageURL = url;
         return this;
     }
@@ -155,17 +130,35 @@ public class Media {
         return this;
     }
 
+    public boolean isRush() {
+        return isRush;
+    }
+
+    public Media setIsRush(boolean isRush) {
+        this.isRush = isRush;
+        return this;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public Media setWeight(float weight) {
+        this.weight = weight;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "{" +
-            " id='" + id + "'" +
-            ", title='" + title + "'" +
-            ", category='" + category + "'" +
-            ", price='" + price + "'" +
-            ", quantity='" + quantity + "'" +
-            ", type='" + type + "'" +
-            ", imageURL='" + imageURL + "'" +
-            "}";
-    }    
+                " id='" + id + "'" +
+                ", title='" + title + "'" +
+                ", category='" + category + "'" +
+                ", price='" + price + "'" +
+                ", quantity='" + quantity + "'" +
+                ", type='" + type + "'" +
+                ", imageURL='" + imageURL + "'" +
+                "}";
+    }
 
 }

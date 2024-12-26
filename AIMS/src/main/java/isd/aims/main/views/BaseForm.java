@@ -1,11 +1,14 @@
 package isd.aims.main.views;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Hashtable;
 
 import isd.aims.main.controller.BaseController;
 import isd.aims.main.views.home.HomeForm;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class BaseForm extends FXMLForm {
@@ -66,6 +69,14 @@ public class BaseForm extends FXMLForm {
 	@SuppressWarnings("exports")
 	public void setHomeScreenHandler(HomeForm HomeScreenHandler) {
 		this.homeScreenHandler = HomeScreenHandler;
+	}
+
+	@FXML
+	void backToPreviousScreen(MouseEvent event)throws IOException, InterruptedException, SQLException {
+		if (this.getPreviousScreen() != null) {
+			// Quay lại màn hình trước đó
+			this.getPreviousScreen().show();
+		}
 	}
 
 }

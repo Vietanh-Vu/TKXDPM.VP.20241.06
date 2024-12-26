@@ -42,7 +42,7 @@
                <children>
                   <Pane prefHeight="102.0" prefWidth="562.0">
                      <children>
-                        <TextField layoutX="17.0" layoutY="27.0" prefHeight="48.0" prefWidth="528.0">
+                        <TextField fx:id="txtSearch" layoutX="17.0" layoutY="27.0" prefHeight="48.0" prefWidth="528.0">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -52,7 +52,19 @@
                   <Pane prefHeight="102.0" prefWidth="158.0">
                      <children>
                         <SplitMenuButton fx:id="splitMenuBtnSearch" layoutY="27.0"
-                           mnemonicParsing="false" prefHeight="48.0" prefWidth="124.0" text="Search">
+                           mnemonicParsing="false" prefHeight="48.0" prefWidth="124.0" text="Search" >
+                           <items>
+                           </items>
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </SplitMenuButton>
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="102.0" prefWidth="158.0">
+                     <children>
+                        <SplitMenuButton fx:id="splitMenuBtnSort" layoutY="27.0"
+                                         mnemonicParsing="false" prefHeight="48.0" prefWidth="124.0" text="Sort" >
                            <items>
                            </items>
                            <font>

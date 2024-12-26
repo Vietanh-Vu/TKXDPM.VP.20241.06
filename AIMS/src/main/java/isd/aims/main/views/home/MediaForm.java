@@ -67,7 +67,9 @@ public class MediaForm extends FXMLForm {
                 media.setQuantity(media.getQuantity() - spinnerChangeNumber.getValue());
                 mediaAvail.setText(String.valueOf(media.getQuantity()));
                 home.getNumMediaCartLabel().setText(String.valueOf(cart.getTotalMedia() + " media"));
+
                 PopupForm.success("The media " + media.getTitle() + " added to Cart");
+
             } catch (MediaNotAvailableException exp) {
                 try {
                     String message = "Not enough media:\nRequired: " + spinnerChangeNumber.getValue() + "\nAvail: " + media.getQuantity();
@@ -83,6 +85,7 @@ public class MediaForm extends FXMLForm {
             }
         });
         setMediaInfo();
+
     }
 
     public Media getMedia(){
@@ -93,8 +96,8 @@ public class MediaForm extends FXMLForm {
         // set the cover image of media
         File file = new File(Configs.IMAGE_PATH + media.getImageURL());
         Image image = new Image(file.toURI().toString());
-        mediaImage.setFitHeight(160);
-        mediaImage.setFitWidth(152);
+//        mediaImage.setFitHeight(160);
+//        mediaImage.setFitWidth(152);
         mediaImage.setImage(image);
 
         mediaTitle.setText(media.getTitle());
@@ -104,7 +107,6 @@ public class MediaForm extends FXMLForm {
             new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 1)
         );
 
-        // setImage(mediaImage, media.getImageURL());
     }
 
 }

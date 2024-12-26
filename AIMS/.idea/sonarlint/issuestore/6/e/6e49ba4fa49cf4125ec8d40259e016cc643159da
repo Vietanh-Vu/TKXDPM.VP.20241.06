@@ -1,0 +1,16 @@
+
+m	java:S117e"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ֱ‰…ײ8ֱדü½2
+t
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(¸׀¶תÿÿÿÿ8בÜü½2
+>
+java:S1116A"Remove this empty statement.(פלתÿÿÿÿ8בÜü½2
+>
+java:S1116P"Remove this empty statement.(פלתÿÿÿÿ8זÜü½2
+>
+java:S1116c"Remove this empty statement.(פלתÿÿÿÿ8זÜü½2
+>
+java:S1116j"Remove this empty statement.(פלתÿÿÿÿ8„נÜü½2
+Q
+java:S1172k"/Remove this unused method parameter "province".(Ü¨¨רÿÿÿÿ8ֳעü½2
+>
+java:S1116m"Remove this empty statement.(פלתÿÿÿÿ8א¿סü½2

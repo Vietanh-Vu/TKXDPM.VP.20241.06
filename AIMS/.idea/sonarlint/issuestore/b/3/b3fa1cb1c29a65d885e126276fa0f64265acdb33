@@ -1,0 +1,7 @@
+
+g
+java:S3008"QRename this field "LOGGER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–ÄÍ«
+c
+java:S5361M"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ñÔ§†ûÿÿÿÿ
+E	java:S106e"+Replace this use of System.err by a logger.(¦Û™·øÿÿÿÿ
+C	java:S108t")Either remove or fill this block of code.(ˆóéŠøÿÿÿÿ

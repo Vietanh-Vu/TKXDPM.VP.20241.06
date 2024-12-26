@@ -9,9 +9,10 @@ import java.util.logging.Logger;
 
 import isd.aims.main.exception.MediaNotAvailableException;
 import isd.aims.main.exception.PlaceOrderException;
-import isd.aims.main.controller.PlaceOrderController;
+import isd.aims.main.controller.placeorder.PlaceOrderController;
 import isd.aims.main.controller.ViewCartController;
 import isd.aims.main.entity.cart.CartMedia;
+import isd.aims.main.entity.cart.Cart;
 import isd.aims.main.entity.order.Order;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.utils.Utils;
@@ -58,8 +59,8 @@ public class CartForm extends BaseForm {
 		super(stage, screenPath);
 
 		// fix relative image path caused by fxml
-		File file = new File("isd/aims/main/fxml/images/Logo.png");
-		Image im = new Image(file.toURI().toString());
+		String path = "/isd/aims/main/fxml/images/Logo.png";
+		Image im = new Image(getClass().getResource(path).toExternalForm());
 		aimsImage.setImage(im);
 
 		// on mouse clicked, we back to home
@@ -110,13 +111,13 @@ public class CartForm extends BaseForm {
 				return;
 			}
 
-			placeOrderController.placeOrder();
+			Cart.getCart().checkAvailabilityOfProduct();
 
 			// display available media
 			displayCartWithMediaAvailability();
 
 			// create order
-			Order order = placeOrderController.createOrder();
+			Order order = Order.createOrder();
 
 			// display shipping form
 			DeliveryForm DeliveryFormHandler = new DeliveryForm(this.stage, Configs.SHIPPING_SCREEN_PATH, order);
@@ -156,7 +157,7 @@ public class CartForm extends BaseForm {
 
 		// get list media of cart after check availability
 		List lstMedia = getBController().getListCartMedia();
-
+		System.out.println(lstMedia);
 		try {
 			for (Object cm : lstMedia) {
 
@@ -164,7 +165,6 @@ public class CartForm extends BaseForm {
 				CartMedia cartMedia = (CartMedia) cm;
 				MediaForm mediaCartScreen = new MediaForm(Configs.CART_MEDIA_PATH, this);
 				mediaCartScreen.setCartMedia(cartMedia);
-
 				// add spinner
 				vboxCart.getChildren().add(mediaCartScreen.getContent());
 			}

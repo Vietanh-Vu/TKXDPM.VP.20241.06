@@ -1,0 +1,9 @@
+
+o
+java:S2293f"YReplace the type specification in this constructor call with the diamond operator ("<>").(κάψ
+l
+java:S3008"QRename this field "LOGGER" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ίξƒ€ώÿÿÿÿ
+q
+java:S1450;"VRemove the "spinner" field and declare it as a local variable in the relevant methods.(»έϋζωÿÿÿÿ
+c
+java:S5361}"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ζ‘Ξϋÿÿÿÿ

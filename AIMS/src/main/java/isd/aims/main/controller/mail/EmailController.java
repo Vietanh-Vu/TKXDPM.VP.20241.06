@@ -1,5 +1,6 @@
 package isd.aims.main.controller.mail;
 
+import isd.aims.main.entity.order.Order;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -22,24 +23,23 @@ public class EmailController {
         properties.put("mail.smtp.port", 587);
     }
 
-    public void sendOrderConfirmationEmail(OrderTest order, PaymentInfo paymentInfo) throws MessagingException, IOException {
+    public void sendOrderConfirmationEmail(Order order, PaymentInfo paymentInfo) throws MessagingException, IOException {
         String htmlTemplate = readEmailTemplate();
         String transactionDetails = paymentInfo.hasTransactionDetails() ? paymentInfo.getTransactionDetails() : "";
 
         String htmlContent = htmlTemplate
-                .replace("{{orderId}}", String.valueOf(order.getId()))
-                .replace("{{name}}", order.getName())
-                .replace("{{email}}", order.getEmail())
-                .replace("{{phone}}", order.getPhone())
-                .replace("{{address}}", order.getAddress())
-                .replace("{{province}}", order.getProvince())
-                .replace("{{shipping_fee}}", formatCurrency(order.getShippingFee()))
+//                .replace("{{orderId}}", String.valueOf(order.getId()))
+                .replace("{{name}}", order.getDeliveryInfo().getName())
+                .replace("{{email}}", order.getDeliveryInfo().getEmail())
+                .replace("{{phone}}", order.getDeliveryInfo().getPhoneNumber())
+                .replace("{{address}}", order.getDeliveryInfo().getAddress())
+                .replace("{{province}}", order.getDeliveryInfo().getProvince())
+                .replace("{{shipping_fee}}", formatCurrency(order.getShippingFees()))
                 .replace("{{paymentType}}", order.getPaymentType())
-                .replace("{{paymentStatus}}", order.getPaymentStatus())
-                .replace("{{totalAmount}}", formatCurrency(order.getTotalAmount()))
+                .replace("{{totalAmount}}", formatCurrency(order.getAmount() + order.getShippingFees()))
                 .replace("{{TRANSACTION_DETAILS}}", transactionDetails);
 
-        sendHtmlEmail(order.getEmail(), htmlContent);
+        sendHtmlEmail(order.getDeliveryInfo().getEmail(), htmlContent);
         System.out.println("Email sent successfully");
     }
 

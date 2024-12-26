@@ -1,14 +1,15 @@
 package isd.aims.main.InterbankSubsystem.vn_pay;
 
 import isd.aims.main.controller.mail.EmailController;
-import isd.aims.main.controller.mail.OrderTest;
 import isd.aims.main.controller.mail.VNPayInfo;
 import isd.aims.main.controller.payment.IPaymentMethod;
+import isd.aims.main.entity.cart.Cart;
+import isd.aims.main.entity.db.dao.order.OrderDAO;
 import isd.aims.main.entity.db.dao.paymentTransaction.PaymentTransactionDAO;
 import isd.aims.main.entity.invoice.Invoice;
+import isd.aims.main.entity.order.Order;
 import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.entity.payment.RefundTransaction;
-import isd.aims.main.listener.TransactionResultListener;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.payment.VNPayScreen;
 import jakarta.mail.MessagingException;
@@ -73,30 +74,21 @@ public class VNPayPaymentMethod implements IPaymentMethod {
         PayResponseVnPay payResponse = new PayResponseVnPay(responseUrl);
         VNPayInfo vnPayInfo = payResponse.getInfo(responseUrl);
 
-        OrderTest orderTest = new OrderTest(
-                1,                             // id
-                "John Doe",                    // name
-                "anh.vv993@gmail.com",         // email
-                "123 Main Street",             // address
-                "1234567890",                  // phone
-                "Hanoi",                       // province
-                50000,                         // shippingFee
-                1000000.0,                     // totalAmount
-                "Paid",                        // paymentStatus
-                "Credit Card"                  // paymentType
-        );
 
         if (transactionResult.getStatus().equals("SUCCESS")) {
             // lưu order vào db
+            Order order = new OrderDAO().add(invoice.getOrder());
+            // lưu order media vào db
 
             // lưu paymentTransaction vào db, trước đó cần đẩy thông tin order id vào
-            transactionResult.setOrderId(String.valueOf(orderTest.getId()));
+            transactionResult.setOrderId(String.valueOf(order.getId()));
             new PaymentTransactionDAO().add(transactionResult);
 
             // gửi email
             EmailController emailController = new EmailController();
-            emailController.sendOrderConfirmationEmail(orderTest, vnPayInfo);
+            emailController.sendOrderConfirmationEmail(order, vnPayInfo);
             // clear cart
+            Cart.getCart().emptyCart();
         }
     }
 }

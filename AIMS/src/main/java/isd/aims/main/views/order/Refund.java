@@ -1,5 +1,6 @@
 package isd.aims.main.views.order;
 
+import isd.aims.main.InterbankSubsystem.vn_pay.RefundMethod;
 import isd.aims.main.InterbankSubsystem.vn_pay.RefundRequest;
 import isd.aims.main.views.BaseForm;
 import javafx.fxml.FXML;
@@ -14,6 +15,8 @@ import org.json.JSONObject;  // Import thư viện JSON
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.SQLOutput;
 
 
 public class Refund extends BaseForm {
@@ -38,14 +41,11 @@ public class Refund extends BaseForm {
     @FXML
     private Button confirmButton; // Nút xác nhận
 
+    private int orderId; // Lưu orderId của mã được hoàn tiền
+
     public Refund(Stage stage, String screenPath, int orderId) throws IOException {
         super(stage, screenPath);
-        // Fix relative image path caused by fxml
-        File file = new File("isd/aims/main/fxml/images/Logo.png");
-        Image im = new Image(file.toURI().toString());
-        aimsImage.setImage(im);
-
-        // On mouse clicked, go back to home
+        this.orderId = orderId;
         aimsImage.setOnMouseClicked(e -> {
             homeScreenHandler.show();
         });
@@ -60,11 +60,6 @@ public class Refund extends BaseForm {
         String vnp_TransactionDate = TransactionDate.getText();
         int vnp_Amount = Integer.parseInt(Amount.getText());
 
-        // Log or process the information
-        System.out.println("Mã giao dịch tham chiếu: " + vnp_TxnRef);
-        System.out.println("Mã giao dịch: " + vnp_TransactionNo);
-        System.out.println("Ngày giao dịch: " + vnp_TransactionDate);
-        System.out.println("Tổng số tiền: " + vnp_Amount);
 
         // Xử lý hoàn tiền
         RefundRequest refundRequest = new RefundRequest(vnp_Amount, vnp_TxnRef, vnp_TransactionNo, vnp_TransactionDate);
@@ -78,8 +73,8 @@ public class Refund extends BaseForm {
 
     // Method to handle the response and extract the needed values
     private void handleRefundResponse(String response) {
+        System.out.println(orderId);
         try {
-            System.out.println("Response: " + response);
             // Parse the response string into a JSONObject
             JSONObject jsonResponse = new JSONObject(response);
 
@@ -87,24 +82,21 @@ public class Refund extends BaseForm {
             String vnp_ResponseCode = jsonResponse.getString("vnp_ResponseCode");
             String vnp_Message = jsonResponse.getString("vnp_Message");
 
-            // Log the extracted values
-            System.out.println("vnp_ResponseCode: " + vnp_ResponseCode);
-            System.out.println("vnp_Message: " + vnp_Message);
 
             // Display the values in the respective labels
             responseCodeLabel.setText(vnp_ResponseCode);
             responseMessageLabel.setText(vnp_Message);
 
-            // You can also handle these values as needed, like displaying them in the UI
-            // For example, you could show a message to the user:
-            if ("94".equals(vnp_ResponseCode)) {
-                System.out.println("Error: " + vnp_Message);  // Handle specific error response
-            } else {
+            if ("00".equals(vnp_ResponseCode)) {
+                RefundMethod refundMethod = new RefundMethod();
+                refundMethod.refundTransationCompleted(orderId);
+
                 System.out.println("Refund processed successfully");
+            } else {
+                System.out.println("Error: " + vnp_Message);
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("Error processing response: " + e.getMessage());
         }
     }
