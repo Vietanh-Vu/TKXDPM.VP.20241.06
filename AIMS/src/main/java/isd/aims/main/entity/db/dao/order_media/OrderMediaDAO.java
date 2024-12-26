@@ -78,4 +78,19 @@ public class OrderMediaDAO extends DAO<OrderMedia> {
         }
         return false;
     }
+
+    // Thêm lệnh cho phần refund
+    // Tìm các orderMedia theo OrderId
+    public List<OrderMedia> getByOrderId(int orderId) {
+        String query = "SELECT * FROM OrderMedia WHERE orderID = ?";
+        try {
+            return findAll(query, new OrderMediaMapDbToClass(), orderId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
 }

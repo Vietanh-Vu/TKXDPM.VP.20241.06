@@ -65,7 +65,7 @@ public class Media {
     }
 
 
-    // getter and setter 
+    // getter and setter
     public int getId() {
         return this.id;
     }
