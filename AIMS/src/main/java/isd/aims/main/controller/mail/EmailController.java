@@ -36,7 +36,7 @@ public class EmailController {
                 .replace("{{province}}", order.getDeliveryInfo().getProvince())
                 .replace("{{shipping_fee}}", formatCurrency(order.getShippingFees()))
                 .replace("{{paymentType}}", order.getPaymentType())
-                .replace("{{totalAmount}}", formatCurrency(order.getAmount() + order.getShippingFees()))
+                .replace("{{totalAmount}}", formatCurrency(order.getTotalAmount() + order.getShippingFees()))
                 .replace("{{TRANSACTION_DETAILS}}", transactionDetails);
 
         sendHtmlEmail(order.getDeliveryInfo().getEmail(), htmlContent);
