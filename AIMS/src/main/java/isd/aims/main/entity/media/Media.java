@@ -52,6 +52,10 @@ public class Media {
         return updated_quantity;
     }
 
+    public int getCurrentQuantity() {
+        return this.quantity;
+    }
+
     public Media getMediaById(int id) throws SQLException{
         return new MediaDAO().getById(id);
     }

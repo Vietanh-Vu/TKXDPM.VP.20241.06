@@ -30,6 +30,16 @@ public class OrderDAO extends DAO<Order> {
         return null;
     }
 
+    public Order getRecentlyAdded() {
+        String query = "SELECT * FROM `Order` ORDER BY id DESC LIMIT 1";
+        try {
+            return findOne(query, new OrderMapDbToClass());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<Order> getByEmail(String email) {
         String query = "SELECT * FROM `Order` WHERE email = ?";
         try {
@@ -50,7 +60,7 @@ public class OrderDAO extends DAO<Order> {
             executeUpdate(query, order.getDeliveryInfo().getName(), order.getDeliveryInfo().getEmail(), order.getDeliveryInfo().getAddress(),
                     order.getDeliveryInfo().getPhoneNumber(), order.getDeliveryInfo().getProvince(), order.getShippingFees(),
                     order.getAmount(), order.getOrderStatus(), order.getPaymentType(), order.isRush());
-            return order;
+            return getRecentlyAdded();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,4 +94,3 @@ public class OrderDAO extends DAO<Order> {
         return false;
     }
 }
-

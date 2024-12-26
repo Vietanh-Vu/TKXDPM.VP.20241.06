@@ -55,7 +55,7 @@ public class MediaDAO extends DAO<Media> {
                 "    imageUrl = ?\n" +
                 "WHERE id = ?;";
         try {
-            return executeUpdate(query, media.getType(), media.getCategory(), media.getPrice(), media.getQuantity(), media.getTitle(), media.getValue(), media.getImageURL(), media.getId()) > 0;
+            return executeUpdate(query, media.getType(), media.getCategory(), media.getPrice(), media.getCurrentQuantity(), media.getTitle(), media.getValue(), media.getImageURL(), media.getId()) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
