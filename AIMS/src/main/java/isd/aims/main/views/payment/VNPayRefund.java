@@ -1,11 +1,12 @@
-package isd.aims.main.views.order;
+package isd.aims.main.views.payment;
 
 import isd.aims.main.InterbankSubsystem.vn_pay.RefundMethod;
 import isd.aims.main.InterbankSubsystem.vn_pay.RefundRequest;
+import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
+import isd.aims.main.views.home.HomeForm;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -13,13 +14,10 @@ import javafx.stage.Stage;
 
 import org.json.JSONObject;  // Import thư viện JSON
 
-import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.SQLOutput;
 
 
-public class Refund extends BaseForm {
+public class VNPayRefund extends BaseForm {
 
     @FXML
     private ImageView aimsImage;
@@ -43,10 +41,15 @@ public class Refund extends BaseForm {
 
     private int orderId; // Lưu orderId của mã được hoàn tiền
 
-    public Refund(Stage stage, String screenPath, int orderId) throws IOException {
+    public VNPayRefund(Stage stage, String screenPath, int orderId) throws IOException {
         super(stage, screenPath);
         this.orderId = orderId;
         aimsImage.setOnMouseClicked(e -> {
+            try {
+                homeScreenHandler = new HomeForm(stage, Configs.HOME_PATH);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             homeScreenHandler.show();
         });
     }

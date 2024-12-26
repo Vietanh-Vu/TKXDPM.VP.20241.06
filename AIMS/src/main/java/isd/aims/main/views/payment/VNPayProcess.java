@@ -3,11 +3,9 @@ package isd.aims.main.views.payment;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
-import java.util.Objects;
 
 import isd.aims.main.InterbankSubsystem.vn_pay.VNPayConfig;
 import isd.aims.main.controller.payment.IPaymentMethod;
-import isd.aims.main.listener.TransactionResultListener;
 import isd.aims.main.entity.invoice.Invoice;
 import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.utils.Configs;
@@ -21,7 +19,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-public class VNPayScreen extends BaseForm {
+public class VNPayProcess extends BaseForm {
 
 	// @FXML
 	// private Button btnConfirmPayment;
@@ -38,7 +36,7 @@ public class VNPayScreen extends BaseForm {
     private PaymentTransaction transactionResult;
     private IPaymentMethod paymentMethod;
 
-    public VNPayScreen(Stage stage, String screenPath, String paymentURL, IPaymentMethod paymentMethod, Invoice invoice) throws IOException {
+    public VNPayProcess(Stage stage, String screenPath, String paymentURL, IPaymentMethod paymentMethod, Invoice invoice) throws IOException {
         super(stage, screenPath);
 
         aimsImage.setOnMouseClicked(e -> {

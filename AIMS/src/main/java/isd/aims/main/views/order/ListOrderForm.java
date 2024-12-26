@@ -4,14 +4,12 @@ import isd.aims.main.entity.db.dao.order.OrderDAO;
 import isd.aims.main.entity.order.Order;
 
 import isd.aims.main.utils.Configs;
-import isd.aims.main.utils.Utils;
 import isd.aims.main.views.BaseForm;
-import javafx.event.ActionEvent;
+import isd.aims.main.views.payment.VNPayRefund;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -19,10 +17,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class ListOrderForm extends BaseForm {
 
@@ -147,9 +143,9 @@ public class ListOrderForm extends BaseForm {
 
 
     private void handleRefundClick(Order order) throws IOException {
-        Refund refund = new Refund(stage, Configs.REFUND_REQUEST_PATH);
-        refund.setHomeScreenHandler(this.homeScreenHandler);
-        refund.show();
+        VNPayRefund VNPayRefund = new VNPayRefund(stage, Configs.REFUND_REQUEST_PATH, order.getId());
+        VNPayRefund.setHomeScreenHandler(this.homeScreenHandler);
+        VNPayRefund.show();
     }
 
 }

@@ -22,7 +22,7 @@
                   </image>
                </ImageView>
                <Label layoutX="6.0" layoutY="68.0" prefHeight="41.0" prefWidth="100.0"
-                      text="    AIMS" textAlignment="CENTER" textFill="#5091e6">
+                      textAlignment="CENTER" textFill="#5091e6">
                   <font>
                      <Font size="24.0" />
                   </font>
@@ -32,7 +32,7 @@
       </children>
    </VBox>
    <children>
-      <Label fx:id="pageTitle" layoutX="70.0" layoutY="1.0" prefHeight="96.0" prefWidth="216.0"
+      <Label fx:id="pageTitle" layoutX="120.0" layoutY="1.0" prefHeight="96.0" prefWidth="216.0"
          text="Payment"
          textAlignment="CENTER" textFill="#5091e6">
          <font>

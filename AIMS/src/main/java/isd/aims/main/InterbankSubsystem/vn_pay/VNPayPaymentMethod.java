@@ -15,7 +15,7 @@ import isd.aims.main.entity.order.OrderMedia;
 import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.entity.payment.RefundTransaction;
 import isd.aims.main.utils.Configs;
-import isd.aims.main.views.payment.VNPayScreen;
+import isd.aims.main.views.payment.VNPayProcess;
 import jakarta.mail.MessagingException;
 import javafx.stage.Stage;
 
@@ -52,7 +52,7 @@ public class VNPayPaymentMethod implements IPaymentMethod {
     public void handlePaymentProcess(Invoice invoice) throws IOException {
         String paymentUrl = this.makePaymentRequest(invoice.getAmount(), "Thanh toán đơn hàng");
         Stage stage = new Stage();
-        var vnPayScreen = new VNPayScreen(stage, Configs.PAYMENT_SCREEN_PATH, paymentUrl, this, invoice);
+        var vnPayScreen = new VNPayProcess(stage, Configs.PAYMENT_SCREEN_PATH, paymentUrl, this, invoice);
         vnPayScreen.show();
     }
 
