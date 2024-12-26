@@ -2,7 +2,6 @@ package isd.aims.main.entity.db.dao.Media;
 
 import isd.aims.main.entity.db.DAO;
 import isd.aims.main.entity.media.Media;
-import isd.aims.main.entity.order.OrderMedia;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class MediaDAO extends DAO<Media> {
                 "    imageUrl = ?\n" +
                 "WHERE id = ?;";
         try {
-            return executeUpdate(query, media.getType(), media.getCategory(), media.getPrice(), media.getQuantity(), media.getTitle(), media.getValue(), media.getImageURL(), media.getId()) > 0;
+            return executeUpdate(query, media.getType(), media.getCategory(), media.getPrice(), media.getCurrentQuantity(), media.getTitle(), media.getValue(), media.getImageURL(), media.getId()) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,7 +72,6 @@ public class MediaDAO extends DAO<Media> {
         }
         return false;
     }
-
 
     // Thêm lệnh cho phần refund
     // Cập nhật lại số lượng sản phẩm

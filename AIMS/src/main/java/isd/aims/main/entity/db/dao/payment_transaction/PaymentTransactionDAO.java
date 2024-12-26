@@ -1,4 +1,4 @@
-package isd.aims.main.entity.db.dao.paymentTransaction;
+package isd.aims.main.entity.db.dao.payment_transaction;
 
 import isd.aims.main.entity.db.DAO;
 import isd.aims.main.entity.payment.PaymentTransaction;

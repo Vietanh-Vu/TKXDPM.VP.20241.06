@@ -2,7 +2,9 @@ package isd.aims.main.views.order;
 
 import isd.aims.main.InterbankSubsystem.vn_pay.RefundMethod;
 import isd.aims.main.InterbankSubsystem.vn_pay.RefundRequest;
+import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
+import isd.aims.main.views.home.HomeForm;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -47,6 +49,11 @@ public class Refund extends BaseForm {
         super(stage, screenPath);
         this.orderId = orderId;
         aimsImage.setOnMouseClicked(e -> {
+            try {
+                homeScreenHandler = new HomeForm(stage, Configs.HOME_PATH);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             homeScreenHandler.show();
         });
     }

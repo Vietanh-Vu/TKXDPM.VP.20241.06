@@ -59,7 +59,6 @@ public class HomeForm extends BaseForm implements Initializable {
     @SuppressWarnings("rawtypes")
     private List homeItems;
 
-
     //Store the selected menu item
     private String selectedMenuItem = null;
 
@@ -80,12 +79,6 @@ public class HomeForm extends BaseForm implements Initializable {
         numMediaInCart.setText(String.valueOf(Cart.getCart().getListMedia().size()) + " media");
         super.show();
     }
-
-    private void updateCartItemCount() {
-        numMediaInCart.setText(Cart.getCart().getListMedia().size() + " media");
-    }
-
-
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override

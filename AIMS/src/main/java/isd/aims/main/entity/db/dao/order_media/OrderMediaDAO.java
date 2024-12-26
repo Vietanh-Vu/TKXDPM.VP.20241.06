@@ -63,16 +63,6 @@ public class OrderMediaDAO extends DAO<OrderMedia> {
         return false;
     }
 
-    public boolean update(OrderMedia orderMedia, int orderId) {
-        String query = "UPDATE OrderMedia SET quantity = ? WHERE mediaID = ? AND orderID = ?";
-        try {
-            return executeUpdate(query, orderMedia.getQuantity(), orderMedia.getMedia().getId(), orderId) > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     @Override
     public boolean delete(int id) {
         // Not applicable for composite key
@@ -100,7 +90,4 @@ public class OrderMediaDAO extends DAO<OrderMedia> {
         }
         return null;
     }
-
-
-
 }

@@ -1,4 +1,4 @@
-package isd.aims.main.entity.db.dao.paymentTransaction;
+package isd.aims.main.entity.db.dao.payment_transaction;
 
 import isd.aims.main.entity.db.MapDbToClass;
 import isd.aims.main.entity.payment.PaymentTransaction;
@@ -6,7 +6,6 @@ import isd.aims.main.entity.payment.PaymentTransaction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 class PaymentTransactionMapDbToClass implements MapDbToClass<PaymentTransaction> {
     @Override

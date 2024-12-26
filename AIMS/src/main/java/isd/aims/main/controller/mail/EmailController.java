@@ -28,7 +28,7 @@ public class EmailController {
         String transactionDetails = paymentInfo.hasTransactionDetails() ? paymentInfo.getTransactionDetails() : "";
 
         String htmlContent = htmlTemplate
-//                .replace("{{orderId}}", String.valueOf(order.getId()))
+                .replace("{{orderId}}", String.valueOf(order.getId()))
                 .replace("{{name}}", order.getDeliveryInfo().getName())
                 .replace("{{email}}", order.getDeliveryInfo().getEmail())
                 .replace("{{phone}}", order.getDeliveryInfo().getPhoneNumber())
@@ -36,7 +36,7 @@ public class EmailController {
                 .replace("{{province}}", order.getDeliveryInfo().getProvince())
                 .replace("{{shipping_fee}}", formatCurrency(order.getShippingFees()))
                 .replace("{{paymentType}}", order.getPaymentType())
-                .replace("{{totalAmount}}", formatCurrency(order.getAmount() + order.getShippingFees()))
+                .replace("{{totalAmount}}", formatCurrency(order.getTotalAmount() + order.getShippingFees()))
                 .replace("{{TRANSACTION_DETAILS}}", transactionDetails);
 
         sendHtmlEmail(order.getDeliveryInfo().getEmail(), htmlContent);

@@ -4,10 +4,14 @@ import isd.aims.main.controller.mail.EmailController;
 import isd.aims.main.controller.mail.VNPayInfo;
 import isd.aims.main.controller.payment.IPaymentMethod;
 import isd.aims.main.entity.cart.Cart;
+import isd.aims.main.entity.db.dao.Media.MediaDAO;
 import isd.aims.main.entity.db.dao.order.OrderDAO;
-import isd.aims.main.entity.db.dao.paymentTransaction.PaymentTransactionDAO;
+import isd.aims.main.entity.db.dao.order_media.OrderMediaDAO;
+import isd.aims.main.entity.db.dao.payment_transaction.PaymentTransactionDAO;
 import isd.aims.main.entity.invoice.Invoice;
+import isd.aims.main.entity.media.Media;
 import isd.aims.main.entity.order.Order;
+import isd.aims.main.entity.order.OrderMedia;
 import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.entity.payment.RefundTransaction;
 import isd.aims.main.utils.Configs;
@@ -18,7 +22,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 
 public class VNPayPaymentMethod implements IPaymentMethod {
 
@@ -78,15 +84,32 @@ public class VNPayPaymentMethod implements IPaymentMethod {
         if (transactionResult.getStatus().equals("SUCCESS")) {
             // lưu order vào db
             Order order = new OrderDAO().add(invoice.getOrder());
-            // lưu order media vào db
+            Order lastOrder = new OrderDAO().getRecentlyAdded();
+
+
+            List<OrderMedia> orderMediaList = invoice.getOrder().getLstOrderMedia();
+            OrderMediaDAO orderMediaDAO = new OrderMediaDAO();
+            orderMediaList.forEach(e -> {
+                // lưu order media vào db
+                orderMediaDAO.add(e, lastOrder.getId());
+                // cập nhật số lượng bảng media
+                MediaDAO mediaDAO = new MediaDAO();
+                Media curMedia = mediaDAO.getById(e.getMedia().getId());
+                try {
+                    curMedia.setQuantity(curMedia.getQuantity() - e.getQuantity());
+                    mediaDAO.update(curMedia);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
 
             // lưu paymentTransaction vào db, trước đó cần đẩy thông tin order id vào
-            transactionResult.setOrderId(String.valueOf(order.getId()));
+            transactionResult.setOrderId(String.valueOf(lastOrder.getId()));
             new PaymentTransactionDAO().add(transactionResult);
 
             // gửi email
             EmailController emailController = new EmailController();
-            emailController.sendOrderConfirmationEmail(order, vnPayInfo);
+            emailController.sendOrderConfirmationEmail(lastOrder, vnPayInfo);
             // clear cart
             Cart.getCart().emptyCart();
         }
