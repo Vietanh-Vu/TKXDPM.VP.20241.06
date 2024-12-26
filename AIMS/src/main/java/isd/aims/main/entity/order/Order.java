@@ -17,7 +17,7 @@ import java.util.List;
 public class Order {
 
     private int shippingFees;
-    private List lstOrderMedia;
+    private List<OrderMedia> lstOrderMedia;
     private Integer id;
     private DeliveryInfo deliveryInfo;
     private boolean isRush = false;
@@ -31,9 +31,8 @@ public class Order {
 
     public int getAmount(){
         int amountTmp = 0;
-        for (Object object : lstOrderMedia) {
-            OrderMedia om = (OrderMedia) object;
-            amountTmp += om.getPrice();
+        for (OrderMedia object : lstOrderMedia) {
+            amountTmp += object.getPrice();
         }
         this.setTotalAmount(amountTmp);
 

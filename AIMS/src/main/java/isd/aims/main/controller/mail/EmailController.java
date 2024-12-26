@@ -28,7 +28,7 @@ public class EmailController {
         String transactionDetails = paymentInfo.hasTransactionDetails() ? paymentInfo.getTransactionDetails() : "";
 
         String htmlContent = htmlTemplate
-//                .replace("{{orderId}}", String.valueOf(order.getId()))
+                .replace("{{orderId}}", String.valueOf(order.getId()))
                 .replace("{{name}}", order.getDeliveryInfo().getName())
                 .replace("{{email}}", order.getDeliveryInfo().getEmail())
                 .replace("{{phone}}", order.getDeliveryInfo().getPhoneNumber())
