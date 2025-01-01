@@ -89,25 +89,25 @@ public class VNPayPaymentMethod implements IPaymentMethod {
 
     @Override
     public void handleRefund(String orderId) {
-        List<OrderMedia> orderMedias = new OrderMediaDAO().getByOrderId(orderId);
+        List<OrderMedia> orderMedias =  OrderMediaDAO.getInstance().getByOrderId(orderId);
         System.out.println(orderMedias);
 
         for (OrderMedia orderMedia : orderMedias) {
             // Cập nhật lại quantity cho orderMedia
             System.out.println(orderMedia.getQuantity());
-            boolean update = new MediaDAO().updateBeforeRefund(orderMedia.getMedia().getId(), orderMedia.getQuantity());
+            boolean update = MediaDAO.getInstance().updateBeforeRefund(orderMedia.getMedia().getId(), orderMedia.getQuantity());
             System.out.println(update);
 
             // Xóa orderMedia tương ứng
-            boolean delete = new OrderMediaDAO().delete(orderMedia.getMedia().getId(), orderId);
+            boolean delete =  OrderMediaDAO.getInstance().delete(orderMedia.getMedia().getId(), orderId);
             System.out.println(delete);
 
-            new PaymentTransactionDAO().deleteByOrderId(orderId);
+            PaymentTransactionDAO.getInstance().deleteByOrderId(orderId);
         }
 
         // Xóa Order tương ứng
         System.out.println("----------");
-        boolean delete = new OrderDAO().delete(orderId);
+        boolean delete = OrderDAO.getInstance().delete(orderId);
         System.out.println(delete);
 
 
@@ -125,18 +125,18 @@ public class VNPayPaymentMethod implements IPaymentMethod {
             // lưu order vào db
             Order order = invoice.getOrder();
             order.setId(UUID.randomUUID().toString());
-            OrderDAO orderDAO = new OrderDAO();
+            OrderDAO orderDAO = OrderDAO.getInstance();
             orderDAO.add(order);
             Order lastOrder = orderDAO.getById(order.getId());
 
 
             List<OrderMedia> orderMediaList = invoice.getOrder().getLstOrderMedia();
-            OrderMediaDAO orderMediaDAO = new OrderMediaDAO();
+            OrderMediaDAO orderMediaDAO =  OrderMediaDAO.getInstance();
             orderMediaList.forEach(e -> {
                 // lưu order media vào db
                 orderMediaDAO.add(e, lastOrder.getId());
                 // cập nhật số lượng bảng media
-                MediaDAO mediaDAO = new MediaDAO();
+                MediaDAO mediaDAO = MediaDAO.getInstance();
                 Media curMedia = mediaDAO.getById(e.getMedia().getId());
                 try {
                     curMedia.setQuantity(curMedia.getQuantity() - e.getQuantity());
@@ -148,7 +148,7 @@ public class VNPayPaymentMethod implements IPaymentMethod {
 
             // lưu paymentTransaction vào db, trước đó cần đẩy thông tin order id vào
             transactionResult.setOrderId(String.valueOf(lastOrder.getId()));
-            new PaymentTransactionDAO().add(transactionResult);
+            PaymentTransactionDAO.getInstance().add(transactionResult);
 
             // gửi email
             EmailController emailController = new EmailController();

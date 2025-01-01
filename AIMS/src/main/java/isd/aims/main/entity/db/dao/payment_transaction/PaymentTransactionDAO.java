@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentTransactionDAO extends DAO<PaymentTransaction> {
+    private static final PaymentTransactionDAO paymentTransactionDAO = new PaymentTransactionDAO();
+    public static PaymentTransactionDAO getInstance(){
+        return paymentTransactionDAO;
+    };
+
     @Override
     public List<PaymentTransaction> getAll() {
         String query = "SELECT * FROM PaymentTransaction";

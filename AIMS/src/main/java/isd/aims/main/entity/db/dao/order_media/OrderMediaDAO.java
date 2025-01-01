@@ -1,5 +1,6 @@
 package isd.aims.main.entity.db.dao.order_media;
 
+import isd.aims.main.entity.db.dao.payment_transaction.PaymentTransactionDAO;
 import isd.aims.main.entity.order.OrderMedia;
 import isd.aims.main.entity.db.DAO;
 
@@ -8,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderMediaDAO extends DAO<OrderMedia> {
+    private static final OrderMediaDAO orderMediaDAO = new OrderMediaDAO();
+    public static OrderMediaDAO getInstance(){
+        return orderMediaDAO;
+    }
+
     @Override
     public List<OrderMedia> getAll() {
         String query = "SELECT * FROM OrderMedia";

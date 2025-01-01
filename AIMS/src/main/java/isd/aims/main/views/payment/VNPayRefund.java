@@ -70,7 +70,7 @@ public class VNPayRefund extends BaseForm {
         String vnp_TransactionDate = TransactionDate.getText();
         int vnp_Amount = Integer.parseInt(Amount.getText());
 
-        PaymentTransaction transactionCheck = new PaymentTransactionDAO().getTransactionNumberByOrderId(orderIdCheck);
+        PaymentTransaction transactionCheck = PaymentTransactionDAO.getInstance().getTransactionNumberByOrderId(orderIdCheck);
 
         if (!(orderId.equals(orderIdCheck)) || !(transactionCheck.getTransactionNumber().equals(vnp_TxnRef))) {
             responseCodeLabel.setText("Error");

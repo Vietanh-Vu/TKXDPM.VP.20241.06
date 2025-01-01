@@ -1,6 +1,7 @@
 package isd.aims.main.entity.db.dao.cd;
 
 import isd.aims.main.entity.db.DAO;
+import isd.aims.main.entity.db.dao.dvd.DvdDAO;
 import isd.aims.main.entity.media.CD;
 
 import java.sql.SQLException;
@@ -8,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CdDAO extends DAO<CD> {
+    private static final CdDAO CdDAO = new CdDAO();
+    public static CdDAO getInstance(){
+        return CdDAO;
+    }
     @Override
     public List<CD> getAll() {
         String query = "SELECT * FROM CD";

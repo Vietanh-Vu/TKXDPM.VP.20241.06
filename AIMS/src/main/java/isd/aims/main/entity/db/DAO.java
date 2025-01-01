@@ -1,5 +1,7 @@
 package isd.aims.main.entity.db;
 
+import isd.aims.main.entity.cart.Cart;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +13,7 @@ public abstract class DAO<T> {
 
     protected Connection connection = SQLiteConnection.getConnection();
 
-    public DAO() {
+    protected DAO() {
         // Kết nối đã được thực hiện thông qua SQLiteConnection.getConnection()
     }
 

@@ -1,6 +1,7 @@
 package isd.aims.main.entity.db.dao.dvd;
 
 import isd.aims.main.entity.db.DAO;
+import isd.aims.main.entity.db.dao.Media.MediaDAO;
 import isd.aims.main.entity.media.DVD;
 
 import java.util.ArrayList;
@@ -8,7 +9,10 @@ import java.util.List;
 import java.sql.SQLException;
 
 public class DvdDAO extends DAO<DVD> {
-
+    private static final DvdDAO dvdDAO = new DvdDAO();
+    public static DvdDAO getInstance(){
+        return dvdDAO;
+    }
     @Override
     public List<DVD> getAll() {
         String query = "SELECT * FROM DVD";

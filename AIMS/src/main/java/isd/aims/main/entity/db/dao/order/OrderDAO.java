@@ -1,5 +1,6 @@
 package isd.aims.main.entity.db.dao.order;
 
+import isd.aims.main.entity.db.dao.order_media.OrderMediaDAO;
 import isd.aims.main.entity.order.Order;
 import isd.aims.main.entity.db.DAO;
 
@@ -8,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAO extends DAO<Order> {
+    private static final OrderDAO orderDAO = new OrderDAO();
+    public static OrderDAO getInstance(){
+        return orderDAO;
+    }
+
     @Override
     public List<Order> getAll() {
         String query = "SELECT * FROM `Order`";
