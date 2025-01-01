@@ -144,8 +144,7 @@ public class ListOrderForm extends BaseForm {
         // Lấy phương thức thanh toán
         IPaymentMethod refundMethod = factory.createPaymentMethod(PaymentType.valueOf(order.getPaymentType()));
         // Xử lý thông tin refund
-        refundMethod.handleRefundProcess(this.stage, order);
-
+        refundMethod.handleRefundProcess(stage, order);
     }
 
 }
