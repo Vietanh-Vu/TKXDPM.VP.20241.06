@@ -55,7 +55,7 @@ public class MediaDetailForm extends BaseForm {
 
     @Override
     public void show() {
-        numMediaInCart.setText(String.valueOf(Cart.getCart().getListMedia().size()) + " media");
+        numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia() + " media"));
         super.show();
     }
 
@@ -96,7 +96,7 @@ public class MediaDetailForm extends BaseForm {
         }
 
         setImage();
-        this.show();
+        show();
         // on mouse clicked, we back to home
         aimsImage.setOnMouseClicked(e -> {
             homeScreenHandler.show();

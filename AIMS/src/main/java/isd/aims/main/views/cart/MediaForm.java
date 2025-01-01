@@ -88,6 +88,8 @@ public class MediaForm extends FXMLForm {
 			try {
 				Cart.getCart().removeCartMedia(cartMedia); // update user cart
 				cartScreen.updateCart(); // re-display user cart
+				int reupdated_quantity = cartMedia.getMedia().getQuantity(); // re-update quantity of media in Home screen
+				cartMedia.getMedia().setQuantity(reupdated_quantity);
 				LOGGER.info("Deleted " + cartMedia.getMedia().getTitle() + " from the cart");
 			} catch (SQLException exp) {
 				exp.printStackTrace();
