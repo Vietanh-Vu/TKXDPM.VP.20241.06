@@ -1,7 +1,6 @@
 package isd.aims.main.controller.placeorder.ordervalidator;
 
 import isd.aims.main.entity.deliveryinfo.DeliveryInfo;
-import isd.aims.main.entity.order.Order;
 
 import java.util.regex.Pattern;
 
@@ -11,7 +10,44 @@ public abstract class DeliveryInfoValidator {
                 validateAddress(deliveryInfo.getAddress()) &&
                 validateName(deliveryInfo.getName()) &&
                 validateEmail(deliveryInfo.getEmail()) &&
-                validateProvince(deliveryInfo.getProvince());
+                validateProvince(deliveryInfo.getProvince()) &&
+                validateProducts();
+    }
+
+    public String notifyInvalidInfo(DeliveryInfo deliveryInfo) {
+        StringBuilder notification = new StringBuilder();
+
+        // Kiểm tra tên
+        if (!validateName(deliveryInfo.getName())) {
+            notification.append("Tên không hợp lệ. Vui lòng nhập tên chỉ chứa ký tự chữ, không quá 30 ký tự.\n");
+        }
+
+        // Kiểm tra số điện thoại
+        if (!validatePhoneNumber(deliveryInfo.getPhoneNumber())) {
+            notification.append("Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại bắt đầu bằng 0, có 10 chữ số.\n");
+        }
+
+        // Kiểm tra địa chỉ
+        if (!validateAddress(deliveryInfo.getAddress())) {
+            notification.append("Địa chỉ không hợp lệ. Vui lòng nhập địa chỉ chỉ chứa ký tự chữ, số hoặc dấu '/'. Độ dài không quá 100 ký tự.\n");
+        }
+
+        // Kiểm tra email
+        if (!validateEmail(deliveryInfo.getEmail())) {
+            notification.append("Email không hợp lệ. Vui lòng nhập địa chỉ email đúng định dạng (ví dụ: example@example.com).\n");
+        }
+
+        // Kiểm tra tỉnh thành
+        if (!validateProvince(deliveryInfo.getProvince())) {
+            notification.append("Tỉnh/Thành phố không hợp lệ. Vui lòng chọn tỉnh/thành phố hợp lệ.\n");
+        }
+
+        // Kiểm tra sản phẩm
+        if (!validateProducts()) {
+            notification.append("Danh sách sản phẩm không hỗ trợ với lựa chọn giao hàng. Vui lòng kiểm tra lại giỏ hàng hoặc lựa chọn phương thức giao hàng chuẩn (Standard Shipping).\n");
+        }
+
+        return notification.toString();
     }
 
     protected boolean validatePhoneNumber(String phoneNumber) {
@@ -112,4 +148,5 @@ public abstract class DeliveryInfoValidator {
     protected boolean validateProvince(String province) {
         return true;
     }
+    protected boolean validateProducts() {return true;}
 }

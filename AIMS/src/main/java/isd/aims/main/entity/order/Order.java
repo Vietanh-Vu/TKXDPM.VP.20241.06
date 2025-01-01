@@ -32,7 +32,7 @@ public class Order {
     public int getAmount(){
         int amountTmp = 0;
         for (OrderMedia object : lstOrderMedia) {
-            amountTmp += object.getPrice();
+            amountTmp += object.getPrice() * object.getQuantity();
         }
         this.setTotalAmount(amountTmp);
 
@@ -51,4 +51,36 @@ public class Order {
         return order;
     }
 
+    public int getNumberOfRushItems() {
+        int numberOfRushItems = 0;
+        for (Object obj : this.getLstOrderMedia()) {
+            OrderMedia om = (OrderMedia) obj;
+            if (om.getMedia().isRush()) {
+                numberOfRushItems += om.getQuantity();
+            }
+        }
+        return numberOfRushItems;
+    }
+
+    public double getHeaviestItemWeight() {
+        double heaviestItemWeight = 0;
+        for (Object obj : this.getLstOrderMedia()) {
+            OrderMedia om = (OrderMedia) obj;
+            if (om.getMedia().getWeight() > heaviestItemWeight) {
+                heaviestItemWeight = om.getMedia().getWeight();
+            }
+        }
+        return heaviestItemWeight;
+    }
+
+    public double getHeaviestNoRushItemWeight() {
+        double heaviestItemWeight = 0;
+        for (Object obj : this.getLstOrderMedia()) {
+            OrderMedia om = (OrderMedia) obj;
+            if (om.getMedia().getWeight() > heaviestItemWeight && om.getMedia().isRush() == false) {
+                heaviestItemWeight = om.getMedia().getWeight();
+            }
+        }
+        return heaviestItemWeight;
+    }
 }

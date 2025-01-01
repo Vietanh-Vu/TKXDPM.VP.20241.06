@@ -161,6 +161,8 @@ public class Media {
                 ", price='" + price + "'" +
                 ", quantity='" + quantity + "'" +
                 ", type='" + type + "'" +
+                ", rush='" + isRush + "'" +
+                ", weight='" + weight + "'" +
                 ", imageURL='" + imageURL + "'" +
                 "}";
     }
