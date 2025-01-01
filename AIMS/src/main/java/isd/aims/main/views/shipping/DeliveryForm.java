@@ -1,5 +1,6 @@
 package isd.aims.main.views.shipping;
 
+import isd.aims.main.entity.order.OrderType;
 import isd.aims.main.controller.placeorder.PlaceOrderController;
 import isd.aims.main.controller.placeorder.ordervalidator.StandardInfoValidator;
 import isd.aims.main.controller.placeorder.shippingfee.StandardShippingFee;
@@ -14,10 +15,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -50,7 +48,10 @@ public class DeliveryForm extends BaseForm implements Initializable {
 	private ComboBox<String> province;
 
 	@FXML
-	private CheckBox rush;
+	private Label notification;
+
+	@FXML
+	private ChoiceBox orderType;
 
 	private Order order;
 
@@ -72,6 +73,10 @@ public class DeliveryForm extends BaseForm implements Initializable {
 			}
 		});
 		this.province.getItems().addAll(Configs.PROVINCES);
+		for (OrderType orderTypeEnum : OrderType.values()) {
+			orderType.getItems().add(orderTypeEnum.getOrderType());
+		}
+		orderType.setValue(OrderType.StandardOrder.getOrderType());
 	}
 
 	@FXML
@@ -80,27 +85,31 @@ public class DeliveryForm extends BaseForm implements Initializable {
 		DeliveryInfo deliveryInfo = new DeliveryInfo(name.getText(),phone.getText(),email.getText(),address.getText(),province.getValue());
 		System.out.println(deliveryInfo.toString());
 
-		if (rush.isSelected()) {
-			placeOrderController.setRushController();
-		} else {
-			placeOrderController.setStandardController();
-		}
+		//-------- xử lý controller
+		String selectedOrderType = orderType.getValue().toString();
+		this.placeOrderController = OrderType.getPlaceOrderController(selectedOrderType);
+		//--------
+
 		try {
 			// process and validate delivery info
 			placeOrderController.processDeliveryInfo(deliveryInfo);
 		} catch (InvalidDeliveryInfoException e) {
+			notification.setText(placeOrderController.notifyInvalidInfo(deliveryInfo));
 			System.out.println(e.getMessage());
 			throw new InvalidDeliveryInfoException(e.getMessage());
 		}
 		order.setDeliveryInfo(deliveryInfo);
+
 		// calculate shipping fees
 		int shippingFees = placeOrderController.calculateShippingFee(order);
-		System.out.println(shippingFees);
+		System.out.println("Shipping fees là : " + shippingFees);
 		order.setShippingFees(shippingFees);
 
 		// create invoice screen
 		Invoice invoice = new Invoice(order);
 		System.out.print(invoice.toString());
+		System.out.print("Amount của invoice: " + invoice.getAmount());
+
 		BaseForm InvoiceScreenHandler = new InvoiceForm(this.stage, Configs.INVOICE_SCREEN_PATH, invoice);
 		InvoiceScreenHandler.setPreviousScreen(this);
 		InvoiceScreenHandler.setHomeScreenHandler(homeScreenHandler);

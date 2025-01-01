@@ -1,8 +1,11 @@
 package isd.aims.main.views.order;
 
+import isd.aims.main.controller.payment.IPaymentMethod;
+import isd.aims.main.controller.payment.PaymentMethodFactory;
 import isd.aims.main.entity.db.dao.order.OrderDAO;
 import isd.aims.main.entity.order.Order;
 
+import isd.aims.main.entity.payment.PaymentType;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.payment.VNPayRefund;
@@ -37,15 +40,11 @@ public class ListOrderForm extends BaseForm {
 
     public ListOrderForm(Stage stage, String screenPath) throws IOException {
         super(stage, screenPath);
-
-
         // on mouse clicked, we back to home
         aimsImage.setOnMouseClicked(e -> {
             homeScreenHandler.show();
         });
     }
-
-
 
     @FXML
     private void handleSearchClick() {
@@ -98,9 +97,6 @@ public class ListOrderForm extends BaseForm {
             orderRow.setAlignment(Pos.CENTER_LEFT); // Căn trái
             orderRow.setStyle("-fx-padding: 5; -fx-border-color: #ddd; -fx-border-width: 0 0 1 0;"); // Thêm viền dưới
 
-
-
-
             // Tạo các thành phần cho từng dòng
             Text nameText = createText(order.getDeliveryInfo().getName(), 120);
             Text emailText = createText(order.getDeliveryInfo().getEmail(), 150);
@@ -110,7 +106,6 @@ public class ListOrderForm extends BaseForm {
             Text shippingFeeText = createText(String.valueOf(order.getShippingFees()), 100);
             Text totalAmountText = createText(String.valueOf(order.getTotalAmount() + order.getShippingFees()), 100);
             Text paymentStatusText = createText(order.getOrderStatus(), 100);
-
 
             // Tạo nút Refund
             Button refundButton = new Button("Refund");
@@ -143,9 +138,13 @@ public class ListOrderForm extends BaseForm {
 
 
     private void handleRefundClick(Order order) throws IOException {
-        VNPayRefund VNPayRefund = new VNPayRefund(stage, Configs.REFUND_REQUEST_PATH, order.getId());
-        VNPayRefund.setHomeScreenHandler(this.homeScreenHandler);
-        VNPayRefund.show();
+        // Lấy đối tượng PaymentMethodFactory (theo Singleton Pattern)
+        PaymentMethodFactory factory = PaymentMethodFactory.getInstance();
+        System.out.println(factory);
+        // Lấy phương thức thanh toán
+        IPaymentMethod refundMethod = factory.createPaymentMethod(PaymentType.valueOf(order.getPaymentType()));
+        // Xử lý thông tin refund
+        refundMethod.handleRefundProcess(stage, order);
     }
 
 }

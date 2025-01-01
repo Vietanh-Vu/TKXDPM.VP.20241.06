@@ -43,7 +43,7 @@
 ## UseCase
 
 <p align="center">
-  <img src="./Design/Customer.png" alt="AIMS Cover"/>
+  <img src="./Design/UsecaseDiagram.png" alt="AIMS Cover"/>
 </p>
 
 ## Installation & Running

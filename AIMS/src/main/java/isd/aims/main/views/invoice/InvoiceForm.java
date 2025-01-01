@@ -70,7 +70,7 @@ public class InvoiceForm extends BaseForm {
         super(stage, screenPath);
         this.invoice = invoice;
         setInvoiceInfo();
-        paymentType.getItems().addAll(PaymentType.VNPay);
+        paymentType.getItems().addAll(PaymentType.getAllPaymentTypes());
         btnConfirm.setOnMouseClicked(e -> {
             LOGGER.info("Pay Order button clicked");
             try {

@@ -6,6 +6,7 @@ import isd.aims.main.entity.payment.PaymentTransaction;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAccessor;
 
 class PaymentTransactionMapDbToClass implements MapDbToClass<PaymentTransaction> {
     @Override
@@ -14,7 +15,8 @@ class PaymentTransactionMapDbToClass implements MapDbToClass<PaymentTransaction>
         transaction.setId(resultSet.getString("id"));
         transaction.setOrderId(resultSet.getString("orderID"));
         transaction.setContent(resultSet.getString("content"));
-        transaction.setCreatedAt(LocalDateTime.from(resultSet.getTimestamp("createAt").toInstant()));
+        String timestampStr = resultSet.getString("createAt");
+        transaction.setCreatedAt(LocalDateTime.parse(timestampStr));
         transaction.setStatus(resultSet.getString("status"));
         transaction.setAmount(resultSet.getInt("amount"));
         transaction.setPaymentType(resultSet.getString("paymentType"));
