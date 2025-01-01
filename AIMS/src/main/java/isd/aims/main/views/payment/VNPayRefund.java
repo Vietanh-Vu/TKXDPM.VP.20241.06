@@ -41,9 +41,9 @@ public class VNPayRefund extends BaseForm {
     @FXML
     private Button confirmButton; // Nút xác nhận
 
-    private int orderId; // Lưu orderId của mã được hoàn tiền
+    private String orderId; // Lưu orderId của mã được hoàn tiền
     private boolean flag = false;
-    public VNPayRefund(Stage stage, String screenPath, int orderId) throws IOException {
+    public VNPayRefund(Stage stage, String screenPath, String orderId) throws IOException {
         super(stage, screenPath);
         this.orderId = orderId;
         aimsImage.setOnMouseClicked(e -> {

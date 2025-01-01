@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class VNPayPaymentMethod implements IPaymentMethod {
 
@@ -87,7 +88,7 @@ public class VNPayPaymentMethod implements IPaymentMethod {
     }
 
     @Override
-    public void handleRefund(int orderId) {
+    public void handleRefund(String orderId) {
         List<OrderMedia> orderMedias = new OrderMediaDAO().getByOrderId(orderId);
         System.out.println(orderMedias);
 
@@ -120,15 +121,17 @@ public class VNPayPaymentMethod implements IPaymentMethod {
 
         if (transactionResult.getStatus().equals("SUCCESS")) {
             // lưu order vào db
-            Order order = new OrderDAO().add(invoice.getOrder());
-            Order lastOrder = new OrderDAO().getRecentlyAdded();
+            Order order = invoice.getOrder();
+            order.setId(UUID.randomUUID().toString());
+            new OrderDAO().add(order);
+//            Order lastOrder = new OrderDAO().getRecentlyAdded();
 
 
             List<OrderMedia> orderMediaList = invoice.getOrder().getLstOrderMedia();
             OrderMediaDAO orderMediaDAO = new OrderMediaDAO();
             orderMediaList.forEach(e -> {
                 // lưu order media vào db
-                orderMediaDAO.add(e, lastOrder.getId());
+                orderMediaDAO.add(e, order.getId());
                 // cập nhật số lượng bảng media
                 MediaDAO mediaDAO = new MediaDAO();
                 Media curMedia = mediaDAO.getById(e.getMedia().getId());
@@ -141,12 +144,12 @@ public class VNPayPaymentMethod implements IPaymentMethod {
             });
 
             // lưu paymentTransaction vào db, trước đó cần đẩy thông tin order id vào
-            transactionResult.setOrderId(String.valueOf(lastOrder.getId()));
+            transactionResult.setOrderId(String.valueOf(order.getId()));
             new PaymentTransactionDAO().add(transactionResult);
 
             // gửi email
             EmailController emailController = new EmailController();
-            emailController.sendOrderConfirmationEmail(lastOrder, vnPayInfo);
+            emailController.sendOrderConfirmationEmail(order, vnPayInfo);
             // clear cart
             Cart.getCart().emptyCart();
         }

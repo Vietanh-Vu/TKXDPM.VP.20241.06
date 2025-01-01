@@ -61,7 +61,7 @@ CREATE TABLE DVD
 -- Order table - Contains delivery info and order details
 CREATE TABLE `Order`
 (
-    id           INTEGER PRIMARY KEY,
+    id           VARCHAR(45) PRIMARY KEY,
     -- DeliveryInfo fields
     name         VARCHAR(45) NOT NULL,
     email        VARCHAR(45) NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE `Order`
 CREATE TABLE OrderMedia
 (
     mediaID  INT NOT NULL,
-    orderID  INT NOT NULL,
+    orderID  VARCHAR(45) NOT NULL,
     quantity INT NOT NULL,
     PRIMARY KEY (mediaID, orderID),
     FOREIGN KEY (mediaID) REFERENCES Media (id),
@@ -91,7 +91,7 @@ CREATE TABLE OrderMedia
 CREATE TABLE PaymentTransaction
 (
     id             INTEGER PRIMARY KEY,
-    orderID        VARCHAR(255) NOT NULL,
+    orderID        VARCHAR(45) NOT NULL,
     content        VARCHAR(255) NOT NULL,
     createAt       DATETIME     NOT NULL,
     status         VARCHAR(45)  NOT NULL,

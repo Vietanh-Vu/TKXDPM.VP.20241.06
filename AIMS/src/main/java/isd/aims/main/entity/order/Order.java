@@ -18,7 +18,7 @@ public class Order {
 
     private int shippingFees;
     private List<OrderMedia> lstOrderMedia;
-    private Integer id;
+    private String id;
     private DeliveryInfo deliveryInfo;
     private boolean isRush = false;
     private String paymentType;

@@ -22,5 +22,5 @@ public interface IPaymentMethod {
     String getType();
     void handleRefundProcess(Stage satge, Order order) throws IOException;
     String makeRefundRequest(int amount, Map<String, Object> additionalParams);
-    void handleRefund(int orderId);
+    void handleRefund(String orderId);
 }
