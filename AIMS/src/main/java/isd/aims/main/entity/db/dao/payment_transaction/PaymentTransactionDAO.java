@@ -83,6 +83,15 @@ public class PaymentTransactionDAO extends DAO<PaymentTransaction> {
         return false;
     }
 
+    public void deleteByOrderId(String orderId) {
+        String query = "DELETE FROM PaymentTransaction WHERE orderID = ?";
+        try {
+            executeUpdate(query, orderId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public PaymentTransaction getTransactionNumberByOrderId(String orderId) {
         String query = "SELECT * FROM PaymentTransaction WHERE orderID = ?";
         try {

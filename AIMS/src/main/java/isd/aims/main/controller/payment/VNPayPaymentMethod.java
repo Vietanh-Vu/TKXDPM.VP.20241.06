@@ -101,6 +101,8 @@ public class VNPayPaymentMethod implements IPaymentMethod {
             // Xóa orderMedia tương ứng
             boolean delete = new OrderMediaDAO().delete(orderMedia.getMedia().getId(), orderId);
             System.out.println(delete);
+
+            new PaymentTransactionDAO().deleteByOrderId(orderId);
         }
 
         // Xóa Order tương ứng
