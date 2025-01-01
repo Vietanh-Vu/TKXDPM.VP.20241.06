@@ -78,12 +78,12 @@ public class CD extends Media {
 
     @Override
     public CD getMediaById(int id) throws SQLException {
-        return new CdDAO().getById(id);
+        return CdDAO.getInstance().getById(id);
     }
 
     @Override
     public List getAllMedia() {
-        return new CdDAO().getAll();
+        return CdDAO.getInstance().getAll();
     }
 
 }

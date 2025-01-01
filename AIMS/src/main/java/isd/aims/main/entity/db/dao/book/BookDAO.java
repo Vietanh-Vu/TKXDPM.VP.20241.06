@@ -1,6 +1,7 @@
 package isd.aims.main.entity.db.dao.book;
 
 import isd.aims.main.entity.db.DAO;
+import isd.aims.main.entity.db.dao.cd.CdDAO;
 import isd.aims.main.entity.media.Book;
 
 import java.sql.SQLException;
@@ -8,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO extends DAO<Book> {
-
+    private static final BookDAO bookDAO = new BookDAO();
+    public static BookDAO getInstance(){
+        return bookDAO;
+    }
     @Override
     public List<Book> getAll() {
         String query = "SELECT * FROM Book";

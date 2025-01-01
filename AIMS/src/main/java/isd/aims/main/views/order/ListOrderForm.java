@@ -49,7 +49,7 @@ public class ListOrderForm extends BaseForm {
     @FXML
     private void handleSearchClick() {
         String email = emailField.getText();
-        List<Order> orders = new OrderDAO().getByEmail(email);
+        List<Order> orders =  OrderDAO.getInstance().getByEmail(email);
 
         displayOrders(orders);
 
