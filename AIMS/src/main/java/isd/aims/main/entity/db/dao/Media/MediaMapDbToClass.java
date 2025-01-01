@@ -19,6 +19,8 @@ public class MediaMapDbToClass implements MapDbToClass<Media> {
         media.setQuantity(resultSet.getInt("quantity"));
         media.setType(resultSet.getString("type"));
         media.setImageURL(resultSet.getString("imageURL"));
+        media.setIsRush(resultSet.getBoolean("is_rush"));
+        media.setWeight(resultSet.getFloat("weight"));
         return media;
     }
 }
