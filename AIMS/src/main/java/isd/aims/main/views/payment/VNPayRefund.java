@@ -3,6 +3,7 @@ package isd.aims.main.views.payment;
 
 import isd.aims.main.controller.payment.VNPayPaymentMethod;
 import isd.aims.main.entity.db.dao.payment_transaction.PaymentTransactionDAO;
+import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.home.HomeForm;
@@ -50,14 +51,12 @@ public class VNPayRefund extends BaseForm {
         super(stage, screenPath);
         this.orderId = orderId;
         aimsImage.setOnMouseClicked(e -> {
-            if (flag) {
-                try {
-                    homeScreenHandler = new HomeForm(stage, Configs.HOME_PATH);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+            try {
+                homeScreenHandler = new HomeForm(stage, Configs.HOME_PATH);
+                homeScreenHandler.show();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
-            homeScreenHandler.show();
         });
     }
 
@@ -71,9 +70,9 @@ public class VNPayRefund extends BaseForm {
         String vnp_TransactionDate = TransactionDate.getText();
         int vnp_Amount = Integer.parseInt(Amount.getText());
 
-        String transactionCheck = new PaymentTransactionDAO().getTranSactionNumberByOrderId(orderIdCheck);
+        PaymentTransaction transactionCheck = new PaymentTransactionDAO().getTransactionNumberByOrderId(orderIdCheck);
 
-        if (!(orderId.equals(orderIdCheck)) || !(transactionCheck.equals(vnp_TransactionNo))) {
+        if (!(orderId.equals(orderIdCheck)) || !(transactionCheck.getTransactionNumber().equals(vnp_TxnRef))) {
             responseCodeLabel.setText("Error");
             responseMessageLabel.setText("Order ID hoặc Transaction No không khớp. Vui lòng kiểm tra lại.");
 

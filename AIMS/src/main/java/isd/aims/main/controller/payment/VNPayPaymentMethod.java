@@ -123,15 +123,16 @@ public class VNPayPaymentMethod implements IPaymentMethod {
             // lưu order vào db
             Order order = invoice.getOrder();
             order.setId(UUID.randomUUID().toString());
-            new OrderDAO().add(order);
-//            Order lastOrder = new OrderDAO().getRecentlyAdded();
+            OrderDAO orderDAO = new OrderDAO();
+            orderDAO.add(order);
+            Order lastOrder = orderDAO.getById(order.getId());
 
 
             List<OrderMedia> orderMediaList = invoice.getOrder().getLstOrderMedia();
             OrderMediaDAO orderMediaDAO = new OrderMediaDAO();
             orderMediaList.forEach(e -> {
                 // lưu order media vào db
-                orderMediaDAO.add(e, order.getId());
+                orderMediaDAO.add(e, lastOrder.getId());
                 // cập nhật số lượng bảng media
                 MediaDAO mediaDAO = new MediaDAO();
                 Media curMedia = mediaDAO.getById(e.getMedia().getId());
@@ -144,12 +145,12 @@ public class VNPayPaymentMethod implements IPaymentMethod {
             });
 
             // lưu paymentTransaction vào db, trước đó cần đẩy thông tin order id vào
-            transactionResult.setOrderId(String.valueOf(order.getId()));
+            transactionResult.setOrderId(String.valueOf(lastOrder.getId()));
             new PaymentTransactionDAO().add(transactionResult);
 
             // gửi email
             EmailController emailController = new EmailController();
-            emailController.sendOrderConfirmationEmail(order, vnPayInfo);
+            emailController.sendOrderConfirmationEmail(lastOrder, vnPayInfo);
             // clear cart
             Cart.getCart().emptyCart();
         }

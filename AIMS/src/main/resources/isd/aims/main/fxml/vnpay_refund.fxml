@@ -42,8 +42,8 @@
         <Label text="OrderId:"/>
         <TextField fx:id="OrderId" promptText="Nhập OrderId"/>
         <!-- Transaction reference code -->
-        <Label text="Mã đơn hàng:"/>
-        <TextField fx:id="TxnRef" promptText="Nhập mã đơn hàng"/>
+        <Label text="Số hóa đơn:"/>
+        <TextField fx:id="TxnRef" promptText="Nhập số hóa đơn"/>
 
         <!-- Transaction code -->
         <Label text="Mã giao dịch:"/>
