@@ -12,6 +12,7 @@ public enum PaymentType {
     VNPay("VNPay");
 
     private final String paymentType;
+
     public static List<PaymentType> getAllPaymentTypes() {
         return Arrays.asList(PaymentType.values());
     }

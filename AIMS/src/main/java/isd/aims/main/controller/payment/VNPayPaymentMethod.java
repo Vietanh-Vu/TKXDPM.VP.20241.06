@@ -1,8 +1,10 @@
-package isd.aims.main.InterbankSubsystem.vn_pay;
+package isd.aims.main.controller.payment;
 
+import isd.aims.main.InterbankSubsystem.vn_pay.PayRequestVnPay;
+import isd.aims.main.InterbankSubsystem.vn_pay.PayResponseVnPay;
+import isd.aims.main.InterbankSubsystem.vn_pay.RefundRequest;
 import isd.aims.main.controller.mail.EmailController;
 import isd.aims.main.controller.mail.VNPayInfo;
-import isd.aims.main.controller.payment.IPaymentMethod;
 import isd.aims.main.entity.cart.Cart;
 import isd.aims.main.entity.db.dao.Media.MediaDAO;
 import isd.aims.main.entity.db.dao.order.OrderDAO;
@@ -14,9 +16,9 @@ import isd.aims.main.entity.order.Order;
 import isd.aims.main.entity.order.OrderMedia;
 import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.entity.payment.PaymentType;
-import isd.aims.main.entity.payment.RefundTransaction;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.payment.VNPayProcess;
+import isd.aims.main.views.payment.VNPayRefund;
 import jakarta.mail.MessagingException;
 import javafx.stage.Stage;
 
@@ -26,6 +28,8 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class VNPayPaymentMethod implements IPaymentMethod {
 
@@ -65,15 +69,48 @@ public class VNPayPaymentMethod implements IPaymentMethod {
         return payResponse.getTransaction(vnpReturnURL);
     }
 
+    @Override
+    public void handleRefundProcess(Stage stage, Order order) throws IOException {
+        VNPayRefund vnPayRefund = new VNPayRefund(stage, Configs.REFUND_REQUEST_PATH, order.getId());
+        vnPayRefund.show();
+    }
+
 
     @Override
-    public String makeRefundRequest(int amount, String content) {
-        return "";
+    public String makeRefundRequest(int amount, Map<String, Object> additionalParams) {
+        // Lấy các tham số cho refund
+        String vnp_TxnRef = (String) additionalParams.get("vnp_TxnRef");
+        String vnp_TransactionNo = (String) additionalParams.get("vnp_TransactionNo");
+        String vnp_TransactionDate = (String) additionalParams.get("vnp_TransactionDate");
+
+        RefundRequest refundRequest = new RefundRequest(amount, vnp_TxnRef, vnp_TransactionNo, vnp_TransactionDate);
+        return String.valueOf(refundRequest.generateURL());
     }
 
     @Override
-    public RefundTransaction handleRefund() {
-        return null;
+    public void handleRefund(String orderId) {
+        List<OrderMedia> orderMedias = new OrderMediaDAO().getByOrderId(orderId);
+        System.out.println(orderMedias);
+
+        for (OrderMedia orderMedia : orderMedias) {
+            // Cập nhật lại quantity cho orderMedia
+            System.out.println(orderMedia.getQuantity());
+            boolean update = new MediaDAO().updateBeforeRefund(orderMedia.getMedia().getId(), orderMedia.getQuantity());
+            System.out.println(update);
+
+            // Xóa orderMedia tương ứng
+            boolean delete = new OrderMediaDAO().delete(orderMedia.getMedia().getId(), orderId);
+            System.out.println(delete);
+
+            new PaymentTransactionDAO().deleteByOrderId(orderId);
+        }
+
+        // Xóa Order tương ứng
+        System.out.println("----------");
+        boolean delete = new OrderDAO().delete(orderId);
+        System.out.println(delete);
+
+
     }
 
     @Override
@@ -86,8 +123,11 @@ public class VNPayPaymentMethod implements IPaymentMethod {
 
         if (transactionResult.getStatus().equals("SUCCESS")) {
             // lưu order vào db
-            Order order = new OrderDAO().add(invoice.getOrder());
-            Order lastOrder = new OrderDAO().getRecentlyAdded();
+            Order order = invoice.getOrder();
+            order.setId(UUID.randomUUID().toString());
+            OrderDAO orderDAO = new OrderDAO();
+            orderDAO.add(order);
+            Order lastOrder = orderDAO.getById(order.getId());
 
 
             List<OrderMedia> orderMediaList = invoice.getOrder().getLstOrderMedia();

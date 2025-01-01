@@ -59,7 +59,7 @@ public class Configs {
 	public static final String CD_DETAIL_PATH = "fxml/cd_detail.fxml";
 	public static final String POPUP_PATH = "fxml/popup.fxml";
 	public static final String LIST_ORDER_PATH = "fxml/list-order.fxml";
-	public static final String REFUND_REQUEST_PATH = "fxml/refund_request.fxml";
+	public static final String REFUND_REQUEST_PATH = "fxml/vnpay_refund.fxml";
 
 	public static Font REGULAR_FONT = Font.font("Segoe UI", FontWeight.NORMAL, FontPosture.REGULAR, 24);
 

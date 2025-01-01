@@ -26,7 +26,7 @@ public class RefundRequest {
         this.transactionNo = transactionNo;
 
         // Định nghĩa định dạng của chuỗi đầu vào
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH-mm-ss");
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         // Phân tích chuỗi đầu vào thành LocalDateTime
         LocalDateTime dateTime = LocalDateTime.parse(transactionDate, inputFormatter);

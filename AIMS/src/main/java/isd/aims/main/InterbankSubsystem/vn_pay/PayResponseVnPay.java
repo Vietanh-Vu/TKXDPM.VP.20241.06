@@ -97,7 +97,8 @@ public class PayResponseVnPay {
         String date = Utils.convertTime(createdAt, "yyyyMMddHHmmss", "yyyy-MM-dd HH:mm:ss");
         LocalDateTime time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String message = Objects.equals(errorCode, "00") ? "SUCCESS" : "FAILED";
-        return new PaymentTransaction(transactionContent, time, message, amount, PaymentType.VNPay.getPaymentType(), transactionId);
+        String transactionTxnRef = VNPayResponse.getVnp_TxnRef(); // mã transaction của VNPay, mã hóa đơn
+        return new PaymentTransaction(transactionContent, time, message, amount, PaymentType.VNPay.getPaymentType(), transactionTxnRef);
 
     }
 

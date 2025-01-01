@@ -30,6 +30,16 @@ public class OrderDAO extends DAO<Order> {
         return null;
     }
 
+    public Order getById(String id) {
+        String query = "SELECT * FROM `Order` WHERE id = ?";
+        try {
+            return findOne(query, new OrderMapDbToClass(), id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Order getRecentlyAdded() {
         String query = "SELECT * FROM `Order` ORDER BY id DESC LIMIT 1";
         try {
@@ -41,7 +51,7 @@ public class OrderDAO extends DAO<Order> {
     }
 
     public List<Order> getByEmail(String email) {
-        String query = "SELECT * FROM `Order` WHERE email = ?";
+        String query = "SELECT * FROM `Order` WHERE email = ? AND OrderStatus = 'PENDING'";
         try {
             return findAll(query, new OrderMapDbToClass(), email);
         } catch (SQLException e) {
@@ -53,11 +63,11 @@ public class OrderDAO extends DAO<Order> {
     @Override
     public Order add(Order order) {
         order.setOrderStatus("PENDING");
-        String query = "INSERT INTO `Order` (name, email, address, phone, province, " +
+        String query = "INSERT INTO `Order` (id, name, email, address, phone, province, " +
                 "shipping_fee, totalAmount, orderStatus, paymentType, is_rush) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            executeUpdate(query, order.getDeliveryInfo().getName(), order.getDeliveryInfo().getEmail(), order.getDeliveryInfo().getAddress(),
+            executeUpdate(query, order.getId(), order.getDeliveryInfo().getName(), order.getDeliveryInfo().getEmail(), order.getDeliveryInfo().getAddress(),
                     order.getDeliveryInfo().getPhoneNumber(), order.getDeliveryInfo().getProvince(), order.getShippingFees(),
                     order.getAmount(), order.getOrderStatus(), order.getPaymentType(), order.isRush());
             return getRecentlyAdded();
@@ -85,6 +95,10 @@ public class OrderDAO extends DAO<Order> {
 
     @Override
     public boolean delete(int id) {
+        return false;
+    }
+
+    public boolean delete(String id) {
         String query = "DELETE FROM `Order` WHERE id = ?";
         try {
             return executeUpdate(query, id) > 0;
