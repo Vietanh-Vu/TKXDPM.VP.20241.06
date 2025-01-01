@@ -52,6 +52,11 @@ public class Media {
         return updated_quantity;
     }
 
+    public Media setQuantity(int quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
     public int getCurrentQuantity() {
         return this.quantity;
     }
@@ -117,11 +122,6 @@ public class Media {
 
     public Media setImageURL(String url){
         this.imageURL = url;
-        return this;
-    }
-
-    public Media setQuantity(int quantity) {
-        this.quantity = quantity;
         return this;
     }
 

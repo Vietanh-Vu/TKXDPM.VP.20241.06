@@ -51,7 +51,7 @@ public class MediaForm extends FXMLForm {
         this.home = home;
         addToCartBtn.setOnMouseClicked(event -> {
             try {
-                if (spinnerChangeNumber.getValue() > media.getQuantity()) throw new MediaNotAvailableException();
+                if (spinnerChangeNumber.getValue() > media.getCurrentQuantity()) throw new MediaNotAvailableException();
                 Cart cart = Cart.getCart();
                 // if media already in cart then we will increase the quantity by 1 instead of create the new cartMedia
                 CartMedia mediaInCart = home.getBController().checkMediaInCart(media);
@@ -65,7 +65,7 @@ public class MediaForm extends FXMLForm {
 
                 // subtract the quantity and redisplay
                 media.setQuantity(media.getQuantity() - spinnerChangeNumber.getValue());
-                mediaAvail.setText(String.valueOf(media.getQuantity()));
+                mediaAvail.setText(String.valueOf(media.getCurrentQuantity()));
                 home.getNumMediaCartLabel().setText(String.valueOf(cart.getTotalMedia() + " media"));
 
                 PopupForm.success("The media " + media.getTitle() + " added to Cart");
