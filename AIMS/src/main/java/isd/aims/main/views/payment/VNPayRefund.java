@@ -1,7 +1,7 @@
 package isd.aims.main.views.payment;
 
 
-import isd.aims.main.InterbankSubsystem.vn_pay.VNPayPaymentMethod;
+import isd.aims.main.controller.payment.VNPayPaymentMethod;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.home.HomeForm;

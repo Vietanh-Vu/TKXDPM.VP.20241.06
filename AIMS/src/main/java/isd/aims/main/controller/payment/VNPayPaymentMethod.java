@@ -1,8 +1,10 @@
-package isd.aims.main.InterbankSubsystem.vn_pay;
+package isd.aims.main.controller.payment;
 
+import isd.aims.main.InterbankSubsystem.vn_pay.PayRequestVnPay;
+import isd.aims.main.InterbankSubsystem.vn_pay.PayResponseVnPay;
+import isd.aims.main.InterbankSubsystem.vn_pay.RefundRequest;
 import isd.aims.main.controller.mail.EmailController;
 import isd.aims.main.controller.mail.VNPayInfo;
-import isd.aims.main.controller.payment.IPaymentMethod;
 import isd.aims.main.entity.cart.Cart;
 import isd.aims.main.entity.db.dao.Media.MediaDAO;
 import isd.aims.main.entity.db.dao.order.OrderDAO;
@@ -14,7 +16,6 @@ import isd.aims.main.entity.order.Order;
 import isd.aims.main.entity.order.OrderMedia;
 import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.entity.payment.PaymentType;
-import isd.aims.main.entity.payment.RefundTransaction;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.payment.VNPayProcess;
 import isd.aims.main.views.payment.VNPayRefund;
@@ -90,7 +91,7 @@ public class VNPayPaymentMethod implements IPaymentMethod {
         List<OrderMedia> orderMedias = new OrderMediaDAO().getByOrderId(orderId);
         System.out.println(orderMedias);
 
-        for (OrderMedia orderMedia : orderMedias){
+        for (OrderMedia orderMedia : orderMedias) {
             // Cập nhật lại quantity cho orderMedia
             System.out.println(orderMedia.getQuantity());
             boolean update = new MediaDAO().updateBeforeRefund(orderMedia.getMedia().getId(), orderMedia.getQuantity());

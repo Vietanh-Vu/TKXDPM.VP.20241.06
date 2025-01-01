@@ -27,7 +27,7 @@ public class PaymentMethodFactory {
     private void initializePaymentMethods() {
         try {
             // Quét package chứa các payment methods
-            String packageName = "isd.aims.main.InterbankSubsystem";
+            String packageName = "isd.aims.main.controller.payment";
             String packagePath = packageName.replace('.', '/');
 
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
