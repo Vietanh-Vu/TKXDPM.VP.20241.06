@@ -30,6 +30,16 @@ public class OrderDAO extends DAO<Order> {
         return null;
     }
 
+    public Order getById(String id) {
+        String query = "SELECT * FROM `Order` WHERE id = ?";
+        try {
+            return findOne(query, new OrderMapDbToClass(), id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Order getRecentlyAdded() {
         String query = "SELECT * FROM `Order` ORDER BY id DESC LIMIT 1";
         try {

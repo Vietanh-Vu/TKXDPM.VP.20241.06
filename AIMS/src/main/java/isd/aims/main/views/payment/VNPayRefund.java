@@ -2,6 +2,8 @@ package isd.aims.main.views.payment;
 
 
 import isd.aims.main.controller.payment.VNPayPaymentMethod;
+import isd.aims.main.entity.db.dao.payment_transaction.PaymentTransactionDAO;
+import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.home.HomeForm;
@@ -25,6 +27,8 @@ public class VNPayRefund extends BaseForm {
     private ImageView aimsImage;
 
     @FXML
+    private TextField OrderId;
+    @FXML
     private TextField TxnRef;   // Mã giao dịch tham chiếu
     @FXML
     private TextField TransactionNo; // Mã giao dịch
@@ -47,14 +51,12 @@ public class VNPayRefund extends BaseForm {
         super(stage, screenPath);
         this.orderId = orderId;
         aimsImage.setOnMouseClicked(e -> {
-            if (flag) {
-                try {
-                    homeScreenHandler = new HomeForm(stage, Configs.HOME_PATH);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+            try {
+                homeScreenHandler = new HomeForm(stage, Configs.HOME_PATH);
+                homeScreenHandler.show();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
-            homeScreenHandler.show();
         });
     }
 
@@ -62,11 +64,21 @@ public class VNPayRefund extends BaseForm {
     @FXML
     private void handleConfirmButtonClick() {
         // Get the values from the text fields
+        String orderIdCheck = OrderId.getText();
         String vnp_TxnRef = TxnRef.getText();
         String vnp_TransactionNo = TransactionNo.getText();
         String vnp_TransactionDate = TransactionDate.getText();
         int vnp_Amount = Integer.parseInt(Amount.getText());
 
+        PaymentTransaction transactionCheck = new PaymentTransactionDAO().getTransactionNumberByOrderId(orderIdCheck);
+
+        if (!(orderId.equals(orderIdCheck)) || !(transactionCheck.getTransactionNumber().equals(vnp_TxnRef))) {
+            responseCodeLabel.setText("Error");
+            responseMessageLabel.setText("Order ID hoặc Transaction No không khớp. Vui lòng kiểm tra lại.");
+
+            // Thoát khỏi hàm
+            return;
+        }
 
         // Xử lý hoàn tiền
         Map<String, Object> vnpayParams = new HashMap<>();

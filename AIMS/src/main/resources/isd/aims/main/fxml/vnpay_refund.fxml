@@ -39,9 +39,11 @@
     <!-- Form area for transaction details -->
     <VBox alignment="CENTER" spacing="10.0"
           AnchorPane.topAnchor="100.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0">
+        <Label text="OrderId:"/>
+        <TextField fx:id="OrderId" promptText="Nhập OrderId"/>
         <!-- Transaction reference code -->
-        <Label text="Mã giao dịch tham chiếu:"/>
-        <TextField fx:id="TxnRef" promptText="Nhập mã giao dịch tham chiếu"/>
+        <Label text="Số hóa đơn:"/>
+        <TextField fx:id="TxnRef" promptText="Nhập số hóa đơn"/>
 
         <!-- Transaction code -->
         <Label text="Mã giao dịch:"/>

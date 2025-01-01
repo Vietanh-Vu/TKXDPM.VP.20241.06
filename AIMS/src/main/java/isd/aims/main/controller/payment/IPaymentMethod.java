@@ -20,7 +20,7 @@ public interface IPaymentMethod {
     PaymentTransaction handlePaymentResponse(String paymentReturnURL) throws ParseException, URISyntaxException;
     void onTransactionCompleted(String responseUrl, Invoice invoice) throws ParseException, URISyntaxException, MessagingException, IOException;
     String getType();
-    void handleRefundProcess(Stage satge, Order order) throws IOException;
+    void handleRefundProcess(Stage stage, Order order) throws IOException;
     String makeRefundRequest(int amount, Map<String, Object> additionalParams);
     void handleRefund(String orderId);
 }
