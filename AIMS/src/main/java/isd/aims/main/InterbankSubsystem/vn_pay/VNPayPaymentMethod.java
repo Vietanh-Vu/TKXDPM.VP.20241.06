@@ -17,6 +17,7 @@ import isd.aims.main.entity.payment.PaymentType;
 import isd.aims.main.entity.payment.RefundTransaction;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.payment.VNPayProcess;
+import isd.aims.main.views.payment.VNPayRefund;
 import jakarta.mail.MessagingException;
 import javafx.stage.Stage;
 
@@ -26,6 +27,7 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 public class VNPayPaymentMethod implements IPaymentMethod {
 
@@ -65,15 +67,46 @@ public class VNPayPaymentMethod implements IPaymentMethod {
         return payResponse.getTransaction(vnpReturnURL);
     }
 
+    @Override
+    public void handleRefundProcess(Stage stage, Order order) throws IOException {
+        VNPayRefund vnPayRefund = new VNPayRefund(stage, Configs.REFUND_REQUEST_PATH, order.getId());
+        vnPayRefund.show();
+    }
+
 
     @Override
-    public String makeRefundRequest(int amount, String content) {
-        return "";
+    public String makeRefundRequest(int amount, Map<String, Object> additionalParams) {
+        // Lấy các tham số cho refund
+        String vnp_TxnRef = (String) additionalParams.get("vnp_TxnRef");
+        String vnp_TransactionNo = (String) additionalParams.get("vnp_TransactionNo");
+        String vnp_TransactionDate = (String) additionalParams.get("vnp_TransactionDate");
+
+        RefundRequest refundRequest = new RefundRequest(amount, vnp_TxnRef, vnp_TransactionNo, vnp_TransactionDate);
+        return String.valueOf(refundRequest.generateURL());
     }
 
     @Override
-    public RefundTransaction handleRefund() {
-        return null;
+    public void handleRefund(int orderId) {
+        List<OrderMedia> orderMedias = new OrderMediaDAO().getByOrderId(orderId);
+        System.out.println(orderMedias);
+
+        for (OrderMedia orderMedia : orderMedias){
+            // Cập nhật lại quantity cho orderMedia
+            System.out.println(orderMedia.getQuantity());
+            boolean update = new MediaDAO().updateBeforeRefund(orderMedia.getMedia().getId(), orderMedia.getQuantity());
+            System.out.println(update);
+
+            // Xóa orderMedia tương ứng
+            boolean delete = new OrderMediaDAO().delete(orderMedia.getMedia().getId(), orderId);
+            System.out.println(delete);
+        }
+
+        // Xóa Order tương ứng
+        System.out.println("----------");
+        boolean delete = new OrderDAO().delete(orderId);
+        System.out.println(delete);
+
+
     }
 
     @Override

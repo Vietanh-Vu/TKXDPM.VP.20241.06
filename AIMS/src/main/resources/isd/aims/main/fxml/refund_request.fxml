@@ -48,7 +48,7 @@
         <TextField fx:id="TransactionNo" promptText="Nhập mã giao dịch"/>
 
         <!-- Transaction date -->
-        <Label text="Ngày giao dịch (YYYY/MM/DD HH-MM-SS):"/>
+        <Label text="Ngày giao dịch (YYYY-MM-DD HH:MM:SS):"/>
         <TextField fx:id="TransactionDate" promptText="Nhập ngày giao dịch"/>
 
         <!-- Total amount -->

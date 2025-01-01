@@ -41,7 +41,7 @@ public class OrderDAO extends DAO<Order> {
     }
 
     public List<Order> getByEmail(String email) {
-        String query = "SELECT * FROM `Order` WHERE email = ?";
+        String query = "SELECT * FROM `Order` WHERE email = ? AND OrderStatus = 'PENDING'";
         try {
             return findAll(query, new OrderMapDbToClass(), email);
         } catch (SQLException e) {
