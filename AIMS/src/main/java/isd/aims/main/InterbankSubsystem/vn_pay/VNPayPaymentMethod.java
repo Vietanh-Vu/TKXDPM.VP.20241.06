@@ -13,6 +13,7 @@ import isd.aims.main.entity.media.Media;
 import isd.aims.main.entity.order.Order;
 import isd.aims.main.entity.order.OrderMedia;
 import isd.aims.main.entity.payment.PaymentTransaction;
+import isd.aims.main.entity.payment.PaymentType;
 import isd.aims.main.entity.payment.RefundTransaction;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.payment.VNPayProcess;
@@ -42,6 +43,8 @@ public class VNPayPaymentMethod implements IPaymentMethod {
     &vnp_Version=2.1.0
     &vnp_SecureHash=3e0d61a0c0534b2e36680b3f7277743e8784cc4e1d68fa7d276e79c23be7d6318d338b477910a27992f5057bb1582bd44bd82ae8009ffaf6d141219218625c42
     */
+
+
     @Override
     public String makePaymentRequest(int amount, String content) throws UnsupportedEncodingException {
         PayRequestVnPay payRequest = new PayRequestVnPay(amount, content);
@@ -114,4 +117,10 @@ public class VNPayPaymentMethod implements IPaymentMethod {
             Cart.getCart().emptyCart();
         }
     }
+
+    @Override
+    public String getType() {
+        return PaymentType.VNPay.getPaymentType();
+    }
+
 }

@@ -16,6 +16,7 @@ public interface IPaymentMethod {
     void handlePaymentProcess(Invoice invoice) throws IOException;
     PaymentTransaction handlePaymentResponse(String paymentReturnURL) throws ParseException, URISyntaxException;
     void onTransactionCompleted(String responseUrl, Invoice invoice) throws ParseException, URISyntaxException, MessagingException, IOException;
+    String getType();
     String makeRefundRequest(int amount, String content);
     RefundTransaction handleRefund();
 }
