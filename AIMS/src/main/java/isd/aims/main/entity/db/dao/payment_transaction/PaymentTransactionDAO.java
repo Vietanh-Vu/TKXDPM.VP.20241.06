@@ -82,4 +82,14 @@ public class PaymentTransactionDAO extends DAO<PaymentTransaction> {
         }
         return false;
     }
+
+    public String getTranSactionNumberByOrderId(String orderId) {
+        String query = "SELECT * FROM PaymentTransaction WHERE orderID = ?";
+        try {
+            PaymentTransaction tmp = findOne(query, new PaymentTransactionMapDbToClass(), orderId);
+            return tmp.getTransactionNumber();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

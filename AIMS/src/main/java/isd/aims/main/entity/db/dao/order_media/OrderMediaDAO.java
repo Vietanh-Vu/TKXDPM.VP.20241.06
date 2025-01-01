@@ -40,7 +40,7 @@ public class OrderMediaDAO extends DAO<OrderMedia> {
         return null;
     }
 
-    public OrderMedia add(OrderMedia orderMedia, int orderId) {
+    public OrderMedia add(OrderMedia orderMedia, String orderId) {
         String query = "INSERT INTO OrderMedia (mediaID, orderID, quantity) VALUES (?, ?, ?)";
         try {
             executeUpdate(query, orderMedia.getMedia().getId(), orderId,
@@ -69,7 +69,7 @@ public class OrderMediaDAO extends DAO<OrderMedia> {
         return false;
     }
 
-    public boolean delete(int mediaId, int orderId) {
+    public boolean delete(int mediaId, String orderId) {
         String query = "DELETE FROM OrderMedia WHERE mediaID = ? AND orderID = ?";
         try {
             return executeUpdate(query, mediaId, orderId) > 0;
@@ -81,7 +81,7 @@ public class OrderMediaDAO extends DAO<OrderMedia> {
 
     // Thêm lệnh cho phần refund
     // Tìm các orderMedia theo OrderId
-    public List<OrderMedia> getByOrderId(int orderId) {
+    public List<OrderMedia> getByOrderId(String orderId) {
         String query = "SELECT * FROM OrderMedia WHERE orderID = ?";
         try {
             return findAll(query, new OrderMediaMapDbToClass(), orderId);

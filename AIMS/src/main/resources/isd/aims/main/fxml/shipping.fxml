@@ -132,13 +132,13 @@
                   </Label>
                </children>
             </Pane>
-            <CheckBox fx:id="rush" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rush shipping" textAlignment="CENTER" wrappingWidth="191.04150390625" GridPane.rowIndex="6" />
             <Label prefHeight="29.0" prefWidth="153.0" text="Instructions" GridPane.rowIndex="5">
                <font>
                   <Font size="24.0" />
                </font></Label>
             <TextField prefHeight="44.0" prefWidth="838.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="notification" text="" textFill="#da0000" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ChoiceBox fx:id="orderType" prefWidth="150.0" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <Button fx:id="btnConfirmDelivery" alignment="CENTER" contentDisplay="CENTER" layoutX="526.0" layoutY="645.0" mnemonicParsing="false" onMouseClicked="#submitDeliveryInfo" prefHeight="46.0" prefWidth="316.0" style="-fx-background-color: #5091e6; -fx-cursor: hand;" text="Confirm delivery" textFill="WHITE">
