@@ -76,7 +76,7 @@ public class HomeForm extends BaseForm implements Initializable {
 
     @Override
     public void show() {
-        numMediaInCart.setText(String.valueOf(Cart.getCart().getListMedia().size()) + " media");
+        numMediaInCart.setText(String.valueOf(Cart.getCart().getTotalMedia()) + " media");
         super.show();
     }
 
