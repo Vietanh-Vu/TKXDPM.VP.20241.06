@@ -1,7 +1,9 @@
 package isd.aims.main.views.payment;
 
-import isd.aims.main.InterbankSubsystem.vn_pay.RefundMethod;
-import isd.aims.main.InterbankSubsystem.vn_pay.RefundRequest;
+
+import isd.aims.main.controller.payment.VNPayPaymentMethod;
+import isd.aims.main.entity.db.dao.payment_transaction.PaymentTransactionDAO;
+import isd.aims.main.entity.payment.PaymentTransaction;
 import isd.aims.main.utils.Configs;
 import isd.aims.main.views.BaseForm;
 import isd.aims.main.views.home.HomeForm;
@@ -15,6 +17,8 @@ import javafx.stage.Stage;
 import org.json.JSONObject;  // Import thư viện JSON
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class VNPayRefund extends BaseForm {
@@ -22,6 +26,8 @@ public class VNPayRefund extends BaseForm {
     @FXML
     private ImageView aimsImage;
 
+    @FXML
+    private TextField OrderId;
     @FXML
     private TextField TxnRef;   // Mã giao dịch tham chiếu
     @FXML
@@ -39,18 +45,18 @@ public class VNPayRefund extends BaseForm {
     @FXML
     private Button confirmButton; // Nút xác nhận
 
-    private int orderId; // Lưu orderId của mã được hoàn tiền
-
-    public VNPayRefund(Stage stage, String screenPath, int orderId) throws IOException {
+    private String orderId; // Lưu orderId của mã được hoàn tiền
+    private boolean flag = false;
+    public VNPayRefund(Stage stage, String screenPath, String orderId) throws IOException {
         super(stage, screenPath);
         this.orderId = orderId;
         aimsImage.setOnMouseClicked(e -> {
             try {
                 homeScreenHandler = new HomeForm(stage, Configs.HOME_PATH);
+                homeScreenHandler.show();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            homeScreenHandler.show();
         });
     }
 
@@ -58,19 +64,33 @@ public class VNPayRefund extends BaseForm {
     @FXML
     private void handleConfirmButtonClick() {
         // Get the values from the text fields
+        String orderIdCheck = OrderId.getText();
         String vnp_TxnRef = TxnRef.getText();
         String vnp_TransactionNo = TransactionNo.getText();
         String vnp_TransactionDate = TransactionDate.getText();
         int vnp_Amount = Integer.parseInt(Amount.getText());
 
+        PaymentTransaction transactionCheck = PaymentTransactionDAO.getInstance().getTransactionNumberByOrderId(orderIdCheck);
+
+        if (!(orderId.equals(orderIdCheck)) || !(transactionCheck.getTransactionNumber().equals(vnp_TxnRef))) {
+            responseCodeLabel.setText("Error");
+            responseMessageLabel.setText("Order ID hoặc Transaction No không khớp. Vui lòng kiểm tra lại.");
+
+            // Thoát khỏi hàm
+            return;
+        }
 
         // Xử lý hoàn tiền
-        RefundRequest refundRequest = new RefundRequest(vnp_Amount, vnp_TxnRef, vnp_TransactionNo, vnp_TransactionDate);
+        Map<String, Object> vnpayParams = new HashMap<>();
+        vnpayParams.put("vnp_TxnRef", vnp_TxnRef);
+        vnpayParams.put("vnp_TransactionNo", vnp_TransactionNo);
+        vnpayParams.put("vnp_TransactionDate", vnp_TransactionDate);
+        VNPayPaymentMethod vnpayRefund = new VNPayPaymentMethod();
 
         // Gọi phương thức generateURL để tạo yêu cầu hoàn tiền
-        String response = String.valueOf(refundRequest.generateURL());
+        String response = vnpayRefund.makeRefundRequest(vnp_Amount, vnpayParams);
 
-        // Handle the response to extract vnp_ResponseCode and vnp_Message
+        // Hiển thị kết quả
         handleRefundResponse(response);
     }
 
@@ -91,8 +111,10 @@ public class VNPayRefund extends BaseForm {
             responseMessageLabel.setText(vnp_Message);
 
             if ("00".equals(vnp_ResponseCode)) {
-                RefundMethod refundMethod = new RefundMethod();
-                refundMethod.refundTransationCompleted(orderId);
+                // Xử lý khi refund thành công
+                VNPayPaymentMethod vnpayRefund = new VNPayPaymentMethod();
+                flag = true;
+                vnpayRefund.handleRefund(orderId);
 
                 System.out.println("Refund processed successfully");
             } else {

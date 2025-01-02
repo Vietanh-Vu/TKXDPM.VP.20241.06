@@ -12,7 +12,7 @@ class OrderMediaMapDbToClass implements MapDbToClass<OrderMedia> {
     @Override
     public OrderMedia mapRow(ResultSet resultSet) throws SQLException {
         OrderMedia orderMedia = new OrderMedia();
-        Media media = new MediaDAO().getById(resultSet.getInt("mediaID"));
+        Media media = MediaDAO.getInstance().getById(resultSet.getInt("mediaID"));
         orderMedia.setMedia(media);
         orderMedia.setQuantity(resultSet.getInt("quantity"));
         return orderMedia;

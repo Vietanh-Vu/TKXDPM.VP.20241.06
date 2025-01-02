@@ -1,6 +1,7 @@
 package isd.aims.main.entity.db.dao.Media;
 
 import isd.aims.main.entity.db.DAO;
+import isd.aims.main.entity.db.dao.order_media.OrderMediaDAO;
 import isd.aims.main.entity.media.Media;
 import isd.aims.main.entity.order.OrderMedia;
 
@@ -9,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MediaDAO extends DAO<Media> {
+    private static final MediaDAO mediaDAO = new MediaDAO();
+    public static MediaDAO getInstance(){
+        return mediaDAO;
+    }
     @Override
     public List<Media> getAll() {
         String query = "SELECT * FROM media";

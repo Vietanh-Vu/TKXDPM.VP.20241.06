@@ -12,8 +12,7 @@ public class PaymentController {
     private final Invoice invoice;
 
     public void payment() throws IOException {
-        PaymentMethodFactory paymentMethodFactory = new PaymentMethodFactory();
-        IPaymentMethod paymentMethod = paymentMethodFactory.createPaymentMethod(paymentType);
+        IPaymentMethod paymentMethod = PaymentMethodFactory.getInstance().createPaymentMethod(paymentType);
         paymentMethod.handlePaymentProcess(invoice);
     }
 }

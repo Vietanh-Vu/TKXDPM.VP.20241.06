@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentTransactionDAO extends DAO<PaymentTransaction> {
+    private static final PaymentTransactionDAO paymentTransactionDAO = new PaymentTransactionDAO();
+    public static PaymentTransactionDAO getInstance(){
+        return paymentTransactionDAO;
+    };
+
     @Override
     public List<PaymentTransaction> getAll() {
         String query = "SELECT * FROM PaymentTransaction";
@@ -81,5 +86,23 @@ public class PaymentTransactionDAO extends DAO<PaymentTransaction> {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void deleteByOrderId(String orderId) {
+        String query = "DELETE FROM PaymentTransaction WHERE orderID = ?";
+        try {
+            executeUpdate(query, orderId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public PaymentTransaction getTransactionNumberByOrderId(String orderId) {
+        String query = "SELECT * FROM PaymentTransaction WHERE orderID = ?";
+        try {
+            return findOne(query, new PaymentTransactionMapDbToClass(), orderId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

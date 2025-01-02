@@ -57,11 +57,11 @@ public class Media {
     }
 
     public Media getMediaById(int id) throws SQLException{
-        return new MediaDAO().getById(id);
+        return  MediaDAO.getInstance().getById(id);
     }
 
     public List getAllMedia() throws SQLException{
-        return new MediaDAO().getAll();
+        return MediaDAO.getInstance().getAll();
     }
 
 
@@ -161,6 +161,8 @@ public class Media {
                 ", price='" + price + "'" +
                 ", quantity='" + quantity + "'" +
                 ", type='" + type + "'" +
+                ", rush='" + isRush + "'" +
+                ", weight='" + weight + "'" +
                 ", imageURL='" + imageURL + "'" +
                 "}";
     }

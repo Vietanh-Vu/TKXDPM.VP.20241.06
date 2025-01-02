@@ -17,7 +17,7 @@ class OrderMapDbToClass implements MapDbToClass<Order> {
         tempDI.setAddress(resultSet.getString("address"));
         tempDI.setPhoneNumber(resultSet.getString("phone"));
         tempDI.setProvince(resultSet.getString("province"));
-        order.setId(resultSet.getInt("id"));
+        order.setId(resultSet.getString("id"));
         order.setDeliveryInfo(tempDI);
         order.setShippingFees(resultSet.getInt("shipping_fee"));
         order.setOrderStatus(resultSet.getString("orderStatus"));

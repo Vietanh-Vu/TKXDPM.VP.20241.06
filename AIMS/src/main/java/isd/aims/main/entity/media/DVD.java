@@ -114,11 +114,11 @@ public class DVD extends Media {
 
     @Override
     public DVD getMediaById(int id) throws SQLException {
-        return new DvdDAO().getById(id);
+        return DvdDAO.getInstance().getById(id);
     }
 
     @Override
     public List getAllMedia() {
-        return new DvdDAO().getAll();
+        return DvdDAO.getInstance().getAll();
     }
 }

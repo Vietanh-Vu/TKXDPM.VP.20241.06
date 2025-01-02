@@ -113,12 +113,12 @@ public class Book extends Media {
 
     @Override
     public Book getMediaById(int id) throws SQLException {
-        return new BookDAO().getById(id);
+        return  BookDAO.getInstance().getById(id);
     }
 
     @Override
     public List getAllMedia() {
-        return new BookDAO().getAll();
+        return  BookDAO.getInstance().getAll();
     }
 
 
