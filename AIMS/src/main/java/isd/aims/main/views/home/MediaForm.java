@@ -45,34 +45,41 @@ public class MediaForm extends FXMLForm {
     private Media media;
     private HomeForm home;
 
+    private int updateQuantity;
     public MediaForm(String screenPath, Media media, HomeForm home) throws SQLException, IOException{
         super(screenPath);
         this.media = media;
         this.home = home;
+        updateQuantity = media.getQuantity();
         addToCartBtn.setOnMouseClicked(event -> {
             try {
-                if (spinnerChangeNumber.getValue() > media.getQuantity()) throw new MediaNotAvailableException();
+                //Check remaining quantity after buying media in Detail Screen
+                CartMedia checkMediaInCart = home.getBController().checkMediaInCart(media);
+                if(checkMediaInCart != null) {
+                    updateQuantity = media.getQuantity() - checkMediaInCart.getQuantity();
+                } else {
+                    updateQuantity = media.getQuantity();
+                }
+                if (spinnerChangeNumber.getValue() > updateQuantity) throw new MediaNotAvailableException();
                 Cart cart = Cart.getCart();
-                // if media already in cart then we will increase the quantity by 1 instead of create the new cartMedia
+                // if media already in cart then we will increase the quantity  instead of create the new cartMedia
                 CartMedia mediaInCart = home.getBController().checkMediaInCart(media);
                 if (mediaInCart != null) {
-                    mediaInCart.setQuantity(mediaInCart.getQuantity() + 1);
+                    mediaInCart.setQuantity(mediaInCart.getQuantity() + spinnerChangeNumber.getValue());
+                    updateQuantity = media.getQuantity() - mediaInCart.getQuantity();
                 }else{
                     CartMedia cartMedia = new CartMedia(media, cart, spinnerChangeNumber.getValue(), media.getPrice());
                     cart.getListMedia().add(cartMedia);
+                    updateQuantity = media.getQuantity() - spinnerChangeNumber.getValue();
                     LOGGER.info("Added " + cartMedia.getQuantity() + " " + media.getTitle() + " to cart");
                 }
-
                 // subtract the quantity and redisplay
-                media.setQuantity(media.getQuantity() - spinnerChangeNumber.getValue());
-                mediaAvail.setText(String.valueOf(media.getQuantity()));
                 home.getNumMediaCartLabel().setText(String.valueOf(cart.getTotalMedia() + " media"));
-
                 PopupForm.success("The media " + media.getTitle() + " added to Cart");
 
             } catch (MediaNotAvailableException exp) {
                 try {
-                    String message = "Not enough media:\nRequired: " + spinnerChangeNumber.getValue() + "\nAvail: " + media.getQuantity();
+                    String message = "Not enough media:\nRequired: " + spinnerChangeNumber.getValue() + "\nAvail: " + updateQuantity;
                     LOGGER.severe(message);
                     PopupForm.error(message);
                 } catch (Exception e) {
@@ -96,13 +103,11 @@ public class MediaForm extends FXMLForm {
         // set the cover image of media
         File file = new File(Configs.IMAGE_PATH + media.getImageURL());
         Image image = new Image(file.toURI().toString());
-//        mediaImage.setFitHeight(160);
-//        mediaImage.setFitWidth(152);
         mediaImage.setImage(image);
 
         mediaTitle.setText(media.getTitle());
         mediaPrice.setText(Utils.getCurrencyFormat(media.getPrice()));
-        mediaAvail.setText(Integer.toString(media.getQuantity()));
+        mediaAvail.setText(Integer.toString(media.getCurrentQuantity()));
         spinnerChangeNumber.setValueFactory(
             new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 1)
         );

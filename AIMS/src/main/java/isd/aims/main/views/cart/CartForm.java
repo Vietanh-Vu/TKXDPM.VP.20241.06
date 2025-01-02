@@ -157,7 +157,7 @@ public class CartForm extends BaseForm {
 
 		// get list media of cart after check availability
 		List lstMedia = getBController().getListCartMedia();
-		System.out.println(lstMedia);
+
 		try {
 			for (Object cm : lstMedia) {
 

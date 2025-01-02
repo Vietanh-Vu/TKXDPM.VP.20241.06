@@ -75,7 +75,6 @@ public class MediaForm extends FXMLForm {
 		price.setText(Utils.getCurrencyFormat(cartMedia.getPrice()));
 //		File file = new File(Configs.IMAGE_PATH + cartMedia.getMedia().getImageURL());
 		String path = "/isd/aims/main/fxml/" + cartMedia.getMedia().getImageURL();
-		System.out.println("path: " + path);
 		Image im = new Image(getClass().getResource(path).toExternalForm());
 		image.setImage(im);
 		image.setPreserveRatio(false);
@@ -88,6 +87,8 @@ public class MediaForm extends FXMLForm {
 			try {
 				Cart.getCart().removeCartMedia(cartMedia); // update user cart
 				cartScreen.updateCart(); // re-display user cart
+				int reupdated_quantity = cartMedia.getMedia().getQuantity(); // re-update quantity of media in Home screen
+				cartMedia.getMedia().setQuantity(reupdated_quantity);
 				LOGGER.info("Deleted " + cartMedia.getMedia().getTitle() + " from the cart");
 			} catch (SQLException exp) {
 				exp.printStackTrace();
