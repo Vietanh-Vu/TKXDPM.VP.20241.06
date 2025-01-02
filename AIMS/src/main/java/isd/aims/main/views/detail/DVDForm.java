@@ -64,34 +64,40 @@ public class DVDForm extends FXMLForm {
     private DVD dvd;
     private HomeForm home;
 
+    private int updateQuantity;
     public DVDForm(String screenPath, Media media, DVD dvd, HomeForm home) throws SQLException, IOException{
         super(screenPath);
         this.media = media;
         this.dvd = dvd;
         this.home = home;
+        //Check remaining quantity after buying media in Home Screen
+        CartMedia checkMediaInCart = home.getBController().checkMediaInCart(media);
+        if(checkMediaInCart != null) {
+            updateQuantity = media.getQuantity() - checkMediaInCart.getQuantity();
+        } else {
+            updateQuantity = media.getQuantity();
+        }
         addToCartBtn.setOnMouseClicked(event -> {
             try {
-                if (spinnerChangeNumber.getValue() > media.getCurrentQuantity()) throw new MediaNotAvailableException();
+                if (spinnerChangeNumber.getValue() > updateQuantity) throw new MediaNotAvailableException();
                 Cart cart = Cart.getCart();
                 // if media already in cart then we will increase the quantity instead of create the new cartMedia
                 CartMedia mediaInCart = home.getBController().checkMediaInCart(media);
                 if (mediaInCart != null) {
                     mediaInCart.setQuantity(mediaInCart.getQuantity() + spinnerChangeNumber.getValue());
+                    updateQuantity = media.getQuantity() - mediaInCart.getQuantity();
                 }else{
                     CartMedia cartMedia = new CartMedia(media, cart, spinnerChangeNumber.getValue(), media.getPrice());
                     cart.getListMedia().add(cartMedia);
                     LOGGER.info("Added " + cartMedia.getQuantity() + " " + media.getTitle() + " to cart");
+                    updateQuantity = media.getQuantity() - spinnerChangeNumber.getValue();
                 }
-
                 // subtract the quantity and redisplay
-                media.setQuantity(media.getCurrentQuantity() - spinnerChangeNumber.getValue());
-                mediaAvail.setText(String.valueOf(media.getCurrentQuantity()));
                 home.getNumMediaCartLabel().setText(String.valueOf(cart.getTotalMedia() + " media"));
                 PopupForm.success("The media " + media.getTitle() + " added to Cart");
-
             } catch (MediaNotAvailableException exp) {
                 try {
-                    String message = "Not enough media:\nRequired: " + spinnerChangeNumber.getValue() + "\nAvail: " + media.getQuantity();
+                    String message = "Not enough media:\nRequired: " + spinnerChangeNumber.getValue() + "\nAvail: " + updateQuantity;
                     LOGGER.severe(message);
                     PopupForm.error(message);
                 } catch (Exception e) {
@@ -123,7 +129,7 @@ public class DVDForm extends FXMLForm {
 
         mediaTitle.setText(media.getTitle());
         mediaPrice.setText(Utils.getCurrencyFormat(media.getPrice()));
-        mediaAvail.setText(Integer.toString(media.getCurrentQuantity()));
+        mediaAvail.setText(Integer.toString(media.getQuantity()));
         spinnerChangeNumber.setValueFactory(
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 100, 1)
         );
